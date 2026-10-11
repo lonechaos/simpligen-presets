@@ -323,6 +323,30 @@ Titles are as saved; open the Recall item for the link.
     ComfyUI only, not SimpliGen's engine. Nothing downloaded or installed yet.
     Source: https://civitai.com/models/2920367 (Michael's link was the civitai.red mirror of the same page).
 
+### From foxydits' H3 Seed Hunter workflow (2026-10-10)
+Source: https://www.youtube.com/watch?v=H8JSzhkOmXA, https://civitai.com/models/2881362 (v2.5.1). Same latent
+upscaler node and weights as our Two-Stage and Refine packs (checked 2026-10-10); only the recipe around it differs.
+
+37. **Pick-a-preview before the upscale ("seed hunting").** The workflow renders up to three small first-pass clips,
+    the user picks one, and only that one goes through the latent upscale. A SimpliGen card cannot pause for a
+    choice, so the in-app version is two cards: a "Two-Stage Preview" card that runs ONLY stage 1 of the Two-Stage
+    graph (same model, steps, sampler and small size) and decodes it, then the existing Two-Stage card run with the
+    seed of the preview the user liked. Same seed + same stage-1 settings should rebuild the same small clip, so the
+    upscale lands on the clip that was picked.
+    Why: on Two-Stage a bad seed costs the whole run (248-351 s at 768p, measured 2026-09-02). A preview costs only
+    stage 1 plus a small decode.
+    What decides whether it is worth building (measure FIRST, no build needed, read the two sampler times from one
+    Two-Stage log): the share of the run that stage 1 takes. Stage 1 is paid again on the final run, so with three
+    previews the cost is 4x stage 1 + 1x stage 2, against 3x (stage 1 + stage 2) for three full runs. If stage 1 is
+    a quarter of the run this saves about a third; if stage 1 is half or more it saves little or nothing, and the
+    answer is "just run Two-Stage three times".
+    Second check: that the same seed really reproduces stage 1 across the two cards (3 seeds, compare the preview
+    with a stage-1 decode from the full card; image-to-video and reference cards included, attention options equal).
+    Not the route: Preview -> Refine card. Refine starts from the decoded video file, not the kept latent, so it is a
+    different (already shipped) thing. A Recipe/flow has the same limit, it passes files between presets.
+    Cost: one new workflow per mode (the Two-Stage graph cut after stage 1), no new weights or nodes. Half a day
+    with the 3-seed in-app check. Lower-cost variant if it measures well: text-to-video only.
+
 ## Done / dropped
 
 - **2026-10-01, LongLive-Plug 4-step LoRA for H3 (NVIDIA Efficient-Large-Model, Kijai conversion):** needs the lcm
