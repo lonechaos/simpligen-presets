@@ -5,6 +5,7 @@
 > - **Moving a shared extension to another repo or commit is a coordinated release** (§7.6): hold, push in the same window as the official packs, and expect the app to move the checkout only when a card that pins it is prepared or run.
 > - **What a `+g<commit>` version in the store means**, and that your own version bump is always served as written (§6.1).
 > - New: dropping the app's prompt suffix per card with `image.values.quality` (§6.3); `reclaimVramBeforeSampling` (§7.1); the ratio picker only offers shapes a tier defines (§7.1); sparse attention is off by default and a baked node is not covered by that (§7.7); the agent route validates aspect ratios the Generate screen used to let through (§7.8); a `test_`-prefixed test copy (§14); a paid Civitai file does not hold the pack (§6.1); new failure rows (§15).
+> - Added 2026-10-12: **offering a card in the Video Studio** with `shotModes`, and trying it privately first with `studioPreview` (§7.9).
 
 > **What changed in v7 (2026-09-22)**:
 > - **Declare every custom node, rgthree included** (§7.6). v6 said rgthree was exempt; it is not. Packs that used the Power Lora Loader without declaring it only ran for people who had it from another pack. `tests/check_declared_extensions.py` now checks this (§13).
@@ -360,6 +361,26 @@ Three more things about the agent route (verified 2026-10-06, MCP `generate`):
 - `presetId` is `<packId>:<presetId>`, and every run control goes **inside `options`** (`aspectRatio`, `resolution`, `durationSeconds`, `seed`, plus any control the card declares). The same keys at the top level are ignored.
 - It validates more than the Generate screen did: an aspect ratio the card's tiers do not list is refused with `Unsupported aspectRatio "3:2" ... Supported: ...`. A request the agent route rejects can therefore still be a bug users hit from the screen; reproduce those from the Generate screen and read the `Run: preset=... | WxH | ar=... | tier=N` line in the session log. When that line has no `WxH`, the tier had no entry for the ratio.
 - To read only what the app would dispatch, queue the job, wait for the `Run:` line, then cancel it.
+
+**7.9 Video Studio: `shotModes` and `studioPreview`.** The Video Studio builds a film shot by shot and picks a preset for each shot. From app 1.72.0 a community card can offer itself there by listing the kinds of shot it can do, as the first key of its `video` block:
+```json
+"video": { "shotModes": ["i2v"], "studioPreview": true, "supports": ["local"], ... }
+```
+| Mode | Shot | MiniMax H3 workflow needs | LTX 2.5 workflow needs |
+|---|---|---|---|
+| `t2v` | from text only | `{{prompt}}` | `{{prompt}}` |
+| `i2v` | starts on a picture | `{{prompt}}` + `{{ref_image_1}}` (`{{ref_image_2}}` for an optional last frame) | `{{prompt}}` + `{{image}}` |
+| `flf` | first and last frame | not offered | `{{prompt}}` + `{{ref_image_1}}` + `{{ref_image_2}}` |
+| `r2v` | cast shot from character reference pictures | `{{prompt}}` + `{{ref_image_1}}` | `{{prompt}}` + `{{ref_image_1}}` |
+
+- **Only two families are accepted, recognised by the preset id:** it must contain `minimax-h3`, or one of `ltx-2.5`, `ltx-25`, `ltx-2-5` (the last two from app 1.73.2). LTX 2.3, Wan and everything else cannot go into the Studio yet. Because the family is read from the id and a shipped id cannot be renamed, put the family in the id when you name a new card.
+- **The store sync checks it automatically.** A card that passes appears in the Studio's preset picker for everyone on a new enough app with Studio access, labelled as declared by you. A card that fails just stays out of the Studio: the pack keeps working everywhere else, and the sync report gives the reason. Nobody has to approve it.
+- **The check reads only the workflow, so it cannot tell whether the card makes a good shot.** Several special-purpose cards would pass it while being unusable in a film: anything that needs a driving clip or an audio file the Studio does not supply (clip chaining, lip-sync, motion transfer, music-video chains, refine), or a fixed prompt format (Character PV). Do not declare those.
+- **Declare in preview first.** `"studioPreview": true` next to `shotModes` limits the card to preview accounts (the author's and the store maintainer's) after the sync. Film it, then remove the flag to make it public. Each step is a version bump and a push, and takes effect at the next sync, which runs on a schedule (twice a day as observed), not at push time. The same workflow check still runs in preview. If any variant sharing a preset id carries the flag, the whole card stays in preview. The picker shows no preview badge yet.
+- **Preview is also the way to pull a card back.** If a public card misbehaves in a film, set `studioPreview` instead of deleting `shotModes`: it disappears for everyone else while you fix it.
+- A card with an accelerator built into its workflow keeps it in the Studio too. For the cards with a sparse-attention node (§7.7) that means smeared small faces in wide shots is the first thing to look for when filming.
+- Declared so far in this repo: MiniMax H3 Turbo Accelerated (t2v, i2v, r2v; public, pack 1.7.0, 2026-10-10, before the preview flag existed), and in preview since 2026-10-12 the six LTX 2.5 cards of the REDgraft (1.3.0) and Stubelius (1.2.0) packs. The LTX cards had not yet been filmed when this was written. If a pack is generated by a builder script, add both keys in the builder, or a rebuild drops them.
+- The official Studio cards also carry a `studio` block (`{"good": "...", "cannot": "..."}`, one line each on what the card is good at and what it cannot do). Community packs have not been asked for one; leave it out unless the store maintainer says otherwise.
 
 ---
 
