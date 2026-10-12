@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="SimpliGen Community Preset Packs: 210 ready-to-run presets in 61 packs. One zip, one click, models auto-downloaded into SimpliGen.">
+  <img src="./assets/readme/hero.svg" width="100%" alt="SimpliGen Community Preset Packs: 212 ready-to-run presets in 62 packs. One zip, one click, models auto-downloaded into SimpliGen.">
 </p>
 
-Custom local preset packs for [SimpliGen](https://www.simpligen.io/), covering image models across SDXL, Pony, Illustrious, SD 1.5, Anima, Krea 2, Flux (1 & 2), Z-Image and SeFi — plus video: MiniMax H3 packs (text/image/reference-to-video with synchronized audio), LTX 2.5 image-to-video and lip-sync packs, a Wan 2.2 image-to-video pack, and music: YuE2 and MiniMax Music 3 songs, plus YuE2 cover songs, with album art.
+Custom local preset packs for [SimpliGen](https://www.simpligen.io/), covering image models across SDXL, Pony, Illustrious, SD 1.5, Anima, Krea 2, Flux (1 & 2), Z-Image, SeFi and Iris-3B — plus video: MiniMax H3 packs (text/image/reference-to-video with synchronized audio), LTX 2.5 image-to-video and lip-sync packs, a Wan 2.2 image-to-video pack, and music: YuE2 and MiniMax Music 3 songs, plus YuE2 cover songs, with album art.
 
 **Getting a pack takes three steps:** download the pack zip from the [Releases page](https://github.com/michaeldune/simpligen-presets/releases/tag/packs-latest), unzip it, and run `install.cmd`. The installer downloads the models for you, verifies them, and the pack appears in SimpliGen's preset picker under `Community — `.
 
 > This repo is the source of truth the zips are built from — and now the distribution point too. The `packs-latest` release is rolling: its assets get replaced each time `build-zips.py` runs, so the same link always has the current set. End users never need to clone it.
 
 <p align="center">
-  <img src="./assets/readme/section-catalog.svg" width="100%" alt="01 — Pack catalog: 61 packs, 210 presets.">
+  <img src="./assets/readme/section-catalog.svg" width="100%" alt="01 — Pack catalog: 62 packs, 212 presets.">
 </p>
 
 **Image packs**
@@ -35,6 +35,7 @@ Custom local preset packs for [SimpliGen](https://www.simpligen.io/), covering i
 | Krea 2 Finetunes | 4 | Krea 2 DiT | Trained checkpoints, not merges: Muse v3.5 Extended (clean SFW editorial, real 8–20 step / CFG 1–3 range, ships 12 steps / CFG 1.5), FinalCut Massive Update (matte skin instead of Krea gloss, native up to 2432×1920, NSFW-capable), Binyuan Portrait v3.2 (East Asian portrait realism, trained on ~1,000 unedited photos) and Kreamania V8 (Adel_AI's refinement of Krea 2: volumetric light, matte skin, NSFW intact, 10 steps / CFG 1). Same 2 MP + gated Upscale as the Krea 2 pack; shares its encoder and VAE Renders at native ~2 MP (1408×1408 and equivalents) plus an Upscale slider with a 4-step refine pass, matching the official Krea 2 Turbo preset; 2 MP costs ~5 s more than 1 MP on a 4070 Ti |
 | Krea Flux | 1 | Flux.1 Krea (GGUF) | CSG Foundation, low-VRAM |
 | Flux 2 Klein | 2 | Flux 2 | 9B + 4B, 4-step distilled — **non-commercial license (BFL)**. A third preset, MiracleIn NSFW, was retired 2026-08-30 when Civitai's author put paid access on every version of that checkpoint; it is kept in `packs/flux2-klein/retired/` for manual install |
+| Iris-3B | 2 | Iris-3B (INT8 / bf16) + Qwen3-VL 4B encoder | **A small (3B) model that paints pixels directly, with no VAE.** By Speridlabs, Apache-2.0. **Iris-3B**: the base model, 50 steps at CFG 3, about 35 s a picture on a 12 GB card, with Steps (30-100) and CFG sliders. **Iris-3B Turbo**: Speridlabs' own 4-step distill, about 10 s a picture, no sliders; layouts follow the base card for the same seed, so it works as a fast preview. Both render at about 1 megapixel and share the Qwen3-VL 4B encoder with the Krea 2 cards, so the base card adds only 3.4 GB (Turbo 6 GB). Runs through Nynxz's ComfyUI-Iris, installed by the app. The base file is INT8 and needs an RTX 20-series card or newer. **Needs SimpliGen engine 0.38.0 or newer** |
 | Ideogram 4 | 2 | Ideogram 4 (INT8) | Best-in-class text rendering; UltraReal photo + Graphic/Poster tiers — **requires engine 0.28+** |
 | Ming Image Design | 3 | Ming-Image 0.1 Design 6B (INT8) + Ling-Mini 2.0 encoder (W4A8) | **Design work:** app screens, web pages, posters, menus, infographics and ads, briefed like a designer with the text in quotes. **Design** (~1 MP, about 20 s on 12 GB) and **Design 4MP** (the model's native 2048 size, about 35 s); headlines, buttons and navigation come out spelled right, long lists and small print can slip a word. PNG with an alpha channel. **Masked Edit:** picture 1 is the design, picture 2 a black-and-white mask (white = may change); the edit is pasted back only inside the mask, so the rest stays pixel for pixel, because unmasked Ming edits also change text you did not ask for. Not a photo model. 19.2 GB download. **Needs SimpliGen engine 0.38.0 or newer.** MIT licence |
 | SeFi-Image | 2 | SeFi 5B (Q8) | Turbo, 4- and 8-step tiers |

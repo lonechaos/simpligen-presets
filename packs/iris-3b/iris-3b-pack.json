@@ -1,0 +1,237 @@
+{
+  "id": "iris-3b-pack",
+  "name": "Community — Iris-3B",
+  "version": "1.0.0",
+  "author": "Speridlabs",
+  "nsfw": false,
+  "description": "Iris-3B by Speridlabs: a small (3B) text-to-image model that paints pixels directly, with no VAE. Two cards: the base model (50 steps, about 35 s a picture on a 12 GB card) and the official 4-step Turbo (about 10 s a picture). Both render at about 1 megapixel and share the Qwen3VL 4B text encoder the Krea 2 cards already use, so the base card adds only a 3.4 GB download. Runs through the ComfyUI-Iris pack by Nynxz, which the app installs for you. The base card's file is INT8 and needs an RTX 20-series card or newer. Apache-2.0.",
+  "tags": [
+    "Local",
+    "Iris",
+    "Realistic",
+    "Turbo"
+  ],
+  "minComfyuiVersion": "v0.38.0",
+  "addedAt": "2026-10-12",
+  "checksums": {
+    "https://huggingface.co/nynxz/iris-3b/resolve/1a49f7b495f1a99e41a898d94caccbcf74d8414c/iris-3b_int8_convrot.safetensors": "6ec133c4905048acadd1062dfd393f9893292071134498e1a1333d0093a95686",
+    "https://huggingface.co/speridlabs/iris-3b/resolve/adc05b909fb05d4276d26aae5a52b36406b2ef26/turbo/model.safetensors": "7148dbba3117567e34c86fadaae6e10325feb2c0ff3f43fe4938c15c75b356e1"
+  },
+  "presets": [
+    {
+      "id": "iris-3b",
+      "name": "Iris-3B",
+      "tagline": "Small pixel-space model, no VAE, about 35 s a picture",
+      "icon": "👁️",
+      "previewImage": "previews/iris-3b.jpg",
+      "description": "The base Iris-3B model (INT8 build, 3.4 GB). It generates the picture directly in pixels, so there is no VAE softening fine detail. 50 steps at CFG 3 is the default; raise Steps toward 100 for the model card's reference quality, or lower it to 30 for speed. Stay near 1 megapixel: the model was tuned there and draws a visible grid at small sizes. Leave the negative prompt empty unless you need it. Prompts are plain descriptive English, up to about 295 tokens.",
+      "tags": [
+        "Iris",
+        "Realistic",
+        "Local"
+      ],
+      "enabled": true,
+      "promptStyle": "natural",
+      "template": "sdxl",
+      "ui": {
+        "visibleFields": [
+          "content",
+          "aspectRatio",
+          "shotType",
+          "environment",
+          "lightingSource",
+          "atmosphere"
+        ]
+      },
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "provider": "comfyui",
+        "displayModel": "Iris-3B INT8",
+        "baseModels": [
+          "iris"
+        ],
+        "values": {
+          "quality": ""
+        },
+        "workflow": "workflows/iris-3b.json",
+        "unet": "iris-3b_int8_convrot.safetensors",
+        "unetUrl": "https://huggingface.co/nynxz/iris-3b/resolve/1a49f7b495f1a99e41a898d94caccbcf74d8414c/iris-3b_int8_convrot.safetensors",
+        "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/Qwen3-VL/resolve/02f0d3eefb59528799653d16735818801177ef1f/text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+        "steps": 50,
+        "cfg": 3,
+        "denoise": 1,
+        "negativePrompt": "",
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "4:3": {
+            "width": 1152,
+            "height": 864
+          },
+          "3:4": {
+            "width": 864,
+            "height": 1152
+          },
+          "3:2": {
+            "width": 1216,
+            "height": 832
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1216
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "21:9": {
+            "width": 1536,
+            "height": 640
+          }
+        },
+        "controls": {
+          "steps": {
+            "min": 30,
+            "max": 100,
+            "step": 5
+          },
+          "cfg": {
+            "min": 2,
+            "max": 4.5,
+            "step": 0.5
+          }
+        },
+        "requirements": {
+          "minVramGB": 8,
+          "recommendedVramGB": 12,
+          "minRamGB": 16,
+          "sizeGB": 8.6,
+          "notes": "Iris-3B DiT (diffusion_models): nynxz/iris-3b @ 1a49f7b4, iris-3b_int8_convrot.safetensors, 3,352,481,056 B, SHA256 6ec133c4905048acadd1062dfd393f9893292071134498e1a1333d0093a95686 (Nynxz's INT8 ConvRot quantization of the Speridlabs release; needs an RTX 20-series or newer for INT8 tensor cores) + Qwen3VL 4B encoder shared with the Krea 2 cards (loaded as type krea2, the same 12-layer setup Iris trained on). No VAE: Load VAE 'pixel_space' is a built-in pass-through. res_multistep / simple, 50 steps, CFG 3, ModelSamplingSD3 shift 4, empty negative encoded as text (not zeroed). Needs the ComfyUI-Iris extension (Nynxz, Apache-2.0, no Python requirements, adds no nodes: it registers Iris with ComfyUI's own loaders) and ComfyUI 0.38 or newer. Tested 2026-10-12 on a 4070 Ti 12 GB (plain ComfyUI 0.39, direct submission): 3 prompts x 3 seeds at 1024x1024, 1.85 it/s, 27 s sampling, about 8.6 GB VRAM in use. Verified in the app 2026-10-12 (SimpliGen 1.73.2, engine 0.38.0, hand-installed copy): the app downloaded the model and installed ComfyUI-Iris at the pinned commit itself; 3 renders (864x1152 and 1344x768 at 50 steps, 1024x1024 at 30 steps) finished in 21-39 s, with checkpoint, size, seed, steps, CFG and sampler read back from the engine. LoRAs not tested. Model licence: Apache-2.0 (Speridlabs)."
+        },
+        "extensions": [
+          {
+            "name": "ComfyUI-Iris",
+            "url": "https://github.com/Nynxz/ComfyUI-Iris.git",
+            "description": "Registers the Iris-3B model with ComfyUI's stock loaders (adds no nodes)",
+            "pinnedCommit": "fd8eff4a5fc52efa72cdd9677ebe5bf86f7ff21c"
+          },
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "iris-3b-turbo",
+      "name": "Iris-3B Turbo",
+      "tagline": "The official 4-step distill, about 10 s a picture",
+      "icon": "⚡",
+      "previewImage": "previews/iris-3b-turbo.jpg",
+      "description": "Speridlabs' own 4-step Turbo distill of Iris-3B (a full fine-tune, 6 GB). Guidance is baked in, so there is no Steps or CFG slider and the negative prompt is not used: the four-step schedule is part of the model. Layouts follow the base card closely for the same seed, which makes it a fast way to try prompts before a 50-step render. The sizes offered are the ones Turbo was distilled at.",
+      "tags": [
+        "Iris",
+        "Turbo",
+        "Realistic",
+        "Local"
+      ],
+      "enabled": true,
+      "promptStyle": "natural",
+      "template": "sdxl",
+      "ui": {
+        "visibleFields": [
+          "content",
+          "aspectRatio",
+          "shotType",
+          "environment",
+          "lightingSource",
+          "atmosphere"
+        ]
+      },
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "provider": "comfyui",
+        "displayModel": "Iris-3B Turbo",
+        "baseModels": [
+          "iris"
+        ],
+        "values": {
+          "quality": ""
+        },
+        "workflow": "workflows/iris-3b-turbo.json",
+        "unet": "iris-3b-turbo_bf16.safetensors",
+        "unetUrl": "https://huggingface.co/speridlabs/iris-3b/resolve/adc05b909fb05d4276d26aae5a52b36406b2ef26/turbo/model.safetensors",
+        "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/Qwen3-VL/resolve/02f0d3eefb59528799653d16735818801177ef1f/text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+        "steps": 4,
+        "cfg": 1,
+        "denoise": 1,
+        "negativePrompt": "",
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "4:3": {
+            "width": 1200,
+            "height": 896
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1200
+          },
+          "3:2": {
+            "width": 1344,
+            "height": 896
+          },
+          "2:3": {
+            "width": 896,
+            "height": 1344
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 752
+          },
+          "9:16": {
+            "width": 752,
+            "height": 1344
+          }
+        },
+        "requirements": {
+          "minVramGB": 10,
+          "recommendedVramGB": 12,
+          "minRamGB": 16,
+          "sizeGB": 11.2,
+          "notes": "Iris-3B Turbo DiT (diffusion_models): speridlabs/iris-3b @ adc05b90, turbo/model.safetensors saved as iris-3b-turbo_bf16.safetensors, 5,975,089,200 B (bf16), SHA256 7148dbba3117567e34c86fadaae6e10325feb2c0ff3f43fe4938c15c75b356e1 + Qwen3VL 4B encoder shared with the Krea 2 cards (type krea2). No VAE (pixel_space pass-through). Sampling: BasicGuider (no CFG, no negative), euler, ManualSigmas 1.0, 0.938, 0.833, 0.625, 0.0, the released schedule from turbo/distill.yaml (final sigmas, equal to quarter steps at shift 5). Sizes are the seven distillation buckets: 1024x1024, 752x1344, 896x1344, 896x1200 and their transposes. Needs the ComfyUI-Iris extension (Nynxz) and ComfyUI 0.38 or newer. Tested 2026-10-12 on a 4070 Ti 12 GB (plain ComfyUI 0.39, direct submission): 3 prompts x 3 seeds at 1024x1024, about 2 s sampling. Verified in the app 2026-10-12 (SimpliGen 1.73.2, engine 0.38.0, hand-installed copy): the app downloaded the file under its manifest name (sha256 matched); 3 renders (752x1344, 1344x896, 1024x1024) each executed in 10-12 s including model load, with checkpoint, size, seed and schedule read back from the engine. LoRAs not tested. Model licence: Apache-2.0 (Speridlabs)."
+        },
+        "extensions": [
+          {
+            "name": "ComfyUI-Iris",
+            "url": "https://github.com/Nynxz/ComfyUI-Iris.git",
+            "description": "Registers the Iris-3B model with ComfyUI's stock loaders (adds no nodes)",
+            "pinnedCommit": "fd8eff4a5fc52efa72cdd9677ebe5bf86f7ff21c"
+          },
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          }
+        ]
+      }
+    }
+  ]
+}
