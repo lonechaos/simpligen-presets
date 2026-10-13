@@ -347,6 +347,25 @@ upscaler node and weights as our Two-Stage and Refine packs (checked 2026-10-10)
     Cost: one new workflow per mode (the Two-Stage graph cut after stage 1), no new weights or nodes. Half a day
     with the 3-seed in-app check. Lower-cost variant if it measures well: text-to-video only.
 
+### T3-Video: native 4K text-to-video on Wan (watch, 2026-10-12)
+Source: https://huggingface.co/APRIL-AIGC/T3-Video, code https://github.com/zhangzjn/T3-Video, paper
+https://arxiv.org/abs/2512.13492 (ICML 2026). Read only on 2026-10-12; nothing downloaded or run.
+
+38. **Watch for a ComfyUI port, then test whether 4K (or a smaller size) runs on 12 GB.** T3-Video retrains a Wan
+    model with a changed attention pattern (multi-scale window attention) so it generates 3840x2176 directly; the
+    paper claims more than 10x faster 4K generation than full attention. Two Apache-2.0 text-to-video weights, not
+    gated: `T3-Video-Wan2.1-T2V-1.3B.safetensors` (2.8 GB) and `T3-Video-Wan2.2-T2V-5B.safetensors` (10.0 GB), HF
+    commit b38f51b5. 81 frames, 50 steps, no audio.
+    Why it is parked: the speed-up lives in the authors' modified DiffSynth-Studio code, so the weights alone in a
+    stock Wan graph would not reproduce it; there is no ComfyUI node (repo issue #4 "ComfyUI native implementation?"
+    is open and unanswered); the only inference script is `infer_multi_gpu.py` and the README gives no VRAM or
+    timing figures; training code is not released; no image-to-video weights despite the tag.
+    Trigger to pick it up: a ComfyUI port, or a reply on issue #4. First test then: the 1.3B file at a reduced size
+    in the isolated `Projects\ComfyUI-v0.39`, VRAM and time measured, before attempting 4K (the 4K VAE decode alone
+    may not fit 12 GB; that is an estimate, not a measurement).
+    Cost now: none. Cost to try the authors' script directly: a separate environment plus the Wan base weights, with
+    a real chance of ending at out-of-memory.
+
 ## Done / dropped
 
 - **2026-10-01, LongLive-Plug 4-step LoRA for H3 (NVIDIA Efficient-Large-Model, Kijai conversion):** needs the lcm
