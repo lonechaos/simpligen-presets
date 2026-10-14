@@ -1,0 +1,189 @@
+{
+  "id": "minimax-h3-orb360-pack",
+  "name": "Community — MiniMax H3 ORB360 Orbit",
+  "version": "1.0.0",
+  "addedAt": "2026-10-14",
+  "author": "MATLOWAI + Comfy-Org",
+  "nsfw": false,
+  "minComfyuiVersion": "v0.38.0",
+  "description": "One photo in, a frozen-moment 360-degree camera orbit out, on MiniMax H3's reference model with MATLOWAI's ORB360 LoRA. One card, 5-second silent clips.",
+  "tags": [
+    "Local",
+    "Video",
+    "R2V",
+    "MiniMax H3",
+    "Orbit",
+    "Camera",
+    "LoRA"
+  ],
+  "checksums": {
+    "https://huggingface.co/MATLOWAI/MiniMax-H3-ORB360-CardSpin/resolve/de8aa4db6f9a0d949855f3dc62948ffc691aa6ce/minimax_h3_orb360_step1500.safetensors": "e9275b2f456f6bd004c9cb3cf5c636cad87217c5bc96e6a5b5533e917de121da",
+    "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors": "9255f52b6677845ad238f20dfaafa94727053694127ab7f255c048f0f9365779"
+  },
+  "presets": [
+    {
+      "id": "minimax-h3-orb360",
+      "name": "MiniMax H3 ORB360 Orbit",
+      "icon": "🔄",
+      "tagline": "One photo in, a frozen 360-degree camera orbit out",
+      "description": "Turns one photo into a frozen-moment 360-degree orbit: the camera circles the subject once, clockwise, and comes back to the photo's own view, while the subject and everything around it stay still. Built on MATLOWAI's ORB360 LoRA (step 1500) for the H3 reference model, with the author's own orbit prompt built in (minus one clause about falling snow and dust, which put frozen specks on the picture).\n\nPICTURE 1 (required) = the photo. One subject in the middle of the frame works best: a person, an object on a table, a statue. Its back and the rest of the room are invented, because the photo cannot show them.\n\nTHE PROMPT BOX IS NOT USED: the card always sends the author's orbit prompt, whose timestamps need exactly 124 frames, so the length is fixed at 5 seconds. The clip is silent.\n\nWhat to expect: in our tests (2026-10-14: a woman full body, a man head and shoulders, a camera on a table, two seeds each, once at 768x768 outside the app and once at 480p in the app) the camera went all the way round and showed the back of the subject in 5 of 6 clips both times. The miss was the full-body woman both times (a different seed each time): the background kept turning but she turned on the spot instead of the camera passing behind her. If that happens, try another seed. The turn is uneven: it spends longer on the first half and is facing the front again a little early. Whatever the photo does not show is invented and can drift: one living room opened onto a lake halfway round. The last frame is close to the photo but not identical, so a loop has a small jump.\n\nAbout 2 1/4 minutes at 480p and 7 minutes at 768p (864x1184) on a 12 GB card. MiniMax H3 Community License.",
+      "previewImage": "previews/minimax-h3-orb360.jpg",
+      "tags": [
+        "Video",
+        "R2V",
+        "MiniMax H3",
+        "Orbit",
+        "Camera",
+        "LoRA",
+        "Local"
+      ],
+      "enabled": true,
+      "template": "wan-video",
+      "video": {
+        "supports": [
+          "local"
+        ],
+        "displayModel": "MiniMax H3 Ref2VA (pruned int8) + ORB360 LoRA",
+        "baseModels": [
+          "minimax-h3"
+        ],
+        "workflow": "workflows/video_minimax_h3_orb360.json",
+        "promptOptional": true,
+        "supportsSage": true,
+        "supportsSpectrum": true,
+        "duration": {
+          "type": "slider",
+          "min": 5,
+          "max": 5,
+          "default": 5,
+          "step": 1,
+          "unit": "seconds",
+          "vramScalesWithDuration": false
+        },
+        "acceptsReferenceImages": {
+          "min": 1,
+          "max": 1,
+          "slotLabels": [
+            "Photo to orbit"
+          ]
+        },
+        "unet": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "unetUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "vae": "minimax_h3_video_vae_fp16.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_video_vae_fp16.safetensors",
+        "audio_vae": "minimax_h3_audio_vae_fp32.safetensors",
+        "extraModels": [
+          {
+            "dir": "vae",
+            "filename": "minimax_h3_audio_vae_fp32.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_audio_vae_fp32.safetensors"
+          },
+          {
+            "dir": "loras",
+            "filename": "minimax_h3_orb360_step1500.safetensors",
+            "url": "https://huggingface.co/MATLOWAI/MiniMax-H3-ORB360-CardSpin/resolve/de8aa4db6f9a0d949855f3dc62948ffc691aa6ce/minimax_h3_orb360_step1500.safetensors",
+            "description": "ORB360 step 1500 by MATLOWAI (MiniMax H3 Community License)"
+          }
+        ],
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          },
+          {
+            "name": "ComfyUI-KJNodes",
+            "url": "https://github.com/kijai/ComfyUI-KJNodes.git",
+            "description": "Provides PathchSageAttentionKJ for the faster-attention opt-in",
+            "pinnedCommit": "3f20054214fec9f9234fd3841ae6f1e4287948f6"
+          },
+          {
+            "name": "ComfyUI-Spectrum-MiniMax-H3",
+            "url": "https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3.git",
+            "description": "Spectrum forecaster, injected by the app when enabled",
+            "pinnedCommit": "120d72e2f48b781235b34149e39bbdf0f1317d82"
+          }
+        ],
+        "steps": 20,
+        "negativePrompt": "",
+        "controls": {
+          "steps": {
+            "min": 12,
+            "max": 30,
+            "step": 1,
+            "affectsCost": true
+          }
+        },
+        "reclaimVramBeforeSampling": true,
+        "reclaimVramBeforeDecode": true,
+        "defaultResolutionTier": 0,
+        "resolutionOptions": [
+          {
+            "label": "480p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 640,
+                "height": 640
+              },
+              "4:3": {
+                "width": 736,
+                "height": 576
+              },
+              "3:4": {
+                "width": 576,
+                "height": 736
+              }
+            }
+          },
+          {
+            "label": "608p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 800,
+                "height": 800
+              },
+              "4:3": {
+                "width": 928,
+                "height": 672
+              },
+              "3:4": {
+                "width": 672,
+                "height": 928
+              }
+            }
+          },
+          {
+            "label": "768p (native)",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 1024,
+                "height": 1024
+              },
+              "4:3": {
+                "width": 1184,
+                "height": 864
+              },
+              "3:4": {
+                "width": 864,
+                "height": 1184
+              }
+            }
+          }
+        ],
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 16,
+          "minRamGB": 32,
+          "sizeGB": 43,
+          "notes": "Weights: H3 Ref2VA pruned int8 21.0 GB, text encoder 15.7 GB, video VAE fp16 5.2 GB and audio VAE 0.6 GB (shared with every H3 pack), ORB360 LoRA 0.6 GB. LoRA: MATLOWAI/MiniMax-H3-ORB360-CardSpin @de8aa4d, minimax_h3_orb360_step1500 (rank 32, trained with musubi-tuner on Ref2VA, 345 Blender orbits of 23 assets). Settings as the author's card: 20 steps, 124 frames, prompts/orbit_realscene_caption.txt with ONE clause removed (\"falling snow, rain, dust and particles hang motionless in mid-air;\"), res_multistep/simple from the official graph. TESTED 2026-10-14 engine-direct (RTX 4070 Ti 12 GB, engine 0.38.0, 768x768, no accelerators, author's caption verbatim): full orbit with the back of the subject shown 5/6 (woman full body 1/2, man 2/2, film camera 2/2), 416-436 s per clip; last frame vs first 19-33 dB. IN-APP (SimpliGen, accel sage+spectrum, 480p 640x640, same photos and seeds): 5/6 again (woman 1/2, the other seed this time), 135-140 s per clip; 768p 3:4 (864x1184) one clip, full orbit, 416 s. The verbatim caption put frozen white specks on a coat, a dress and a table in 3 of those 7 clips; with the clause removed the same two seeds came out without specks and still orbited fully. Untested: the author's three-view prompt, 16:9, Spectrum off in the app."
+        }
+      }
+    }
+  ]
+}

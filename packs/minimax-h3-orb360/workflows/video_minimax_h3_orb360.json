@@ -1,0 +1,354 @@
+{
+  "h3_width": {
+    "inputs": {
+      "value": {{width}}
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "Canvas width (linked, so a reloaded video re-runs)"
+    }
+  },
+  "h3_height": {
+    "inputs": {
+      "value": {{height}}
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "Canvas height"
+    }
+  },
+  "h3_unet": {
+    "inputs": {
+      "unet_name": "{{unet}}",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "MiniMax H3 Diffusion Model"
+    }
+  },
+  "h3_clip": {
+    "inputs": {
+      "clip_name": "{{clip}}",
+      "type": "minimax",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Qwen3-VL Text Encoder (MiniMax)"
+    }
+  },
+  "h3_video_vae": {
+    "inputs": {
+      "vae_name": "{{vae}}"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Video VAE"
+    }
+  },
+  "h3_audio_vae": {
+    "inputs": {
+      "vae_name": "{{audio_vae}}"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Audio VAE"
+    }
+  },
+  "simpligen_lora_1": {
+    "inputs": {
+      "PowerLoraLoaderHeaderWidget": {
+        "type": "PowerLoraLoaderHeaderWidget"
+      },
+      "➕ Add Lora": "",
+      "model": [
+        "h3_unet",
+        0
+      ],
+      "clip": [
+        "h3_clip",
+        0
+      ]
+    },
+    "class_type": "Power Lora Loader (rgthree)",
+    "_meta": {
+      "title": "SimpliGen User LoRAs"
+    }
+  },
+  "h3_conditioning": {
+    "inputs": {
+      "clip": [
+        "simpligen_lora_1",
+        1
+      ],
+      "vae": [
+        "h3_video_vae",
+        0
+      ],
+      "audio_vae": [
+        "h3_audio_vae",
+        0
+      ],
+      "prompt": "subject_definitions:\n<Subject 1> is the exact same rigid subject shown in <Picture 1>. Its geometry, proportions, materials, colors, markings, and surface details remain unchanged.\n<Picture 1> is the first-frame viewpoint of [Shot 1].\n\nsummary:\n[reference generation] ORB360_CW. A frozen-moment 360-degree orbit of <Subject 1> in the real environment shown in <Picture 1>, like a single instant stopped in time.\n\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - its geometry, proportions, materials, colors, markings and surface details are retained, and it stays completely frozen.\n<Picture 1> ([Shot 1] first frame and last frame): fully_preserved - the orbit starts and ends on this view, including its environment, weather and light.\n\ndetailed_description:\n[Shot 1] The shot begins from <Picture 1>, with its exact environment, ground, background, weather and light. The camera performs exactly one smooth clockwise 360-degree orbit around the completely stationary <Subject 1>, at constant radius, constant elevation, constant focal length, constant speed, and constant framing, ending at the starting viewpoint. The subject remains perfectly rigid and stationary. The surrounding real scene stays in place in the world and is revealed consistently as the camera circles, continuing the same location, terrain and sky seen in <Picture 1>. Everything in the scene is frozen in time: fur, hair, feathers, grass, leaves, water and clouds do not move. No articulation, deformation, secondary motion, wind, zoom, dolly, camera roll, cuts, lighting changes, or scene changes.\n\nAll four milestones below belong to the same uninterrupted [Shot 1], not separate shots. The video runs at 24 fps. Angles describe camera motion clockwise as viewed from above, relative to the starting camera azimuth; the subject itself does not rotate. The camera moves continuously at constant angular speed between these milestones, without pausing, reversing or completing extra turns.\nAt 0.000000 seconds (zero-based frame 0), the camera has advanced 0 degrees clockwise from its starting azimuth; the viewpoint corresponds to <Picture 1>.\nAt 1.708333 seconds (zero-based frame 41), the camera has advanced 120 degrees clockwise from its starting azimuth.\nAt 3.416667 seconds (zero-based frame 82), the camera has advanced 240 degrees clockwise from its starting azimuth.\nAt 5.125000 seconds (zero-based frame 123), the camera has advanced 360 degrees clockwise from its starting azimuth; the viewpoint corresponds to <Picture 1>.\n\nThe entire subject is a single frozen three-dimensional scene throughout the shot. Every visible eyelid keeps its reference position: no blinking. Each eye keeps a fixed gaze relative to the head and never tracks the moving camera. Facial expression, mouth, head, hands, feet and body pose remain unchanged. Hair strands, clothing, ribbons, accessories and loose parts are rigidly fixed in the same positions. There is no breathing, sway, settling or secondary motion. Only the camera changes position. Camera radius, elevation, focal length and look-at point stay fixed. Lighting stays fixed in world space; normal viewpoint-dependent shading and reflections remain physically consistent.\n\noverall_soundscape:\nN/A\n\nnon_diegetic_music:\nN/A",
+      "width": "{{width}}",
+      "height": "{{height}}",
+      "length": [
+        "h3_length",
+        1
+      ],
+      "ref_image_size": "match",
+      "ref_images.ref_image_0": [
+        "orb_ref_image_scale",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "_meta": {
+      "title": "MiniMax H3 Reference to Video"
+    }
+  },
+  "h3_noise": {
+    "inputs": {
+      "noise_seed": "{{seed}}"
+    },
+    "class_type": "RandomNoise",
+    "_meta": {
+      "title": "Random Noise"
+    }
+  },
+  "h3_guider": {
+    "inputs": {
+      "model": [
+        "orb_lora",
+        0
+      ],
+      "conditioning": [
+        "h3_conditioning",
+        0
+      ]
+    },
+    "class_type": "BasicGuider",
+    "_meta": {
+      "title": "Basic Guider"
+    }
+  },
+  "h3_sampler": {
+    "inputs": {
+      "sampler_name": "res_multistep"
+    },
+    "class_type": "KSamplerSelect",
+    "_meta": {
+      "title": "KSampler Select"
+    }
+  },
+  "h3_sigmas": {
+    "inputs": {
+      "model": [
+        "orb_lora",
+        0
+      ],
+      "scheduler": "simple",
+      "steps": "{{steps}}",
+      "denoise": 1
+    },
+    "class_type": "BasicScheduler",
+    "_meta": {
+      "title": "Basic Scheduler"
+    }
+  },
+  "h3_sampling": {
+    "inputs": {
+      "noise": [
+        "h3_noise",
+        0
+      ],
+      "guider": [
+        "h3_guider",
+        0
+      ],
+      "sampler": [
+        "h3_sampler",
+        0
+      ],
+      "sigmas": [
+        "h3_sigmas",
+        0
+      ],
+      "latent_image": [
+        "h3_conditioning",
+        1
+      ]
+    },
+    "class_type": "SamplerCustomAdvanced",
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "h3_decode_video": {
+    "inputs": {
+      "samples": [
+        "h3_sampling",
+        0
+      ],
+      "vae": [
+        "h3_video_vae",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "h3_decode_audio": {
+    "inputs": {
+      "samples": [
+        "h3_sampling",
+        0
+      ],
+      "vae": [
+        "h3_audio_vae",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeAudio",
+    "_meta": {
+      "title": "VAE Decode Audio"
+    }
+  },
+  "h3_create_video": {
+    "inputs": {
+      "images": [
+        "h3_decode_video",
+        0
+      ],
+      "fps": 24,
+      "audio": [
+        "h3_decode_audio",
+        0
+      ],
+      "bit_depth": 8
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Create Video"
+    }
+  },
+  "h3_save": {
+    "inputs": {
+      "video": [
+        "h3_create_video",
+        0
+      ],
+      "filename_prefix": "video/MiniMax_H3_ORB360",
+      "format": "auto",
+      "codec": "auto"
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Save Video"
+    }
+  },
+  "orb_ref_image_size": {
+    "inputs": {
+      "image": [
+        "orb_ref_image_load",
+        0
+      ]
+    },
+    "class_type": "GetImageSizeAndCount",
+    "_meta": {
+      "title": "Reference Image 1 size"
+    }
+  },
+  "orb_ref_image_mp": {
+    "inputs": {
+      "expression": "max(0.01, min(a * b, c * d) / 1000000)",
+      "values.c": [
+        "h3_width",
+        0
+      ],
+      "values.d": [
+        "h3_height",
+        0
+      ],
+      "values.a": [
+        "orb_ref_image_size",
+        1
+      ],
+      "values.b": [
+        "orb_ref_image_size",
+        2
+      ]
+    },
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "Ref image 1 conditioning budget (MP)"
+    }
+  },
+  "orb_ref_image_scale": {
+    "inputs": {
+      "image": [
+        "orb_ref_image_size",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "megapixels": [
+        "orb_ref_image_mp",
+        0
+      ],
+      "resolution_steps": 1
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "Cap ref image 1 tokens"
+    }
+  },
+  "orb_ref_image_load": {
+    "inputs": {
+      "image": "{{ref_image_1}}",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Reference Image 1"
+    }
+  },
+  "h3_duration": {
+    "inputs": {
+      "value": "{{duration}}"
+    },
+    "class_type": "PrimitiveFloat",
+    "_meta": {
+      "title": "Duration (seconds)"
+    }
+  },
+  "h3_length": {
+    "inputs": {
+      "expression": "min(362, max(124, max(5, round(a * 24)) + (17 - (max(5, round(a * 24)) - 5) % 17) % 17))",
+      "values.a": [
+        "h3_duration",
+        0
+      ]
+    },
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "Frames: 5 s -> 124 (the caption's timestamps assume 124)"
+    }
+  },
+  "orb_lora": {
+    "inputs": {
+      "lora_name": "minimax_h3_orb360_step1500.safetensors",
+      "strength_model": 1.0,
+      "model": [
+        "simpligen_lora_1",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "ORB360 step 1500 (MATLOWAI), strength 1"
+    }
+  }
+}
