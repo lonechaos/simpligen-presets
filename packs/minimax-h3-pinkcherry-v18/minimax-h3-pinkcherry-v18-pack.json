@@ -1,7 +1,7 @@
 {
   "id": "minimax-h3-pinkcherry-v18-pack",
   "name": "Community — MiniMax H3 (PinkCherry v1.8 Hybrid)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "SexGod1979",
   "nsfw": true,
   "description": "MiniMax H3 on SexGod1979's PinkCherry v1.8 Hybrid: an adult fine-tune (the author publishes its explicit training captions), INT8, 21.1 GB, Apache-2.0. This card runs the author's full-step setting with no turbo LoRA: euler / simple, 30 steps. It is slow: about 19 minutes for a 15-second clip at 480p on a 12 GB card. In a one-seed check on a fully clothed stop-motion scene it behaved much like stock H3, so the fine-tune has not cost it general ability. The author trains at high resolution and recommends 0.7 megapixels or more; our test ran at 864x480 and held up. Text to video only in this first release. The author's faster route, the lightx2v 8-step turbo LoRA at 12 steps, is not offered here because we have not tested it.",
@@ -295,7 +295,7 @@
           "recommendedVramGB": 16,
           "minRamGB": 32,
           "sizeGB": 22,
-          "notes": "One 21.1 GB INT8 checkpoint. Thirty steps by default, euler/simple, sigma shift 12.0 video / 3.0 audio (the author gives no shift figure; 12/3 is what we tested). No turbo LoRA: the author's 12-step route with the lightx2v 8-step turbo LoRA is untested here and not offered. Text to video only: image and reference cards are not shipped because they have not been tested on this file. MEASURED 2026-10-09 (RTX 4070 Ti 12 GB, 31 GB RAM, 864x480, 15 s, engine 0.38.0, Faster Attention on, this card's graph submitted to the engine): 1128-1147 s per clip at 30 steps. The author recommends 0.7 MP or more; the 480p tier is the default here only because it is what was tested. IN-APP 2026-10-09 (SimpliGen 1.71.1): the same prompt and seed through this card took 1133 s and produced video and audio identical to the engine test."
+          "notes": "One 21.1 GB INT8 checkpoint. Thirty steps by default, euler/simple, sigma shift 12.0 video / 3.0 audio (the author gives no shift figure; 12/3 is what we tested). No turbo LoRA: the author's 12-step route with the lightx2v 8-step turbo LoRA is untested here and not offered. Image and reference cards were added in 1.1.0 (2026-10-15). MEASURED 2026-10-09 (RTX 4070 Ti 12 GB, 31 GB RAM, 864x480, 15 s, engine 0.38.0, Faster Attention on, this card's graph submitted to the engine): 1128-1147 s per clip at 30 steps. The author recommends 0.7 MP or more; the 480p tier is the default here only because it is what was tested. IN-APP 2026-10-09 (SimpliGen 1.71.1): the same prompt and seed through this card took 1133 s and produced video and audio identical to the engine test."
         },
         "extensions": [
           {
@@ -311,6 +311,638 @@
             "pinnedCommit": "3f20054214fec9f9234fd3841ae6f1e4287948f6"
           }
         ]
+      }
+    },
+    {
+      "id": "minimax-h3-pinkcherry-v18-i2v",
+      "name": "MiniMax H3 Image to Video (PinkCherry v1.8 Hybrid)",
+      "icon": "🎬",
+      "previewImage": "previews/minimax-h3-pinkcherry-v18-i2v.jpg",
+      "description": "SexGod1979's PinkCherry v1.8 Hybrid (INT8, 21.1 GB) on the plain official graph at the author's full-step setting: euler / simple, 30 steps, no turbo LoRA. The author is explicit that the scheduler must be euler / simple, not beta or res_multistep.\n\nAn adult fine-tune: the author publishes its training captions and they are explicit. It has kept its general ability. One-seed comparison against eight other H3 checkpoints (2026-10-09, RTX 4070 Ti 12 GB, 864x480, 15 s, engine v0.38.0) on a fully clothed stop-motion scene: on plain prose it rendered much like stock H3, with one soft-focus eye where the prompt asked for it, and on a structured three-shot brief it cut at the scripted 5 and 10 second marks. One seed and one scene, so treat this as a first impression; the audio was not judged by ear.\n\nSlow by design: about 19 minutes per 15-second clip at 480p. The author recommends 0.7 megapixels or higher (672p and up at 16:9); 480p worked in our test, and higher tiers cost more time and memory.\n\nFree system RAM matters more than VRAM; keep 16 GB+ free.\n\nVerified in SimpliGen 1.71.1 / engine v0.38.0 on a 12 GB RTX 4070 Ti: 15 s at 864x480, 30 steps, 1133 s through the app, and the output matched the engine test frame for frame (same seed).\n\nImage to video: the picture becomes the first frame and the prompt describes the motion. First and last frames are centre-cropped to the output shape, so match the aspect ratio to your picture.\n\nTested 2026-10-15 on a 12 GB RTX 4070 Ti (engine 0.38.0), 5 s at 864x480, 30 steps, three seeds, then once in the app: 366-386 s per clip. The first frame reproduced the source picture as closely as the 10Eros beta5 image card does, the locked-off camera held, a prompted gull landed on cue, and the scripted line came out word for word on all three seeds.",
+      "tagline": "PinkCherry v1.8 Hybrid at full steps: slow, clean, no LoRA",
+      "tags": [
+        "Video",
+        "T2V",
+        "Audio",
+        "Finetune"
+      ],
+      "enabled": true,
+      "template": "wan-video",
+      "supportsDialogue": true,
+      "dialogueFormat": {
+        "placement": "inline-end",
+        "template": " The character says{delivery}: \"{dialogue}\""
+      },
+      "video": {
+        "supports": [
+          "local"
+        ],
+        "displayModel": "PinkCherry v1.8 Hybrid (INT8)",
+        "baseModels": [
+          "minimax-h3"
+        ],
+        "workflow": "workflows/video_minimax_h3_pinkcherry_v18_i2v.json",
+        "supportsSage": true,
+        "duration": {
+          "type": "slider",
+          "min": 5,
+          "max": 15,
+          "default": 5,
+          "step": 1,
+          "unit": "seconds",
+          "vramScalesWithDuration": true
+        },
+        "unet": "PinkCherry_hybrid_v1.8_int8_minimax_h3_pruned.safetensors",
+        "unetUrl": "https://huggingface.co/SexGod1979/PinkCherry-NSFW_MiniMax-H3/resolve/08ac92dbd56a8523beea55aafaaba1a1d72c45cb/1.8-hybrid/PinkCherry_hybrid_v1.8_int8_minimax_h3_pruned.safetensors",
+        "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "vae": "minimax_h3_video_vae_int8_convrot.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_video_vae_int8_convrot.safetensors",
+        "audio_vae": "minimax_h3_audio_vae_fp32.safetensors",
+        "extraModels": [
+          {
+            "dir": "vae",
+            "filename": "minimax_h3_audio_vae_fp32.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_audio_vae_fp32.safetensors"
+          }
+        ],
+        "steps": 30,
+        "negativePrompt": "",
+        "controls": {
+          "steps": {
+            "min": 20,
+            "max": 30,
+            "step": 1,
+            "affectsCost": true
+          }
+        },
+        "defaultResolutionTier": 0,
+        "resolutionOptions": [
+          {
+            "label": "480p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 640,
+                "height": 640
+              },
+              "16:9": {
+                "width": 864,
+                "height": 480
+              },
+              "9:16": {
+                "width": 480,
+                "height": 864
+              },
+              "4:3": {
+                "width": 736,
+                "height": 576
+              },
+              "3:4": {
+                "width": 576,
+                "height": 736
+              },
+              "21:9": {
+                "width": 992,
+                "height": 416
+              }
+            }
+          },
+          {
+            "label": "544p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 736,
+                "height": 736
+              },
+              "16:9": {
+                "width": 960,
+                "height": 544
+              },
+              "9:16": {
+                "width": 544,
+                "height": 960
+              },
+              "4:3": {
+                "width": 832,
+                "height": 640
+              },
+              "3:4": {
+                "width": 640,
+                "height": 832
+              },
+              "21:9": {
+                "width": 1120,
+                "height": 480
+              }
+            }
+          },
+          {
+            "label": "608p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 800,
+                "height": 800
+              },
+              "16:9": {
+                "width": 1056,
+                "height": 608
+              },
+              "9:16": {
+                "width": 608,
+                "height": 1056
+              },
+              "4:3": {
+                "width": 928,
+                "height": 672
+              },
+              "3:4": {
+                "width": 672,
+                "height": 928
+              },
+              "21:9": {
+                "width": 1216,
+                "height": 512
+              }
+            }
+          },
+          {
+            "label": "672p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 928,
+                "height": 928
+              },
+              "16:9": {
+                "width": 1216,
+                "height": 672
+              },
+              "9:16": {
+                "width": 672,
+                "height": 1216
+              },
+              "4:3": {
+                "width": 1056,
+                "height": 800
+              },
+              "3:4": {
+                "width": 800,
+                "height": 1056
+              },
+              "21:9": {
+                "width": 1408,
+                "height": 608
+              }
+            }
+          },
+          {
+            "label": "768p (native)",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 1024,
+                "height": 1024
+              },
+              "16:9": {
+                "width": 1344,
+                "height": 768
+              },
+              "9:16": {
+                "width": 768,
+                "height": 1344
+              },
+              "4:3": {
+                "width": 1184,
+                "height": 864
+              },
+              "3:4": {
+                "width": 864,
+                "height": 1184
+              },
+              "21:9": {
+                "width": 1536,
+                "height": 672
+              }
+            }
+          },
+          {
+            "label": "928p",
+            "minVramGB": 16,
+            "aspects": {
+              "1:1": {
+                "width": 1248,
+                "height": 1248
+              },
+              "16:9": {
+                "width": 1664,
+                "height": 928
+              },
+              "9:16": {
+                "width": 928,
+                "height": 1664
+              },
+              "4:3": {
+                "width": 1440,
+                "height": 1088
+              },
+              "3:4": {
+                "width": 1088,
+                "height": 1440
+              },
+              "21:9": {
+                "width": 1920,
+                "height": 832
+              }
+            }
+          },
+          {
+            "label": "1088p (max)",
+            "minVramGB": 24,
+            "aspects": {
+              "1:1": {
+                "width": 1440,
+                "height": 1440
+              },
+              "16:9": {
+                "width": 1920,
+                "height": 1088
+              },
+              "9:16": {
+                "width": 1088,
+                "height": 1920
+              },
+              "4:3": {
+                "width": 1664,
+                "height": 1248
+              },
+              "3:4": {
+                "width": 1248,
+                "height": 1664
+              },
+              "21:9": {
+                "width": 2208,
+                "height": 960
+              }
+            }
+          }
+        ],
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 16,
+          "minRamGB": 32,
+          "sizeGB": 22,
+          "notes": "One 21.1 GB INT8 checkpoint. Thirty steps by default, euler/simple, sigma shift 12.0 video / 3.0 audio (the author gives no shift figure; 12/3 is what we tested). No turbo LoRA: the author's 12-step route with the lightx2v 8-step turbo LoRA is untested here and not offered. Image and reference cards added in 1.1.0 (2026-10-15) after a 3-seed engine bake per mode and an in-app run; see the card descriptions. MEASURED 2026-10-09 (RTX 4070 Ti 12 GB, 31 GB RAM, 864x480, 15 s, engine 0.38.0, Faster Attention on, this card's graph submitted to the engine): 1128-1147 s per clip at 30 steps. The author recommends 0.7 MP or more; the 480p tier is the default here only because it is what was tested. IN-APP 2026-10-09 (SimpliGen 1.71.1): the same prompt and seed through this card took 1133 s and produced video and audio identical to the engine test. I2V BAKE 2026-10-15: engine 8199, 864x480, 5 s, 30 steps, seeds 4242/777/1015, Krea 2 fisherman still as first frame: 366-386 s per clip; first-frame PSNR against the source 25.0-25.1 dB (beta5 I2V: 24.1-24.7); line word-perfect 3/3 (WhisperX). IN-APP 2026-10-15 (SimpliGen 1.73.5, engine v0.41.1, the agent route, 864x480, 5 s, seed 4242, same prompt and picture): rendered; first frame matched the source (PSNR 24.8-25.0 dB), gull on cue, line word-perfect."
+        },
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          },
+          {
+            "name": "ComfyUI-KJNodes",
+            "url": "https://github.com/kijai/ComfyUI-KJNodes.git",
+            "description": "Provides PathchSageAttentionKJ for the faster-attention opt-in",
+            "pinnedCommit": "3f20054214fec9f9234fd3841ae6f1e4287948f6"
+          }
+        ],
+        "acceptsReferenceImages": {
+          "min": 1,
+          "max": 2,
+          "slotLabels": [
+            "First frame",
+            "Last frame (optional)"
+          ]
+        },
+        "description": "Animate a source image with PinkCherry v1.8 Hybrid. The image becomes the first frame and the prompt describes the motion. Runs on the same checkpoint as this pack's text-to-video card, so there is no extra download. Your first and last frame images are CENTRE-CROPPED to the output shape, not letterboxed: match the aspect ratio to your picture, or a tall portrait at 16:9 loses the head."
+      }
+    },
+    {
+      "id": "minimax-h3-pinkcherry-v18-r2v",
+      "name": "MiniMax H3 Reference to Video (PinkCherry v1.8 Hybrid)",
+      "icon": "🎬",
+      "previewImage": "previews/minimax-h3-pinkcherry-v18-r2v.jpg",
+      "description": "SexGod1979's PinkCherry v1.8 Hybrid (INT8, 21.1 GB) on the plain official graph at the author's full-step setting: euler / simple, 30 steps, no turbo LoRA. The author is explicit that the scheduler must be euler / simple, not beta or res_multistep.\n\nAn adult fine-tune: the author publishes its training captions and they are explicit. It has kept its general ability. One-seed comparison against eight other H3 checkpoints (2026-10-09, RTX 4070 Ti 12 GB, 864x480, 15 s, engine v0.38.0) on a fully clothed stop-motion scene: on plain prose it rendered much like stock H3, with one soft-focus eye where the prompt asked for it, and on a structured three-shot brief it cut at the scripted 5 and 10 second marks. One seed and one scene, so treat this as a first impression; the audio was not judged by ear.\n\nSlow by design: about 19 minutes per 15-second clip at 480p. The author recommends 0.7 megapixels or higher (672p and up at 16:9); 480p worked in our test, and higher tiers cost more time and memory.\n\nFree system RAM matters more than VRAM; keep 16 GB+ free.\n\nVerified in SimpliGen 1.71.1 / engine v0.38.0 on a 12 GB RTX 4070 Ti: 15 s at 864x480, 30 steps, 1133 s through the app, and the output matched the engine test frame for frame (same seed).\n\nReference to video: supply one to three pictures of the SAME person; the reference never appears in the video, so the prompt must describe the whole shot.\n\nTested 2026-10-15 on a 12 GB RTX 4070 Ti (engine 0.38.0), 5 s at 864x480, 30 steps, three seeds from one reference picture, then once in the app: 381-431 s per clip. Reference to video is how the author runs v1.8 (their own published workflow for this file is a reference-to-video one). Face, beard, cap and jacket held in a new location on all three seeds, and the scripted line came out word for word every time.",
+      "tagline": "PinkCherry v1.8 Hybrid at full steps: slow, clean, no LoRA",
+      "tags": [
+        "Video",
+        "T2V",
+        "Audio",
+        "Finetune"
+      ],
+      "enabled": true,
+      "template": "wan-video",
+      "supportsDialogue": true,
+      "dialogueFormat": {
+        "placement": "inline-end",
+        "template": " The character says{delivery}: \"{dialogue}\""
+      },
+      "video": {
+        "supports": [
+          "local"
+        ],
+        "displayModel": "PinkCherry v1.8 Hybrid (INT8)",
+        "baseModels": [
+          "minimax-h3"
+        ],
+        "workflow": "workflows/video_minimax_h3_pinkcherry_v18_r2v.json",
+        "supportsSage": true,
+        "duration": {
+          "type": "slider",
+          "min": 5,
+          "max": 15,
+          "default": 5,
+          "step": 1,
+          "unit": "seconds",
+          "vramScalesWithDuration": true
+        },
+        "unet": "PinkCherry_hybrid_v1.8_int8_minimax_h3_pruned.safetensors",
+        "unetUrl": "https://huggingface.co/SexGod1979/PinkCherry-NSFW_MiniMax-H3/resolve/08ac92dbd56a8523beea55aafaaba1a1d72c45cb/1.8-hybrid/PinkCherry_hybrid_v1.8_int8_minimax_h3_pruned.safetensors",
+        "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "vae": "minimax_h3_video_vae_int8_convrot.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_video_vae_int8_convrot.safetensors",
+        "audio_vae": "minimax_h3_audio_vae_fp32.safetensors",
+        "extraModels": [
+          {
+            "dir": "vae",
+            "filename": "minimax_h3_audio_vae_fp32.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_audio_vae_fp32.safetensors"
+          }
+        ],
+        "steps": 30,
+        "negativePrompt": "",
+        "controls": {
+          "steps": {
+            "min": 20,
+            "max": 30,
+            "step": 1,
+            "affectsCost": true
+          }
+        },
+        "defaultResolutionTier": 0,
+        "resolutionOptions": [
+          {
+            "label": "480p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 640,
+                "height": 640
+              },
+              "16:9": {
+                "width": 864,
+                "height": 480
+              },
+              "9:16": {
+                "width": 480,
+                "height": 864
+              },
+              "4:3": {
+                "width": 736,
+                "height": 576
+              },
+              "3:4": {
+                "width": 576,
+                "height": 736
+              },
+              "21:9": {
+                "width": 992,
+                "height": 416
+              }
+            }
+          },
+          {
+            "label": "544p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 736,
+                "height": 736
+              },
+              "16:9": {
+                "width": 960,
+                "height": 544
+              },
+              "9:16": {
+                "width": 544,
+                "height": 960
+              },
+              "4:3": {
+                "width": 832,
+                "height": 640
+              },
+              "3:4": {
+                "width": 640,
+                "height": 832
+              },
+              "21:9": {
+                "width": 1120,
+                "height": 480
+              }
+            }
+          },
+          {
+            "label": "608p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 800,
+                "height": 800
+              },
+              "16:9": {
+                "width": 1056,
+                "height": 608
+              },
+              "9:16": {
+                "width": 608,
+                "height": 1056
+              },
+              "4:3": {
+                "width": 928,
+                "height": 672
+              },
+              "3:4": {
+                "width": 672,
+                "height": 928
+              },
+              "21:9": {
+                "width": 1216,
+                "height": 512
+              }
+            }
+          },
+          {
+            "label": "672p",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 928,
+                "height": 928
+              },
+              "16:9": {
+                "width": 1216,
+                "height": 672
+              },
+              "9:16": {
+                "width": 672,
+                "height": 1216
+              },
+              "4:3": {
+                "width": 1056,
+                "height": 800
+              },
+              "3:4": {
+                "width": 800,
+                "height": 1056
+              },
+              "21:9": {
+                "width": 1408,
+                "height": 608
+              }
+            }
+          },
+          {
+            "label": "768p (native)",
+            "minVramGB": 12,
+            "aspects": {
+              "1:1": {
+                "width": 1024,
+                "height": 1024
+              },
+              "16:9": {
+                "width": 1344,
+                "height": 768
+              },
+              "9:16": {
+                "width": 768,
+                "height": 1344
+              },
+              "4:3": {
+                "width": 1184,
+                "height": 864
+              },
+              "3:4": {
+                "width": 864,
+                "height": 1184
+              },
+              "21:9": {
+                "width": 1536,
+                "height": 672
+              }
+            }
+          },
+          {
+            "label": "928p",
+            "minVramGB": 16,
+            "aspects": {
+              "1:1": {
+                "width": 1248,
+                "height": 1248
+              },
+              "16:9": {
+                "width": 1664,
+                "height": 928
+              },
+              "9:16": {
+                "width": 928,
+                "height": 1664
+              },
+              "4:3": {
+                "width": 1440,
+                "height": 1088
+              },
+              "3:4": {
+                "width": 1088,
+                "height": 1440
+              },
+              "21:9": {
+                "width": 1920,
+                "height": 832
+              }
+            }
+          },
+          {
+            "label": "1088p (max)",
+            "minVramGB": 24,
+            "aspects": {
+              "1:1": {
+                "width": 1440,
+                "height": 1440
+              },
+              "16:9": {
+                "width": 1920,
+                "height": 1088
+              },
+              "9:16": {
+                "width": 1088,
+                "height": 1920
+              },
+              "4:3": {
+                "width": 1664,
+                "height": 1248
+              },
+              "3:4": {
+                "width": 1248,
+                "height": 1664
+              },
+              "21:9": {
+                "width": 2208,
+                "height": 960
+              }
+            }
+          }
+        ],
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 16,
+          "minRamGB": 32,
+          "sizeGB": 22,
+          "notes": "One 21.1 GB INT8 checkpoint. Thirty steps by default, euler/simple, sigma shift 12.0 video / 3.0 audio (the author gives no shift figure; 12/3 is what we tested). No turbo LoRA: the author's 12-step route with the lightx2v 8-step turbo LoRA is untested here and not offered. Image and reference cards added in 1.1.0 (2026-10-15) after a 3-seed engine bake per mode and an in-app run; see the card descriptions. MEASURED 2026-10-09 (RTX 4070 Ti 12 GB, 31 GB RAM, 864x480, 15 s, engine 0.38.0, Faster Attention on, this card's graph submitted to the engine): 1128-1147 s per clip at 30 steps. The author recommends 0.7 MP or more; the 480p tier is the default here only because it is what was tested. IN-APP 2026-10-09 (SimpliGen 1.71.1): the same prompt and seed through this card took 1133 s and produced video and audio identical to the engine test. R2V BAKE 2026-10-15: same settings, one reference picture, six-section Ref2VA brief: 381-431 s per clip; identity held 3/3; line word-perfect 3/3 (WhisperX). The author's own v1.8 workflow (1.8-hybrid/PinkCherry_ref2va_turbo_lightx2v_workflow.json) is reference-to-video with the lightx2v fl2v 8-step LoRA at 12 steps; that faster route is NOT what this card runs (full 30 steps, no LoRA). IN-APP 2026-10-15 (SimpliGen 1.73.5, engine v0.41.1, the agent route, 864x480, 5 s, seed 4242, same prompt and picture): rendered; identity, beard, cap and jacket held in the new scene, line word-perfect."
+        },
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          },
+          {
+            "name": "ComfyUI-KJNodes",
+            "url": "https://github.com/kijai/ComfyUI-KJNodes.git",
+            "description": "Provides PathchSageAttentionKJ for the faster-attention opt-in",
+            "pinnedCommit": "3f20054214fec9f9234fd3841ae6f1e4287948f6"
+          }
+        ],
+        "acceptsReferenceImages": {
+          "min": 0,
+          "max": 9,
+          "slotLabels": [
+            "Reference 1",
+            "Reference 2",
+            "Reference 3",
+            "Reference 4",
+            "Reference 5",
+            "Reference 6",
+            "Reference 7",
+            "Reference 8",
+            "Reference 9"
+          ]
+        },
+        "acceptsReferenceAudios": {
+          "min": 0,
+          "max": 3
+        },
+        "acceptsReferenceVideos": {
+          "min": 0,
+          "max": 3,
+          "soundtrack": true
+        },
+        "description": "Keep a person's appearance in a brand new shot with PinkCherry v1.8 Hybrid. Supply one to three reference pictures of the SAME person; the reference never appears in the video, so the prompt must describe the whole shot (setting, action and camera), not just the movement. Runs on the same checkpoint as this pack's text-to-video card, so there is no extra download."
       }
     }
   ]
