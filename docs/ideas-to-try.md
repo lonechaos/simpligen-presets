@@ -366,7 +366,7 @@ https://arxiv.org/abs/2512.13492 (ICML 2026). Read only on 2026-10-12; nothing d
     Cost now: none. Cost to try the authors' script directly: a separate environment plus the Wan base weights, with
     a real chance of ending at out-of-memory.
 
-### FLUX 3 Image Klein (parked until the engine has ComfyUI's Flux 3 support, 2026-10-15)
+### FLUX 3 Image Klein variants (stock model goes official via Sharmystic; we wait for fine-tunes, 2026-10-15)
 Sources: https://blog.comfy.org/p/flux-3-image-klein-in-comfyui-56b, weights
 https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy (HF commit 8c99a01a), code
 https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15; nothing downloaded or run.
@@ -398,6 +398,10 @@ https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15
     gives pixel-identical output to BFL's, so the pack reuses it. Edit graph = `ReferenceMultiLatent` (resize to
     1 MP) feeding the KSampler's positive, negative and latent. Scripts and images:
     `F:\Claude-Work\flux3-klein-20261015\`. Still untested: bounding boxes, the prompt upsampler, the base model.
+    DECISION 2026-10-15 (Michael): Sharmystic is updating the engine and has an OFFICIAL Flux 3 Klein pack ready,
+    so we do NOT build a community pack of the stock model. Our job is the variants: community fine-tunes and
+    LoRAs of Flux 3 Klein as they appear on Civitai/HF, built on top of the official pack's stack once it ships
+    (check its file names and workflow first, and reuse its encoder/VAE ids so users download nothing twice).
 
 ## Done / dropped
 
