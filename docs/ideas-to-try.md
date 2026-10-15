@@ -391,6 +391,13 @@ https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15
     already carries it, so the community pack does not duplicate an official one.
     First test then: distilled int8 + qwen3vl int8 t2i and one 2-reference edit in the app, 3 seeds each; check
     whether our Krea 2 `qwen3vl_4b_fp8_scaled` encoder is the same model (it would save a 4.9 GB download).
+    UPDATE 2026-10-15, vanilla test (ComfyUI master 29e28e2b, 4070 Ti, `--lowvram`): distilled int8 + qwen3vl int8
+    runs at 3.8-5.2 s per 1024x1024 and ~21 s at 2048x2048 (clean at native pixels). Lettering exact on 2 of 2
+    seeds; a sign-text edit and a night-plus-scarf edit kept everything else; a 2-reference composite kept the
+    character but not the requested style on the background. The `flux2-vae.safetensors` SimpliGen already ships
+    gives pixel-identical output to BFL's, so the pack reuses it. Edit graph = `ReferenceMultiLatent` (resize to
+    1 MP) feeding the KSampler's positive, negative and latent. Scripts and images:
+    `F:\Claude-Work\flux3-klein-20261015\`. Still untested: bounding boxes, the prompt upsampler, the base model.
 
 ## Done / dropped
 
