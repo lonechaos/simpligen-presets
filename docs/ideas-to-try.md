@@ -366,6 +366,32 @@ https://arxiv.org/abs/2512.13492 (ICML 2026). Read only on 2026-10-12; nothing d
     Cost now: none. Cost to try the authors' script directly: a separate environment plus the Wan base weights, with
     a real chance of ending at out-of-memory.
 
+### FLUX 3 Image Klein (parked until the engine has ComfyUI's Flux 3 support, 2026-10-15)
+Sources: https://blog.comfy.org/p/flux-3-image-klein-in-comfyui-56b, weights
+https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy (HF commit 8c99a01a), code
+https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15; nothing downloaded or run.
+
+39. **Community pack for FLUX 3 Image Klein: text-to-image plus editing with up to 10 references.** 5.6B DiT,
+    Qwen3-VL-4B text encoder, the Flux 2 VAE. Two models: Klein (distilled, 16 steps, no CFG, the one to ship) and
+    Klein Base (50 steps, guidance 3.5, for training). Comfy files: `flux3_image_klein_sd_int8_convrot` (5.83 GB,
+    distilled) and `flux3_image_klein_int8_convrot` (5.81 GB, base), bf16 (~11.1 GB) and NVFP4 (~5.3 GB) of each,
+    `qwen3vl_4b_int8_convrot` (4.86 GB) or bf16 (8.88 GB), `flux2-vae` (0.34 GB), optional prompt upsampler
+    `qwen3.5_9b_flux3_prompt_upsampler_int8_convrot` (9.75 GB). Four official workflows in the repo's `workflows/`
+    (t2i and image edit, base and distilled). BFL says the int8 files run on 8 GB GPUs; Comfy's blog quotes under
+    9 s at 1024x1024 on an RTX 4070 for int8 + distilled. Also does bounding boxes in the prompt (JSON list of
+    `{"id", "desc", "bbox": [x0, y0, x1, y1]}` on a 0-1 scale; edits use `from`/`src_bbox`/`tgt_bbox`) and native 4K.
+    Why it is parked: ComfyUI added support on master on 2026-10-15 (commit 20b46065, "Support Flux3-image"), after
+    the v0.40.0 release; the SimpliGen engine is on 0.38.0 and has no Flux 3 code. BFL's own CLI needs 25-31 GB of
+    VRAM, so it is not a 12 GB route. Michael said not to update vanilla ComfyUI for this.
+    Also: the HF repo is gated (users need an HF token in Settings after accepting the licence, see
+    gated-hf-download memory) and the weights are under the FLUX Kommunity License (non-commercial, with a
+    commercial-output exception for Qualifying Users); say both on the card.
+    Trigger to pick it up: an engine release that contains commit 20b46065. Asked Sharmystic on 2026-10-15
+    (`F:\Claude-Work\flux3-klein-20261015\sharmystic-flux3-engine.md`). Check first whether the official store
+    already carries it, so the community pack does not duplicate an official one.
+    First test then: distilled int8 + qwen3vl int8 t2i and one 2-reference edit in the app, 3 seeds each; check
+    whether our Krea 2 `qwen3vl_4b_fp8_scaled` encoder is the same model (it would save a 4.9 GB download).
+
 ## Done / dropped
 
 - **2026-10-01, LongLive-Plug 4-step LoRA for H3 (NVIDIA Efficient-Large-Model, Kijai conversion):** needs the lcm
