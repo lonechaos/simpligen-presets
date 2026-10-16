@@ -7,7 +7,7 @@ Put anyone into an exact pose. Give the card a 3D doll in the pose you want and 
 How to use it:
 1. A full-body photo of one person, with the floor visible down to the bottom edge.
 2. A doll in the same shape as your photo (square or portrait).
-3. Picture 1 = the doll, Picture 2 = your photo. No prompt needed.
+3. Picture 1 = your photo (or pick a saved character), Picture 2 = the doll. No prompt needed.
 
 What we saw (two people, four poses, two seeds, square and 3:4): every result stood, knelt or crawled on the floor in the doll's pose, 8 of 8 through the app and 32 of 32 in our ComfyUI tests. About a minute a picture on a 12 GB card.
 

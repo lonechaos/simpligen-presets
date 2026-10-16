@@ -1,7 +1,7 @@
 {
   "id": "qwen-image-21-pack",
   "name": "Community — Qwen Image 2.1",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "addedAt": "2026-09-20",
   "author": "michaeldune",
   "nsfw": false,
@@ -1174,7 +1174,7 @@
       "icon": "🧍",
       "enabled": true,
       "tagline": "Put a person into the pose of a 3D doll",
-      "description": "PICTURE 1 = a Pose Studio doll in the pose you want. PICTURE 2 = a full-body photo of the person. The person is moved into the doll's pose and keeps their face, hair, clothes and the photo's background.\n\nGet dolls from the free gallery: https://michaeldune.github.io/simpligen-pose-gallery/ . Pick the doll in the same shape as your photo (square or 3:4 portrait) and download it. The person lands where the doll stands, at the doll's size: the gallery's dolls all stand near the bottom of the frame, so use a photo with the floor visible down to the bottom edge, or a low pose (kneeling, crawling, sitting) can come out floating.\n\nThe result has the doll picture's size and shape; the aspect ratio setting is ignored. The prompt box is optional, for extra notes about the scene. About a minute on a 12 GB card.\n\nWhat to expect: in our tests (two people, four poses, two seeds, square and 3:4) every result stood or knelt on the floor in the doll's pose once the dolls were framed this way. A side-view doll can come out as a three-quarter view, and different seeds give nearly the same picture.\n\nPose Studio and its pose LoRA are by MiuProject (VNCCS, MIT), used with the author's permission. Gallery poses by Totemistyk. Non-commercial use only (Qwen Research License).",
+      "description": "PICTURE 1 = a full-body photo of the person (or pick a saved character). PICTURE 2 = a Pose Studio doll in the pose you want. The person is moved into the doll's pose and keeps their face, hair, clothes and the photo's background.\n\nGet dolls from the free gallery: https://michaeldune.github.io/simpligen-pose-gallery/ . Pick the doll in the same shape as your photo (square or 3:4 portrait) and download it. The person lands where the doll stands, at the doll's size: the gallery's dolls all stand near the bottom of the frame, so use a photo with the floor visible down to the bottom edge, or a low pose (kneeling, crawling, sitting) can come out floating.\n\nThe result has the doll picture's size and shape; the aspect ratio setting is ignored. The prompt box is optional, for extra notes about the scene. About a minute on a 12 GB card.\n\nWhat to expect: in our tests (two people, four poses, two seeds, square and 3:4) every result stood or knelt on the floor in the doll's pose once the dolls were framed this way. A side-view doll can come out as a three-quarter view, and different seeds give nearly the same picture.\n\nChanged in pack 1.12.1: the person now goes in picture 1 and the doll in picture 2 (it was the other way round in 1.12.0).\n\nPose Studio and its pose LoRA are by MiuProject (VNCCS, MIT), used with the author's permission. Gallery poses by Totemistyk. Non-commercial use only (Qwen Research License).",
       "template": "qwen-edit",
       "promptStyle": "natural",
       "tags": [
@@ -1233,8 +1233,8 @@
           "enabledPlaceholder": "ref_{n}_enabled",
           "promptPrefixTemplate": "",
           "slotLabels": [
-            "The doll (pose)",
-            "The person"
+            "The person",
+            "The doll (pose)"
           ]
         },
         "resolutionOverrides": {
@@ -1272,7 +1272,7 @@
           "recommendedVramGB": 16,
           "minRamGB": 32,
           "sizeGB": 17.5,
-          "notes": "LICENCE: Qwen Research License, non-commercial use only. Weights: the pack's shared Qwen Image 2.1 int8 model, Qwen3-VL 8B int8 encoder and VAE (17.3 GB) plus the VNCCS Pose Studio QI2.1 V2 LoRA (0.16 GB, MiuProject, MIT; HF MIUProject/VNCCS_PoseStudio_QI2.1 @9857b8a, where the upstream filename ends in a space, saved without it). Graph = the Outfit Swap graph with the LoRA after the user LoRA slot; picture 1 = doll, picture 2 = person; the sampler starts from the encoder's latent at picture 1's size; prompt = Pose Studio's own template 'Draw character from image2' + lighting line + the user's notes; euler/simple 25 steps CFG 1. TESTED 2026-10-14 in vanilla ComfyUI (4070 Ti 12 GB): no LoRA 0/8 poses; V2 with the library's own doll framing floated 5/8; with dolls framed at zoom 1.3 and the lowest point at ~93% of the frame, 32/32 grounded and in pose (2 people x 4 poses x 2 seeds x 1:1 and 3:4). Gallery and doll framing: https://michaeldune.github.io/simpligen-pose-gallery/"
+          "notes": "LICENCE: Qwen Research License, non-commercial use only. Weights: the pack's shared Qwen Image 2.1 int8 model, Qwen3-VL 8B int8 encoder and VAE (17.3 GB) plus the VNCCS Pose Studio QI2.1 V2 LoRA (0.16 GB, MiuProject, MIT; HF MIUProject/VNCCS_PoseStudio_QI2.1 @9857b8a, where the upstream filename ends in a space, saved without it). Graph = the Outfit Swap graph with the LoRA after the user LoRA slot; since 1.12.1 picture 1 = person and picture 2 = doll (the character picker fills picture 1); the encoder still receives image_1 = doll and image_2 = person, the order the LoRA was trained on, and the sampler starts from the encoder's latent at the doll's size; prompt = Pose Studio's own template 'Draw character from image2' + lighting line + the user's notes; euler/simple 25 steps CFG 1. TESTED 2026-10-14 in vanilla ComfyUI (4070 Ti 12 GB): no LoRA 0/8 poses; V2 with the library's own doll framing floated 5/8; with dolls framed at zoom 1.3 and the lowest point at ~93% of the frame, 32/32 grounded and in pose (2 people x 4 poses x 2 seeds x 1:1 and 3:4). Gallery and doll framing: https://michaeldune.github.io/simpligen-pose-gallery/"
         },
         "extraModels": [
           {

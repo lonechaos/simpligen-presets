@@ -109,11 +109,11 @@
       "negative_prompt": "{{negative_prompt}}",
       "resolution": 1024,
       "images.image_1": [
-        "sgopt_ref_image_1__load",
+        "sgopt_ref_image_2__load",
         0
       ],
       "images.image_2": [
-        "sgopt_ref_image_2__load",
+        "sgopt_ref_image_1__load",
         0
       ]
     },
