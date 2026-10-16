@@ -1,0 +1,198 @@
+{
+  "sg_unet": {
+    "inputs": {
+      "unet_name": "{{unet}}",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model"
+    }
+  },
+  "sg_clip": {
+    "inputs": {
+      "clip_name": "{{clip}}",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load Qwen3-VL 8B"
+    }
+  },
+  "sg_vae": {
+    "inputs": {
+      "vae_name": "{{vae}}"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "simpligen_lora_1": {
+    "inputs": {
+      "PowerLoraLoaderHeaderWidget": {
+        "type": "PowerLoraLoaderHeaderWidget"
+      },
+      "➕ Add Lora": "",
+      "model": [
+        "sg_unet",
+        0
+      ],
+      "clip": [
+        "sg_clip",
+        0
+      ]
+    },
+    "class_type": "Power Lora Loader (rgthree)",
+    "_meta": {
+      "title": "SimpliGen User LoRAs"
+    }
+  },
+  "sg_cache": {
+    "inputs": {
+      "model": [
+        "sg_pose_lora",
+        0
+      ],
+      "device": "auto",
+      "dtype": "default"
+    },
+    "class_type": "QwenImage21Cache",
+    "_meta": {
+      "title": "Reference prefix cache"
+    }
+  },
+  "sgopt_ref_image_1__load": {
+    "inputs": {
+      "image": "{{ref_image_1}}"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "The person"
+    }
+  },
+  "sgopt_ref_image_2__load": {
+    "inputs": {
+      "image": "{{ref_image_2}}"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "The outfit"
+    }
+  },
+  "brief": {
+    "inputs": {
+      "string_a": "Draw character from image2\nstrong Pale White lighting coming from the eye-level front",
+      "string_b": "{{prompt}}",
+      "delimiter": "\n"
+    },
+    "class_type": "StringConcatenate",
+    "_meta": {
+      "title": "Pose Studio's own prompt template: Draw character from image2 / lighting / your notes"
+    }
+  },
+  "sg_encode": {
+    "inputs": {
+      "clip": [
+        "simpligen_lora_1",
+        1
+      ],
+      "vae": [
+        "sg_vae",
+        0
+      ],
+      "prompt": [
+        "brief",
+        0
+      ],
+      "negative_prompt": "{{negative_prompt}}",
+      "resolution": 1024,
+      "images.image_1": [
+        "sgopt_ref_image_1__load",
+        0
+      ],
+      "images.image_2": [
+        "sgopt_ref_image_2__load",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImage21",
+    "_meta": {
+      "title": "Brief + pictures"
+    }
+  },
+  "sg_sampler": {
+    "inputs": {
+      "seed": {{seed}},
+      "steps": "{{steps}}",
+      "cfg": "{{cfg}}",
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "sg_cache",
+        0
+      ],
+      "positive": [
+        "sg_encode",
+        0
+      ],
+      "negative": [
+        "sg_encode",
+        1
+      ],
+      "latent_image": [
+        "sg_encode",
+        2
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "sg_decode": {
+    "inputs": {
+      "samples": [
+        "sg_sampler",
+        0
+      ],
+      "vae": [
+        "sg_vae",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "sg_save": {
+    "inputs": {
+      "filename_prefix": "qwen_image_21_pose_studio",
+      "images": [
+        "sg_decode",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save"
+    }
+  },
+  "sg_pose_lora": {
+    "inputs": {
+      "model": [
+        "simpligen_lora_1",
+        0
+      ],
+      "lora_name": "VNCCS_QI2_PoseStudioV2.safetensors",
+      "strength_model": 1.0
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "VNCCS Pose Studio QI2.1 V2 (MiuProject, MIT)"
+    }
+  }
+}
