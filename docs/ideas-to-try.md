@@ -5,6 +5,17 @@ result when it is settled.
 
 ## Open
 
+### DaSiWa H3 v4 + the smaller quants (2026-10-17)
+Source: https://civitai.com/models/2877206 (Hybrid v4 3391862, Hybrid v4 Turbo 3392061, published 2026-10-09).
+v4 Turbo is a 4-step distill (our v3 pack is 8-step). Its int8 file is structurally identical to v3's (drop-in). New:
+engine 0.41.1 reads DaSiWa's W4A8 (12.5 GB) and W6A8 (16.8 GB) layouts natively (`comfy/ops.py` loads `weight_s_rel`
+/ `weight_s_channel` / `weight_codebook`), so the earlier "engine cannot read W4A8" note is stale - not yet run.
+**BAKED 2026-10-17** (`F:\Claude-Work\dasiwa-v4-20261017\VERDICT.md`, 48 clips): v4 Turbo at 4 steps is ~40%
+faster than v3 at 8 (42-54 s vs 63-81 s), dialogue 11/12 word-exact, identity held. More contrast; lit a "dim studio"
+backdrop. Defect: 1 of 3 seeds opened r2v set C with 1.7 s of the person reference photo, then hard-cut (v3 0/3).
+w6a8 = int8 pictures, 4 GB smaller; w4a8 drifts. Michael watched all 48 clips: "everythings good". Next: a v4 pack
+if he wants one.
+
 ### From SatoDive's H3 Latent Continuation (2026-09-19)
 Source: https://github.com/SatoDive/Minimax-H3-Latent-Continuation, tutorial https://www.youtube.com/watch?v=KkugNjrpXAc
 
@@ -366,6 +377,28 @@ https://arxiv.org/abs/2512.13492 (ICML 2026). Read only on 2026-10-12; nothing d
     Cost now: none. Cost to try the authors' script directly: a separate environment plus the Wan base weights, with
     a real chance of ending at out-of-memory.
 
+### MOSS-Image SFT (OpenMOSS text-to-image, TESTED in vanilla 2026-10-17)
+Sources Michael sent: https://huggingface.co/OpenMOSS-Team/MOSS-Image-SFT,
+https://huggingface.co/Abiray/MOSS-Image-SFT-INT8-convrot, https://huggingface.co/lodestones/MOSS-Image-SFT-8-steps-dmd.
+- What it is: 5B DiT, Qwen3.5 9B text encoder, FLUX.2 VAE (same file as our `flux2-vae.safetensors`). Apache-2.0.
+  Strengths claimed: rendered text (English and Chinese), tag or prose prompts, and JSON layout prompts with bounding
+  boxes. Stock settings 50 steps, CFG 3, shift 5, Euler/sgm_uniform, SLG on the negative branch at layer 22.
+- Weights: use **Comfy-Org/MOSS-Image** (per the Comfy-Org-first rule): `moss_image_sft_int8_convrot` 5.41 GB +
+  `qwen3.5_9b_int8_convrot` 9.75 GB (or `w4a8_gptq` 7.34 GB). Abiray's int8 files are the same idea, third party.
+- ComfyUI: core support merged on master 2026-10-16 (Comfy-Org/ComfyUI#17095, e087d8f6, + #17099), NOT in any release
+  yet (v0.41.0 predates it; SimpliGen engine is 0.41.1). The `moss-image` registry node CANNOT load the Comfy-Org
+  files (it expects separate q/k/v, Comfy-Org fuses them), so a store card waits for a ComfyUI release with native
+  support, or Sharmystic may take the stock model as official (as with Klein).
+- 8-step DMD (lodestones): WIP, update 2600 of 12000, author says "probably overcooked, lower the lora weights". Also
+  new: toxicdog SFT-Turbo int8, darask0 4-step adapter LoRA, Kijai SFT-as-LoRA extracts (untested).
+- **Result 2026-10-17** (vanilla master 5cc4b870, 4 prompts x 3 seeds, 1024², judged by Claude only):
+  stock 50 steps 28.5 s; Kijai's 25-step graph (er_sde, CFG 2.5, SLG to 50%) 15.5 s with stock-level skin; DMD LoRA
+  1.0 at 8 steps 4.9 s and 0.7 at 12 steps 5.7 s, composition and text hold but skin is smoothed (matches REBEL AI's
+  video). Chinese handwriting exact on every MOSS arm incl. 8-step; Klein garbled it. Graph gotcha: no
+  ModelSamplingSD3 (multiplier 1000 gives pure noise). Untested: layout/bbox prompts, anime, other sizes, w4a8 TE.
+  Card idea when the engine supports it: a 25-step quality card plus a DMD fast card; text-heavy and Chinese text
+  are its edge over Klein. `F:\Claude-Work\moss-image-test-20261016\VERDICT.md`.
+
 ### FLUX 3 Image Klein variants (stock model goes official via Sharmystic; we wait for fine-tunes, 2026-10-15)
 Sources: https://blog.comfy.org/p/flux-3-image-klein-in-comfyui-56b, weights
 https://huggingface.co/black-forest-labs/flux-3-image-klein-comfy (HF commit 8c99a01a), code
@@ -402,6 +435,144 @@ https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15
     so we do NOT build a community pack of the stock model. Our job is the variants: community fine-tunes and
     LoRAs of Flux 3 Klein as they appear on Civitai/HF, built on top of the official pack's stack once it ships
     (check its file names and workflow first, and reuse its encoder/VAE ids so users download nothing twice).
+    OFFICIAL PACK 1.8.0 (2026-10-16, with app 1.75.0): the edit cards now size the output themselves. The latent is
+    `EmptyFlux2LatentImage({{width}}, {{height}})`, and Flux2Scheduler uses the same size. Before, the latent was
+    ReferenceMultiLatent's empty_latent, so the output followed the reference. References are resized on their own
+    by `ReferenceMultiLatent` "resize" at `{{reference_megapixels}}` (image default 1, control 0.5-2 step 0.25).
+    Sizes come from `image.resolutionOptions`: three tiers, 1 MP (minVramGB 8), 2 MP (12) and 4 MP (16), each with
+    1:1, 16:9, 9:16, 4:3, 3:4 and 21:9 sizes (2 MP 1:1 = 1440x1440, 4 MP 16:9 = 2720x1536), with
+    `defaultResolutionTier: 0`. Other controls: steps 8-20, cfg 1-2. Same weights and encoder/VAE ids as 1.7.0, and
+    the t2i workflow is unchanged. Variant edit cards should copy this block and wiring. An outpaint card is the
+    exception: its latent must match the padded canvas ("keep resolution" empty_latent), so it does not use the
+    size tiers.
+    APP TEST of the 1.8.0 Klein Edit card, 2026-10-16 (SimpliGen MCP, app 1.75.0, 4070 Ti 12 GB; images in
+    `F:\SimpliGen\output\claude\flux3-klein-packflux3-klein-edit\`, sheet in `F:\Claude-Work\flux3-klein-edit-180-20261016\`).
+    The agent route takes `options.resolution` = the tier label ("1 MP (native)", "2 MP", "4 MP") plus `aspectRatio`.
+    Every output came back at exactly the chosen tier and aspect, confirmed in the engine graph: 1024x1024,
+    1344x768, 1664x1248, 2720x1536. Job times: 16-18 s at 1 MP with one reference, 21 s at 1 MP 16:9 with two, 21 s
+    at 2 MP, 51 s at 4 MP. The 4 MP tier says minVramGB 16, but it was accepted and finished cleanly on 12 GB (native crop sharp).
+    Sign edit "SALT & CINDER" exact with the rest kept on 2 of 2 seeds. Two references into 16:9 (the anime girl in
+    front of the bakery) worked on 2 of 2, but she stays anime in the photo, as in 1.7.0. Watch out: a shape
+    different from the reference (1:1 anime picture -> 2 MP 4:3) makes the edit RECOMPOSE the scene (closer
+    framing). Night + beanie were applied, but the falling snow was lost despite "everything else unchanged". For a
+    faithful edit, keep the reference's own shape. One seed for the 2 MP and 4 MP runs.
+    CANDIDATE 2026-10-16: https://huggingface.co/Muinez/flux3-klein-distil-4step (HF commit 56905ed), a 169 MB
+    4-step distill LoRA for Klein BASE, not for the distilled Klein. Read only; nothing downloaded or run. The
+    author calls it experimental and briefly trained. Settings from the card: 4 steps (2-3 also work), CFG 1, no
+    negative prompt, euler/simple, LoRA 1.0 via LoraLoaderModelOnly, ModelSamplingFlux with max_shift = base_shift
+    = 1.0986 (ln 3, so resolution stops mattering), trained at 1024x1024. FLUX Kommunity License like the base.
+    Why it matters: stock distilled Klein already does 16 steps in ~4-5 s here, so speed alone is a small gain.
+    The use is base-model fine-tunes and LoRAs trained on Klein Base: stacked with this LoRA they could run at 4
+    steps instead of base's 50 with guidance 3.5. First test once the official pack ships: base int8 + this LoRA
+    vs stock distilled, same 3 seeds and prompts (lettering, a face, a busy scene), then the same with one
+    base-trained style LoRA stacked on top to see whether the two LoRAs fight.
+    TESTED 2026-10-16 on the SimpliGen engine (8199, direct graphs, official pack 1.7.0 int8 weights), 1024x1024,
+    4 prompts (fox, bakery sign, anime girl, Michael's castle) x 3 seeds x 6 arms, judged by Claude from sheets plus
+    one native-pixel image. Median execution times: Klein card (15 steps) 3.9 s, Base card (25 steps, CFG 3.5)
+    11.3 s, Base + LoRA 4 steps 1.6 s, Klein 4 steps with or without LoRA 1.4 s.
+    - Base + LoRA works: clean on 12 of 12, lettering exact on 3 of 3 sign seeds ("FLOUR & EMBER", "Fresh sourdough
+      7am"), anime linework clean, about 7x faster than the Base card. It looks more saturated and contrasty than
+      the Base card, and seed variety is lower (the three fox seeds are near-identical poses; castles all frontal
+      and symmetric).
+    - Base at 4 steps WITHOUT the LoRA is grey fog on 12 of 12, so the LoRA is doing the work.
+    - The LoRA on the DISTILLED Klein overcooks: gritty, over-busy, double signs and a stray glyph in the sign
+      ("FLOUR&EMBER|"). Do not use it there. Plain Klein at 4 steps with the LoRA's shift-ln3 schedule is already
+      usable (slightly softer than its 15-step card), which is the cheaper speed route for the stock model.
+    - The castle seed 3 drew a fake signature/logo bottom-left on BOTH Base arms (card and LoRA), so that comes
+      from the base model, not the LoRA.
+    - Untested: the app route, stacking a base-trained style LoRA on top, edit cards. A card cannot use it through
+      the app's LoRA slot alone: it needs its own workflow (ModelSamplingFlux 1.0986/1.0986 + BasicScheduler
+      simple, 4 steps, CFG 1). Files: `F:\Claude-Work\flux3-klein-4step-lora-20261016\` (run.py, sheet.py, sheets);
+      the LoRA is in `F:\SimpliGen\models\loras\`.
+    CANDIDATE + TESTED 2026-10-16: ausboss Outpaint LoRA, https://huggingface.co/ausboss/FLUX-3-Image-Klein-Outpaint-LoRA
+    (161 MB, rank 32, trained on Base, used on the distilled Klein at strength 1.5, FLUX Kommunity License). Pad the
+    picture with flat #808080, give the padded canvas as the reference (ReferenceMultiLatent, keep resolution, no
+    noise mask), 16 steps CFG 1 euler/simple, ConditioningZeroOut negative, then paste the original back. Prompt
+    trigger first: "Outpaint the image: replace the solid gray areas with a seamless continuation of the scene,
+    keeping the existing picture unchanged." then optional " Scene: <description of the picture>".
+    The author's workflow needs AusBoss nodes (2.13.0+: Crop+Rotate+Pad, Crop for Inpaint, Stitch Inpaint with tone
+    match, plus UI helpers). The SimpliGen engine has NO AusBoss nodes (vanilla has an old 2.5.2 copy), and nothing
+    was installed. The sampling half is all core nodes; I did the padding, hand-written caption and a feathered
+    paste-back in Python. Core ImagePadForOutpaint (0.5 grey fill + mask) and ImageCompositeMasked could probably
+    replace the AusBoss pad/stitch in a card, untested; no tone match then.
+    Test (bare engine 8199, distilled int8, 1024x1024, `F:\Claude-Work\flux3-outpaint-lora-20261016\`): 3 Klein
+    renders with known continuations, greyed on the right 31% (castle), top+left 25% (bakery), both sides 19%
+    (anime), LoRA 0 / 1.0 / 1.5 x seeds 3/1015/77. "Moved" = the kept part shifted or rescaled in the raw output
+    (phase-correlation shift and kept-region PSNR under 20 dB). No LoRA moved on 3 of 9 (bakery 2, anime 1),
+    1.0 on 2 of 9, 1.5 on 0 of 9. The castle (one-side pad) never moved, even without the LoRA, so the author's 36
+    of 40 failure rate without it did not show on simple pads here. Continuations looked right at native pixels
+    (platform roof posts, scarf ends, cliffs and waterfalls), seams invisible after the paste-back. ~8.5 s per
+    image (the reference doubles the tokens) vs ~4 s for plain t2i.
+    Gotcha: the bakery sign was half in the grey, and every arm rewrote it as gibberish ("FLOOR CF RIIO"), because
+    my Scene caption did not give the words. Put any lettering that crosses the grey into the Scene text.
+    Not tested: rotated pictures with grey corners, pads over 50%, real photos, the app route. A card would need
+    pad controls (sides/amount or a target aspect); check whether the app has any outpaint/canvas input first.
+    ALL-CORE-NODE GRAPH TESTED 2026-10-16 (`run_core.py`, same folder): LoadImage -> ImagePadForOutpaint (0.5
+    grey, feathering 24) -> ReferenceMultiLatent -> KSampler (LoRA 1.5) -> VAEDecode -> ImageCompositeMasked
+    (source = padded picture, mask = InvertMask(pad mask)). Runs on the engine as it is, no custom nodes. The 3
+    repeat pads gave the same numbers as the Python pipeline (0 of 9 moved), and the in-graph paste-back left the
+    kept pixels exactly as they were (max difference 0 away from the feather). With the words in the Scene text,
+    the bakery sign came back as "FLOUR & EMBER". True extensions to 1536x1024 (castle +512 right, anime +256
+    each side): 5 of 6 clean at about 15 s. FAIL on castle seed 3: the model re-centred the castle (212 px slide)
+    instead of extending, and the paste-back then shows a hard seam with the castle drawn twice, the failure the
+    author describes ("run it again with another seed"). A card has no way to retry by itself, so its description
+    must say to change the seed when a seam or a double appears. Still untested: the app route.
+    TILTED TESTED 2026-10-16 (`run_tilt.py`, `out_tilt\`): castle turned 8 deg, bakery -6, anime -11 on the same
+    1024 canvas, grey corners, LoRA 0 vs 1.5 x 3 seeds. Core has no any-angle rotate node, so the turn was made in
+    Python and saved as RGBA (alpha 0 over the grey, 16 px soft ramp); core LoadImage then hands the paste-back mask
+    straight to ImageCompositeMasked. Moved (raw output): no LoRA 7 of 9, LoRA 1.5 2 of 9, both on the -6 deg bakery
+    (seeds 3 and 77 reframed the shop). The castle and anime held on 6 of 6 with the LoRA. Those bakery corners are thin
+    (about 50 px), so after the paste-back both moved runs still look clean at native pixels. Without the LoRA the
+    big -11 deg corners show it: anime seed 3 has a diagonal seam where the rails break and do not line up; with the
+    LoRA the rails run through. Fill time is the same as for pads (~8.5 s). A card that turns the picture itself
+    would need a rotate node (AusBoss Crop+Rotate+Pad or another pack); a card that takes an already-turned RGBA
+    picture would not.
+    VERTICAL TESTED 2026-10-16 (`run_vert.py`, `out_vert\`, core graph, LoRA 1.5): anime 1024 +256 top +256 bottom
+    and castle +512 bottom, both to 1024x1536, 3 seeds each. Held in place 6 of 6, and the seams are invisible at
+    native pixels. Above the girl it adds the platform roof and lamp; below, her coat and scarf. Under the castle it
+    continues the cliffs and waterfalls into cloud, but the bottom third gets darker and emptier than the picture
+    (plausible, dull). ~15 s. The author's two documented misses (a big pad on top; 40% added under a seated person,
+    who was redrawn lower with her knees twice) did not come up; no seated person was tested.
+    TEST CARD BUILT 2026-10-16 (`F:\Claude-Work\flux3-outpaint-card-20261016\`: build_card.py, install_test_pack.py,
+    engine_test.py; installed locally as pack `test-flux3-outpaint-pack`, card `test-flux3-klein-outpaint`, NOT in the
+    repo). Michael's idea: an ANCHOR 1-9 laid out like a keypad (where the picture sits; 5 = centre) plus ZOOM OUT
+    1.0-1.4, with the app's shape pill (1 MP sizes) as the canvas. The graph does the padding maths in
+    ComfyMathExpression (fit, zoom out, floor at 45% coverage = the LoRA's training floor, multiples of 8, then
+    ImageScale -> ImagePadForOutpaint), all core nodes plus the user LoRA slot. Gotcha: ComfyMathExpression's
+    autogrow inputs must be named a, b, c... in order, or the graph fails validation ("values.a missing").
+    Results: the placement maths is right for all 9 anchors (bare engine). Through the app (after a restart to load
+    the pack), all placeholders were filled, including the slider defaults (5, 1.2) when they were left out, and the
+    output was the canvas size, 15-20 s. 3 of 4 app results clean. On the 1:1 default the fill drew a wall where the
+    picture shows a tree, and the 24 px feather left a ghost strip at native pixels.
+    BIG LIMIT: adding space ABOVE a person draws a second head: 10 of 12 (anchors 7/8/9 and a 9:16 canvas, anime
+    girl, seeds 3/1015/77) when the prompt only describes the picture. LoRA 1.0 instead of 1.5: still 3 of 3
+    doubled. A prompt that says what fills the new space ("Only one person ... above her head there is only the
+    roof, wires and sky; nothing else") cut it to 2 of 9. The card description tells users to write it that way,
+    but it is not solved. Before any release: real photos, a person extended downward (seated), a fix for the
+    top-extension doubling, and a look by Michael. Note to Sharmystic asking for a 3x3 anchor-picker control is
+    drafted, unsent: `F:\Claude-Work\flux3-outpaint-card-20261016\sharmystic-anchor-grid-control.md`.
+    DOUBLING FIXES TESTED 2026-10-16 (`doubling.py`, `engine_out\doubling\`, bare engine, card template): case A =
+    9:16 anchor 8 (576 px on top), case B = 1:1 anchor 7 zoom 1.3, seeds 3/1015/77. Heads drawn twice, out of 6:
+    plain caption (describes the girl) 6; plain + fixed guard sentence ("Every person appears exactly once... no
+    extra people, heads or faces") 4; two passes of half the pad each, 1 head, but pass 2 drew the roof twice
+    (offset) or left a dark band at the join on 2 of 3 in A; TRIGGER ONLY (empty Scene text) 1, with no new faults.
+    So naming the person in the prompt is what makes the model draw them again. The card now says: leave the
+    prompt empty, or describe only the surroundings, never the people. Feathering was not tested because it
+    cannot help: ImagePadForOutpaint fills and places the picture the same way at any feather; feather only shapes
+    the paste-back mask. Not yet tested: a surroundings-only prompt that does not name the person (the 7 of 9
+    "guidance" caption still named her), and the 1 trigger-only miss (A seed 3, a partial head).
+    REAL PHOTOS TESTED 2026-10-16 through the app (test card, EMPTY prompt, zoom 1.0, seeds 3/1015/77; Michael's
+    own family scans in `C:\Users\micha\Pictures\real photos`, private, not to be committed; results in
+    `F:\SimpliGen\output\claude\test-flux3-outpaint-packtest-flux3-klein-outpaint\` 00005-00019, sheets in
+    `F:\Claude-Work\flux3-outpaint-real-20261016\`). Five photos: B&W woman and car -> 16:9 anchor 5; mother and boys
+    SITTING on a rock -> 1:1 anchor 2 (adds below); three people cut at the waist -> 3:4 anchor 2 (adds legs); a
+    couple cut at the knees -> 9:16 anchor 5 (adds 352 px above AND below); a porch group -> 1:1 anchor 5.
+    13 of 15 usable, 0 doubled heads (including the 9:16 with space above two people), 0 double knees on the
+    seated photo, and the waist seam is invisible at native pixels. The look matches old film: grain, fading, the
+    colour cast. Faults: B&W seed 3 painted a blurred ghost figure and a bent arch on the left; couple seed 77 gave
+    the woman stiff, mannequin-like legs and blob shoes. Minor: a pinker bottom on the rock photo seed 1015, and the
+    scan's rounded white corners are kept as part of the picture. Legs, feet and clothes below the frame are
+    invented and change per seed (trousers on one seed, a skirt on another), so the card should say so.
 
 ## Done / dropped
 
