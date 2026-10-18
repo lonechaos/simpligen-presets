@@ -398,6 +398,21 @@ https://huggingface.co/Abiray/MOSS-Image-SFT-INT8-convrot, https://huggingface.c
   ModelSamplingSD3 (multiplier 1000 gives pure noise). Untested: layout/bbox prompts, anime, other sizes, w4a8 TE.
   Card idea when the engine supports it: a 25-step quality card plus a DMD fast card; text-heavy and Chinese text
   are its edge over Klein. `F:\Claude-Work\moss-image-test-20261016\VERDICT.md`.
+- **ENGINE 2026-10-18**: the app's beta engine (ComfyUI master c06bf5f5) has native MOSS; the vanilla graphs give
+  pixel-identical images there (36/36). Engine adds ~5 s per changed prompt (9.3 GB TE and DiT evict each other on
+  12 GB; same prompt + new seed = 2.7 s): try the `qwen3.5_9b_w4a8_gptq` TE before building a card. lodestones' Base
+  8-step DMD LoRA (update 12000, also the Civitai "Moss Image Turbo LoRAs" Base file, same sha256) on MOSS Base int8
+  is WORSE than SFT + SFT LoRA (flat hazy light, red lighthouse came out white 3/3); on SFT it looks the same as the
+  2600 LoRA. Keep SFT + SFT LoRA. `F:\Claude-Work\moss-image-engine-20261018\VERDICT.md`.
+- **LOCAL TEST CARDS 2026-10-18** (`test-moss-image-pack`, not in the repo): Fast (DMD LoRA, 8 steps) and 25-step (Kijai
+  SLG graph), both on the w4a8 TE (cuts the changed-prompt reload from ~10 to ~6 s on the engine, text holds). App route
+  pixel-identical to the engine; ~9.5 s per new prompt in-app; Japanese menu text exact. Open: `supportsLoras` false,
+  3:2/2:3 sizes just added. Civitai has a burst of MOSS LoRAs (styles, DeBand banding fix, DaSkin skin) to try on it.
+  `F:\Claude-Work\moss-image-card-20261018\VERDICT.md`.
+- **DeBand / DaSkin 2026-10-18**: MatlowAI's DeBand Main (.diff, SFT layers 37-41 -> Base, core LoraLoaderModelOnly,
+  no time cost) only fades the faint vertical stripes on the 25-step card and does nothing visible on the Fast card;
+  on our prompts the stripes show only with colour x5, so not added. Retest with both fixes (Quality+) on wide sky
+  pictures. DaSkin is Civitai paid access (403), untested. `F:\Claude-Work\moss-deband-20261018\VERDICT.md`.
 
 ### FLUX 3 Image Klein variants (stock model goes official via Sharmystic; we wait for fine-tunes, 2026-10-15)
 Sources: https://blog.comfy.org/p/flux-3-image-klein-in-comfyui-56b, weights
@@ -435,6 +450,21 @@ https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15
     so we do NOT build a community pack of the stock model. Our job is the variants: community fine-tunes and
     LoRAs of Flux 3 Klein as they appear on Civitai/HF, built on top of the official pack's stack once it ships
     (check its file names and workflow first, and reuse its encoder/VAE ids so users download nothing twice).
+    RENAMED UPSTREAM 2026-10-17 (HF main feef60b0, with ComfyUI v0.41.3's reworked templates): the old
+    `flux3_image_klein_sd_*` (distilled) is now `flux3-image-klein-*`, and the old `flux3_image_klein_*` (BASE) is now
+    `flux3-image-klein-base-*`. TRAP: old base `flux3_image_klein_int8_convrot` looks like new DISTILLED
+    `flux3-image-klein-int8-convrot`; never map by name. Old names are gone from main, so URLs must stay pinned to
+    8c99a01a (official pack 1.9.0 and our test outpaint card both are). New upstream defaults: distilled 16 steps,
+    base 50 steps (pack 1.9.0: 15/16 and 25), prompt upsampler on in every template, now also a w4a8 file
+    (`qwen3.5_9b_flux3_prompt_upsampler_w4a8`, ~7 GB). Upsampler on 12 GB and its effect on anatomy still untested;
+    the official pack's steps and upsampler are Sharmystic's call. When he renames, re-point variant cards to his ids.
+    OFFICIAL UPDATE 2026-10-18 (Sharmystic's @everyone): distilled 16 steps, Base 50, BFL's prompt upsampler built in
+    (6.7 GB, runs before every image, reads edit references; no off switch yet), the model's own reference timestep
+    shift instead of a resolution-derived one, and the 2 MP / 4 MP / 4K size picker is back (the duplicated anatomy was
+    the old step counts + no upsampler, not the resolution). CONSEQUENCES FOR US: every Klein result in this file and
+    in the MOSS poster comparison ("Klein garbled the Chinese") was made on the OLD settings; re-test before quoting it.
+    Our test outpaint card and the 4-step LoRA idea need re-checking on the new graph (shift + upsampler), and check
+    whether the update moved to BFL's renamed files before reusing his ids.
     OFFICIAL PACK 1.8.0 (2026-10-16, with app 1.75.0): the edit cards now size the output themselves. The latent is
     `EmptyFlux2LatentImage({{width}}, {{height}})`, and Flux2Scheduler uses the same size. Before, the latent was
     ReferenceMultiLatent's empty_latent, so the output followed the reference. References are resized on their own
