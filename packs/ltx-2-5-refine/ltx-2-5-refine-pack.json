@@ -1,7 +1,7 @@
 {
   "id": "ltx-2-5-refine-pack",
   "name": "Community — LTX 2.5 (Video Refine, MSR)",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "LiconStudio + Lightricks",
   "nsfw": false,
   "description": "Re-render any finished clip (MiniMax H3 or otherwise) at up to 1080p with LTX 2.5, holding the faces with Licon's Multi-Subject-Reference IC-LoRA. Drop the clip in Reference Video 1, one to four face pictures in the face slots, and optionally a background plate in the fifth slot, the same layout as the official Multi-Reference preset. The clip is scaled to half the tier, encoded, upsampled 2x by the LTX latent spatial upscaler and refined by the distilled LTX 2.5 with the reference faces prepended, then decoded. The source soundtrack is muxed back untouched. LTX re-renders texture, so expect a crisper, more LTX-looking result than the H3 Video Refine pack; pick this one for sharpness or when a face needs a reference to hold. The prompt must be LTX style, not the H3 brief: one paragraph, '<who> <does what> in <where>, <camera>, <light>'. Requires a HuggingFace API key and one-time acceptance of the LTX 2.5 licence (gated repo); the weights are the same files the LTX 2.5 packs already use.",
@@ -40,7 +40,7 @@
         ],
         "extensions": [
           {"name": "rgthree-comfy", "url": "https://github.com/rgthree/rgthree-comfy.git", "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4", "description": "Power Lora Loader, used by SimpliGen's own LoRA slot. Usually pre-installed by SimpliGen."},
-          {"name": "ComfyUI-LTX2.5-MSR", "url": "https://github.com/liconstudio/ComfyUI-LTX2.5-MSR.git", "pinnedCommit": "98941179a82223a0a62219550272b2823b3e3a9c", "description": "Multiple Subject Reference nodes for LTX 2.5. Same pin as SimpliGen's official LTX 2.5 Multi-Reference preset, so usually already installed."},
+          {"name": "ComfyUI-LTX2.5-MSR", "url": "https://github.com/liconstudio/ComfyUI-LTX2.5-MSR.git", "pinnedCommit": "03061c18f8a79d26f3c63931dd8e28f5e5d872a6", "description": "Multiple Subject Reference nodes for LTX 2.5. Same pin as SimpliGen's official LTX 2.5 Multi-Reference preset, so usually already installed."},
           {"name": "ComfyUI-KJNodes", "url": "https://github.com/kijai/ComfyUI-KJNodes.git", "pinnedCommit": "3f20054214fec9f9234fd3841ae6f1e4287948f6", "description": "Provides PathchSageAttentionKJ for SimpliGen's Faster Attention injection (supportsSage). Not used by the graph itself."}
         ],
         "cfg": 1,
