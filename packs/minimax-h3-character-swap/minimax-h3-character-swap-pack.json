@@ -1,0 +1,158 @@
+{
+  "id": "minimax-h3-character-swap-pack",
+  "name": "Community — MiniMax H3 (Character Swap)",
+  "version": "1.0.0",
+  "addedAt": "2026-10-18",
+  "author": "akatz-ai (LoRA) + lightx2v (Turbo LoRA) + michaeldune (card)",
+  "nsfw": false,
+  "minComfyuiVersion": "v0.37.0",
+  "description": "Swap one chosen person in an existing clip for your own character with akatz-ai's Character Swap LoRA for MiniMax H3: the camera, background, motion and everyone else in the shot stay. One card, 5.2 s at 480p, about 5 minutes on a 12 GB card. A second option next to Viggle Animate: this one can pick one person out of a group, needs no repaint step and has no non-commercial part; Viggle is faster and its faces follow the character sheet more closely. Uses the official MiniMax H3 base, encoder and VAEs, so if you have an H3 pack the new download is 2.1 GB. MiniMax H3 Community License (the swap LoRA) and Apache-2.0 (the Turbo LoRA).",
+  "tags": [
+    "Local",
+    "Video",
+    "V2V",
+    "Character Swap",
+    "MiniMax H3"
+  ],
+  "checksums": {
+    "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors": "9255f52b6677845ad238f20dfaafa94727053694127ab7f255c048f0f9365779",
+    "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors": "35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6",
+    "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_video_vae_int8_convrot.safetensors": "52a2c8c73583c86e4f41cdcce3a6ad0ea562987bc0bf3d60a0cef5f5c8e60c0e",
+    "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_audio_vae_fp32.safetensors": "8e505d95dd1561d47abd43d4238fd40d9bb1ae9e147ed0a4cba778d76ae4db48",
+    "https://huggingface.co/lightx2v/Minimax-h3-Turbo/resolve/a29e57d195f80ead07c89f89e55ecf2911e893c5/minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors": "08cfe946033af7d27719b964b6e0a0e50c32138daabbd6ce4137e23df6bf9980",
+    "https://huggingface.co/akatz-ai/MiniMax-H3-Character-Swap-LoRA/resolve/96ea3407b230b6f7df71c58c70e31df96bd7e533/h3_character_swap_v1.5.safetensors": "8f2c3c3eba161df8d0c6099598b4730f641f5ce01e04cd16d2427cff8a35218f"
+  },
+  "presets": [
+    {
+      "id": "minimax-h3-character-swap",
+      "name": "MiniMax H3 Character Swap",
+      "icon": "🎭",
+      "enabled": true,
+      "template": "wan-video",
+      "tagline": "Swap one person in a clip for your character",
+      "description": "Swap one person in an existing clip for your own character, and leave everyone else in the shot alone. Put the clip in Reference Video 1 and a picture of the character in the Character slot (a full-body front view or a character sheet works). In the prompt, write only who to replace, for example \"the woman in the red coat on the right\" or \"the man on the left\"; the card adds the rest of the instruction. The camera, background, motion and the other people stay; the clip keeps its own soundtrack. Output: the first 5.2 s at 480p, about 5 minutes on a 12 GB card. The new face mixes the character with the original performer (brows, face shape, smile), so it is close rather than exact; for the closest match to a character sheet on a single person, use Viggle Animate instead.",
+      "tags": [
+        "Video",
+        "V2V",
+        "Character Swap",
+        "Reference",
+        "Audio",
+        "Turbo"
+      ],
+      "previewImage": "previews/minimax-h3-character-swap.jpg",
+      "video": {
+        "supports": [
+          "local"
+        ],
+        "displayModel": "MiniMax H3 Ref2VA (int8) + akatz Character Swap V1.5 + Turbo 8-step 768p",
+        "baseModels": [
+          "minimax-h3"
+        ],
+        "workflow": "workflows/video_minimax_h3_character_swap.json",
+        "duration": {
+          "type": "slider",
+          "min": 5,
+          "max": 5,
+          "default": 5,
+          "step": 1,
+          "unit": "seconds",
+          "vramScalesWithDuration": false
+        },
+        "acceptsReferenceVideos": {
+          "min": 1,
+          "max": 1,
+          "soundtrack": true
+        },
+        "acceptsReferenceImages": {
+          "min": 1,
+          "max": 1,
+          "slotLabels": [
+            "Character"
+          ]
+        },
+        "unet": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "unetUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+        "clip": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "vae": "minimax_h3_video_vae_int8_convrot.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_video_vae_int8_convrot.safetensors",
+        "audio_vae": "minimax_h3_audio_vae_fp32.safetensors",
+        "extraModels": [
+          {
+            "dir": "vae",
+            "filename": "minimax_h3_audio_vae_fp32.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/e5eb578a89295337b8ff433a035929ce0279e0b6/vae/minimax_h3_audio_vae_fp32.safetensors"
+          },
+          {
+            "dir": "loras",
+            "filename": "minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
+            "url": "https://huggingface.co/lightx2v/Minimax-h3-Turbo/resolve/a29e57d195f80ead07c89f89e55ecf2911e893c5/minimax_h3_fl2v_turbo_8step_v1.0_768p_comfyui_bf16.safetensors",
+            "description": "lightx2v MiniMax H3 FL2V Turbo 8-step 768p LoRA (Apache-2.0), 1.96 GB"
+          },
+          {
+            "dir": "loras",
+            "filename": "h3_character_swap_v1.5.safetensors",
+            "url": "https://huggingface.co/akatz-ai/MiniMax-H3-Character-Swap-LoRA/resolve/96ea3407b230b6f7df71c58c70e31df96bd7e533/h3_character_swap_v1.5.safetensors",
+            "description": "akatz-ai H3 Character Swap V1.5 LoRA (MiniMax H3 Community License), 155 MB"
+          }
+        ],
+        "steps": 8,
+        "cfg": 1,
+        "negativePrompt": "",
+        "reclaimVramBeforeDecode": true,
+        "controls": {
+          "steps": {
+            "min": 6,
+            "max": 10,
+            "step": 1,
+            "affectsCost": true
+          }
+        },
+        "defaultResolutionTier": 0,
+        "resolutionOptions": [
+          {
+            "label": "480p",
+            "minVramGB": 12,
+            "aspects": {
+              "16:9": {
+                "width": 864,
+                "height": 480
+              },
+              "9:16": {
+                "width": 480,
+                "height": 864
+              },
+              "1:1": {
+                "width": 640,
+                "height": 640
+              },
+              "4:3": {
+                "width": 736,
+                "height": 576
+              },
+              "3:4": {
+                "width": 576,
+                "height": 736
+              }
+            }
+          }
+        ],
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 12,
+          "minRamGB": 32,
+          "sizeGB": 41.9,
+          "notes": "Graph: akatz-ai's MiniMax H3 Character Swap V1.5 LoRA (1.0) with lightx2v's FL2V Turbo 8-step 768p LoRA (1.0) on the official Ref2VA int8 base, MiniMaxH3SigmaShift 12/3, BasicGuider CFG 1, er_sde/normal, 8 steps, 124 frames at 864x480, ref_image_size match; core ComfyUI nodes only (akatz's Relay 2.0 custom nodes are not used). New downloads: the swap LoRA (155 MB, HF akatz-ai/MiniMax-H3-Character-Swap-LoRA @ 96ea3407, MiniMax H3 Community License) and the 768p Turbo LoRA (1.96 GB, HF lightx2v/Minimax-h3-Turbo @ a29e57d1, Apache-2.0; not the same file as Comfy-Org's non-768p Turbo 8-step); base, encoder and VAEs are the official MiniMax H3 files, shared with the other H3 packs. All sha256-pinned. TESTED 2026-10-18 on a 4070 Ti 12 GB, engine-direct, 4 clips x 3 seeds (talk, sea, geisha, a two-person cafe shot): the swap held 12/12; on the cafe shot only the target woman changed (3/3, the man's region 25-26 dB against the source). 269-363 s per clip, about 1.8x slower than the Viggle Animate card. A control with the swap LoRA off swapped only the clothes on 2 of 4 clips: the LoRA is what replaces hair and face. Known: the face blends with the source performer; small accessories (a backpack) were kept on 0-3 of 3 seeds depending on the clip; untested beyond 5.2 s, at 768p, on two look-alike people, and with faster attention."
+        },
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ]
+      }
+    }
+  ]
+}
