@@ -1,0 +1,235 @@
+{
+  "id": "moss-image-pack",
+  "name": "Community — MOSS-Image",
+  "version": "1.0.0",
+  "addedAt": "2026-10-18",
+  "author": "michaeldune",
+  "nsfw": false,
+  "minAppVersion": "1.74.0",
+  "minComfyuiVersion": "v0.42.0",
+  "description": "MOSS-Image from OpenMOSS: a 5B text-to-image model built around lettering. Headlines, signs, posters, menus and handwriting come out spelled right, Chinese and Japanese included, as long as every word is in quotes. Two cards: MOSS-Image (25 steps, about 20 seconds on a 12 GB card) and MOSS-Image Fast (8 steps with lodestones' speed LoRA, about 3 seconds once the prompt is loaded). One 14 GB download covers both. Needs a SimpliGen engine with native MOSS-Image support. Apache-2.0.",
+  "tags": [
+    "Image",
+    "Text",
+    "Local"
+  ],
+  "checksums": {
+    "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/diffusion_models/moss_image_sft_int8_convrot.safetensors": "b4d1475bc7eeffd7b809e82ea13a1fba1fb85c4e18365af3813722faa5c0fe4f",
+    "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors": "4cc6a1543ad2061806da46f35f90cadb4801dcba246c44782cf42ec0feb6407c",
+    "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
+    "https://huggingface.co/lodestones/MOSS-Image-SFT-8-steps-dmd/resolve/f95df83b5e90ae91ea412434b3f9b7f1c8c6314f/lora_latest.safetensors": "be82ab2bef78194651815bb6de443cec67553e01c14559f2ad365449445f0452"
+  },
+  "presets": [
+    {
+      "id": "moss-image",
+      "name": "MOSS-Image",
+      "icon": "🌿",
+      "enabled": true,
+      "template": "sdxl",
+      "tagline": "Posters and signs with every quoted word spelled right",
+      "description": "Text to image with MOSS-Image from OpenMOSS, a 5B model whose strength is lettering: headlines, signs, menus and handwriting come out spelled right, including Chinese and Japanese. Put every word you want on the picture in quotes and say where it goes (\"at the top, large bold letters read \\\"SUMMER SALE\\\"\"); text you only describe comes out as pseudo-letters. It follows layout and style directions well: a two-ink screenprint stays two inks, a 1970s poster looks printed. 25 steps, about 20 seconds on a 12 GB card. Wide 16:9 pictures of one person can draw them twice; square, 3:4 and 3:2 are safer for people.",
+      "tags": [
+        "Image",
+        "MOSS",
+        "Text",
+        "Local"
+      ],
+      "previewImage": "previews/moss-image.jpg",
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "baseModels": [
+          "moss-image"
+        ],
+        "minEngineVersion": "v0.41.1",
+        "provider": "comfyui",
+        "promptStyle": "natural",
+        "negativePrompt": "",
+        "displayModel": "MOSS-Image SFT (int8)",
+        "workflow": "workflows/image_moss_image.json",
+        "unet": "moss_image_sft_int8_convrot.safetensors",
+        "unetUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/diffusion_models/moss_image_sft_int8_convrot.safetensors",
+        "clip": "qwen3.5_9b_w4a8_gptq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors",
+        "vae": "flux2-vae.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors",
+        "steps": 25,
+        "cfg": 2.5,
+        "values": {
+          "quality": ""
+        },
+        "controls": {
+          "steps": {
+            "min": 20,
+            "max": 50,
+            "step": 1,
+            "affectsCost": true
+          },
+          "cfg": {
+            "min": 2,
+            "max": 4,
+            "step": 0.5
+          }
+        },
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "4:3": {
+            "width": 1184,
+            "height": 896
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1184
+          },
+          "21:9": {
+            "width": 1536,
+            "height": 656
+          },
+          "3:2": {
+            "width": 1248,
+            "height": 832
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1248
+          }
+        },
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 12,
+          "minRamGB": 32,
+          "sizeGB": 13.1,
+          "notes": "Weights: Comfy-Org/MOSS-Image pinned to commit 3284a1db: MOSS-Image SFT int8 ConvRot (5.4 GB) and the Qwen3.5 9B text encoder in w4a8 (7.3 GB; the int8 encoder is 9.75 GB and gave the same lettering), plus the Flux 2 autoencoder already used by other packs. All Apache-2.0 (OpenMOSS-Team/MOSS-Image-SFT, Comfy-Org/MOSS-Image, Qwen3.5), not gated; sha256 pinned in the pack checksums. Needs native MOSS-Image support in the engine (ComfyUI PRs 17095 + 17099, on master 2026-10-17, after v0.41.3). Graph: core nodes only, CLIPLoader type moss_image, EmptyFlux2LatentImage; NO ModelSamplingSD3 (MOSS samples with multiplier 1.0; that node gives pure noise). Graph: Kijai's example from ComfyUI PR 17095, 25 steps, CFG 2.5, er_sde/simple, SkipLayerGuidanceDiTSimple on layer 22 for the first half. TESTED 2026-10-18 on a 4070 Ti 12 GB, SimpliGen engine c06bf5f5: pixel-identical to vanilla and to the bare engine through the app; about 14 s per picture with the same prompt, 17-20 s when the prompt changes. Stock skin texture at half of MOSS's usual 50 steps. Six poster prompts, three seeds: every quoted headline exact, and it followed layout and style instructions more reliably than Ming Image Design and Ideogram 4 on the same prompts. Known: faint vertical colour banding in large smooth gradients, visible only with colour boosted (MatlowAI's DeBand fix only partly removes it, not included); wide 16:9 single-person prompts can draw the person more than once."
+        },
+        "extensions": [
+          {
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "name": "rgthree-comfy",
+            "commit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "moss-image-fast",
+      "name": "MOSS-Image Fast",
+      "icon": "⚡",
+      "enabled": true,
+      "template": "sdxl",
+      "tagline": "MOSS-Image lettering in 8 steps",
+      "description": "The same MOSS-Image with an 8-step speed LoRA: about 3 seconds per picture once your prompt is loaded, about 10 seconds when you change it, on a 12 GB card. Lettering holds up just as well: put every word you want in quotes. The trade-off: smoother, retouched-looking skin and less variety between seeds, so for portraits, or when you want very different takes, use the 25-step MOSS-Image card. Wide 16:9 pictures of one person can draw them twice.",
+      "tags": [
+        "Image",
+        "MOSS",
+        "Text",
+        "Local"
+      ],
+      "previewImage": "previews/moss-image-fast.jpg",
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "baseModels": [
+          "moss-image"
+        ],
+        "minEngineVersion": "v0.41.1",
+        "provider": "comfyui",
+        "promptStyle": "natural",
+        "negativePrompt": "",
+        "displayModel": "MOSS-Image SFT (int8) + 8-step DMD LoRA",
+        "workflow": "workflows/image_moss_image_fast.json",
+        "unet": "moss_image_sft_int8_convrot.safetensors",
+        "unetUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/diffusion_models/moss_image_sft_int8_convrot.safetensors",
+        "clip": "qwen3.5_9b_w4a8_gptq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors",
+        "vae": "flux2-vae.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors",
+        "steps": 8,
+        "cfg": 1,
+        "values": {
+          "quality": ""
+        },
+        "controls": {
+          "steps": {
+            "min": 6,
+            "max": 12,
+            "step": 1,
+            "affectsCost": true
+          }
+        },
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "4:3": {
+            "width": 1184,
+            "height": 896
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1184
+          },
+          "21:9": {
+            "width": 1536,
+            "height": 656
+          },
+          "3:2": {
+            "width": 1248,
+            "height": 832
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1248
+          }
+        },
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 12,
+          "minRamGB": 32,
+          "sizeGB": 14.3,
+          "notes": "Weights: Comfy-Org/MOSS-Image pinned to commit 3284a1db: MOSS-Image SFT int8 ConvRot (5.4 GB) and the Qwen3.5 9B text encoder in w4a8 (7.3 GB; the int8 encoder is 9.75 GB and gave the same lettering), plus the Flux 2 autoencoder already used by other packs. All Apache-2.0 (OpenMOSS-Team/MOSS-Image-SFT, Comfy-Org/MOSS-Image, Qwen3.5), not gated; sha256 pinned in the pack checksums. Needs native MOSS-Image support in the engine (ComfyUI PRs 17095 + 17099, on master 2026-10-17, after v0.41.3). Graph: core nodes only, CLIPLoader type moss_image, EmptyFlux2LatentImage; NO ModelSamplingSD3 (MOSS samples with multiplier 1.0; that node gives pure noise). Speed: lodestones' MOSS-Image-SFT-8-steps-dmd LoRA (lora_latest, update 2600, Apache-2.0, 1.19 GB) at 1.0, 8 steps, CFG 1, euler/sgm_uniform. TESTED 2026-10-18 on a 4070 Ti 12 GB, SimpliGen engine c06bf5f5: output pixel-identical to vanilla ComfyUI on 12 images and to the bare engine through the app; 2.7 s per picture when only the seed changes, 6-10 s when the prompt changes (the text encoder and model reload on 12 GB). Lettering exact on every seed tested, including Chinese and Japanese handwriting. Lodestones' Base-model LoRA (update 12000) was tested and rejected: flatter, hazier pictures. Known: smoother skin and less variety between seeds than the 25-step card; wide 16:9 single-person prompts drew the person more than once (2 of 6)."
+        },
+        "extensions": [
+          {
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "name": "rgthree-comfy",
+            "commit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ],
+        "extraModels": [
+          {
+            "dir": "loras",
+            "filename": "moss_image_sft_8step_dmd_lora_latest.safetensors",
+            "url": "https://huggingface.co/lodestones/MOSS-Image-SFT-8-steps-dmd/resolve/f95df83b5e90ae91ea412434b3f9b7f1c8c6314f/lora_latest.safetensors",
+            "description": "lodestones MOSS-Image SFT 8-step DMD LoRA (lora_latest), Apache-2.0, 1.19 GB"
+          }
+        ]
+      }
+    }
+  ]
+}
