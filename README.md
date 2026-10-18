@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="SimpliGen Community Preset Packs: 234 ready-to-run presets in 65 packs. One zip, one click, models auto-downloaded into SimpliGen.">
+  <img src="./assets/readme/hero.svg" width="100%" alt="SimpliGen Community Preset Packs: 236 ready-to-run presets in 66 packs. One zip, one click, models auto-downloaded into SimpliGen.">
 </p>
 
 Custom local preset packs for [SimpliGen](https://www.simpligen.io/), covering image models across SDXL, Pony, Illustrious, SD 1.5, Anima, Krea 2, Flux (1 & 2), Z-Image, SeFi and Iris-3B — plus video: MiniMax H3 packs (text/image/reference-to-video with synchronized audio), LTX 2.5 image-to-video and lip-sync packs, a Wan 2.2 image-to-video pack, and music: YuE2 and MiniMax Music 3 songs, plus YuE2 cover songs, with album art.
@@ -9,7 +9,7 @@ Custom local preset packs for [SimpliGen](https://www.simpligen.io/), covering i
 > This repo is the source of truth the zips are built from — and now the distribution point too. The `packs-latest` release is rolling: its assets get replaced each time `build-zips.py` runs, so the same link always has the current set. End users never need to clone it.
 
 <p align="center">
-  <img src="./assets/readme/section-catalog.svg" width="100%" alt="01 — Pack catalog: 65 packs, 234 presets.">
+  <img src="./assets/readme/section-catalog.svg" width="100%" alt="01 — Pack catalog: 66 packs, 236 presets.">
 </p>
 
 **Image packs**
@@ -39,6 +39,7 @@ Custom local preset packs for [SimpliGen](https://www.simpligen.io/), covering i
 | Iris-3B | 2 | Iris-3B (INT8 / bf16) + Qwen3-VL 4B encoder | **A small (3B) model that paints pixels directly, with no VAE.** By Speridlabs, Apache-2.0. **Iris-3B**: the base model, 50 steps at CFG 3, about 35 s a picture on a 12 GB card, with Steps (30-100) and CFG sliders. **Iris-3B Turbo**: Speridlabs' own 4-step distill, about 10 s a picture, no sliders; layouts follow the base card for the same seed, so it works as a fast preview. Both render at about 1 megapixel and share the Qwen3-VL 4B encoder with the Krea 2 cards, so the base card adds only 3.4 GB (Turbo 6 GB). Runs through Nynxz's ComfyUI-Iris, installed by the app. The base file is INT8 and needs an RTX 20-series card or newer. **Needs SimpliGen engine 0.38.0 or newer** |
 | Ideogram 4 | 2 | Ideogram 4 (INT8) | Best-in-class text rendering; UltraReal photo + Graphic/Poster tiers — **requires engine 0.28+** |
 | Ming Image Design | 3 | Ming-Image 0.1 Design 6B (INT8) + Ling-Mini 2.0 encoder (W4A8) | **Design work:** app screens, web pages, posters, menus, infographics and ads, briefed like a designer with the text in quotes. **Design** (~1 MP, about 20 s on 12 GB) and **Design 4MP** (the model's native 2048 size, about 35 s); headlines, buttons and navigation come out spelled right, long lists and small print can slip a word. PNG with an alpha channel. **Masked Edit:** picture 1 is the design, picture 2 a black-and-white mask (white = may change); the edit is pasted back only inside the mask, so the rest stays pixel for pixel, because unmasked Ming edits also change text you did not ask for. Not a photo model. 19.2 GB download. **Needs SimpliGen engine 0.38.0 or newer.** MIT licence |
+| MOSS-Image | 2 | MOSS-Image SFT 5B (INT8) + Qwen3.5 9B encoder (W4A8) | **Lettering you can rely on:** posters, signs, menus and handwriting, Chinese and Japanese included, spelled right when every word is in quotes; it also follows layout and style directions well. **MOSS-Image** (25 steps with skip-layer guidance, about 20 s on 12 GB) and **MOSS-Image Fast** (lodestones' 8-step DMD LoRA, about 3 s once the prompt is loaded; smoother skin, less seed variety). Wide 16:9 pictures of one person can draw them twice. 14 GB download. **Needs the beta engine for now** (native MOSS support; the Store opens it on stable once a tagged engine carries MOSS). Apache-2.0 |
 | SeFi-Image | 2 | SeFi 5B (Q8) | Turbo, 4- and 8-step tiers |
 | Moody Models | 5 | Z-Image / Flux | NSFW-biased/uncensored |
 | Z-Image | 1 | Z-Image | Semi-real/anime |
