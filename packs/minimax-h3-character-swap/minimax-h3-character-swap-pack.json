@@ -1,12 +1,12 @@
 {
   "id": "minimax-h3-character-swap-pack",
   "name": "Community — MiniMax H3 (Character Swap)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "addedAt": "2026-10-18",
   "author": "akatz-ai (LoRA) + lightx2v (Turbo LoRA) + michaeldune (card)",
   "nsfw": false,
   "minComfyuiVersion": "v0.37.0",
-  "description": "Swap one chosen person in an existing clip for your own character with akatz-ai's Character Swap LoRA for MiniMax H3: the camera, background, motion and everyone else in the shot stay. One card, 5.2 s at 480p, about 5 minutes on a 12 GB card. A second option next to Viggle Animate: this one can pick one person out of a group, needs no repaint step and has no non-commercial part; Viggle is faster and its faces follow the character sheet more closely. Uses the official MiniMax H3 base, encoder and VAEs, so if you have an H3 pack the new download is 2.1 GB. MiniMax H3 Community License (the swap LoRA) and Apache-2.0 (the Turbo LoRA).",
+  "description": "Swap one chosen person in an existing clip for your own character with akatz-ai's Character Swap LoRA for MiniMax H3: the camera, background, motion and everyone else in the shot stay. One card, 5 to 10 s at 480p, about 5 minutes for 5 s on a 12 GB card. A second option next to Viggle Animate: this one can pick one person out of a group, needs no repaint step and has no non-commercial part; Viggle is faster and its faces follow the character sheet more closely. Uses the official MiniMax H3 base, encoder and VAEs, so if you have an H3 pack the new download is 2.1 GB. MiniMax H3 Community License (the swap LoRA) and Apache-2.0 (the Turbo LoRA).",
   "tags": [
     "Local",
     "Video",
@@ -30,7 +30,7 @@
       "enabled": true,
       "template": "wan-video",
       "tagline": "Swap one person in a clip for your character",
-      "description": "Swap one person in an existing clip for your own character, and leave everyone else in the shot alone. Put the clip in Reference Video 1 and a picture of the character in the Character slot (a full-body front view or a character sheet works). In the prompt, write only who to replace, for example \"the woman in the red coat on the right\" or \"the man on the left\"; the card adds the rest of the instruction. The camera, background, motion and the other people stay; the clip keeps its own soundtrack. Output: the first 5.2 s at 480p, about 5 minutes on a 12 GB card. The new face mixes the character with the original performer (brows, face shape, smile), so it is close rather than exact; for the closest match to a character sheet on a single person, use Viggle Animate instead.",
+      "description": "Swap one person in an existing clip for your own character, and leave everyone else in the shot alone. Put the clip in Reference Video 1 and a picture of the character in the Character slot (a full-body front view or a character sheet works). In the prompt, write only who to replace, for example \"the woman in the red coat on the right\" or \"the man on the left\"; the card adds the rest of the instruction. The camera, background, motion and the other people stay; the clip keeps its own soundtrack. Output: the first 5 to 10 s of the clip (Duration) at 480p. On a 12 GB card 5 s takes about 5 minutes and 8 s about 12; past 8 s the model no longer fits and it gets much slower (10.8 s took 1 h 48 min), so use long durations on bigger cards. The new face mixes the character with the original performer (brows, face shape, smile), so it is close rather than exact; for the closest match to a character sheet on a single person, use Viggle Animate instead.",
       "tags": [
         "Video",
         "V2V",
@@ -52,11 +52,11 @@
         "duration": {
           "type": "slider",
           "min": 5,
-          "max": 5,
+          "max": 10,
           "default": 5,
           "step": 1,
           "unit": "seconds",
-          "vramScalesWithDuration": false
+          "vramScalesWithDuration": true
         },
         "acceptsReferenceVideos": {
           "min": 1,
@@ -142,7 +142,7 @@
           "recommendedVramGB": 12,
           "minRamGB": 32,
           "sizeGB": 41.9,
-          "notes": "Graph: akatz-ai's MiniMax H3 Character Swap V1.5 LoRA (1.0) with lightx2v's FL2V Turbo 8-step 768p LoRA (1.0) on the official Ref2VA int8 base, MiniMaxH3SigmaShift 12/3, BasicGuider CFG 1, er_sde/normal, 8 steps, 124 frames at 864x480, ref_image_size match; core ComfyUI nodes only (akatz's Relay 2.0 custom nodes are not used). New downloads: the swap LoRA (155 MB, HF akatz-ai/MiniMax-H3-Character-Swap-LoRA @ 96ea3407, MiniMax H3 Community License) and the 768p Turbo LoRA (1.96 GB, HF lightx2v/Minimax-h3-Turbo @ a29e57d1, Apache-2.0; not the same file as Comfy-Org's non-768p Turbo 8-step); base, encoder and VAEs are the official MiniMax H3 files, shared with the other H3 packs. All sha256-pinned. TESTED 2026-10-18 on a 4070 Ti 12 GB, engine-direct, 4 clips x 3 seeds (talk, sea, geisha, a two-person cafe shot): the swap held 12/12; on the cafe shot only the target woman changed (3/3, the man's region 25-26 dB against the source). 269-363 s per clip, about 1.8x slower than the Viggle Animate card. A control with the swap LoRA off swapped only the clothes on 2 of 4 clips: the LoRA is what replaces hair and face. Known: the face blends with the source performer; small accessories (a backpack) were kept on 0-3 of 3 seeds depending on the clip; untested beyond 5.2 s, at 768p, on two look-alike people, and with faster attention."
+          "notes": "Graph: akatz-ai's MiniMax H3 Character Swap V1.5 LoRA (1.0) with lightx2v's FL2V Turbo 8-step 768p LoRA (1.0) on the official Ref2VA int8 base, MiniMaxH3SigmaShift 12/3, BasicGuider CFG 1, er_sde/normal, 8 steps, 124 frames at 864x480, ref_image_size match; core ComfyUI nodes only (akatz's Relay 2.0 custom nodes are not used). New downloads: the swap LoRA (155 MB, HF akatz-ai/MiniMax-H3-Character-Swap-LoRA @ 96ea3407, MiniMax H3 Community License) and the 768p Turbo LoRA (1.96 GB, HF lightx2v/Minimax-h3-Turbo @ a29e57d1, Apache-2.0; not the same file as Comfy-Org's non-768p Turbo 8-step); base, encoder and VAEs are the official MiniMax H3 files, shared with the other H3 packs. All sha256-pinned. TESTED 2026-10-18 on a 4070 Ti 12 GB, engine-direct, 4 clips x 3 seeds (talk, sea, geisha, a two-person cafe shot): the swap held 12/12; on the cafe shot only the target woman changed (3/3, the man's region 25-26 dB against the source). 269-363 s per clip, about 1.8x slower than the Viggle Animate card. A control with the swap LoRA off swapped only the clothes on 2 of 4 clips: the LoRA is what replaces hair and face. Known: the face blends with the source performer; small accessories (a backpack) were kept on 0-3 of 3 seeds depending on the clip. 1.1.0 (2026-10-19) adds Duration 5-10 s: the seconds snap to H3's frame grid (5 + 17n) and the source clip is trimmed to the snapped length. Duration test, engine-direct, talk clip, seed 31: the swap held to the last frame at 8 s (192 frames, 725 s) and 10.8 s (260 frames, 6461 s, the 12 GB card overflows past 8 s); 15 s not run, so the slider stops at 10 s (243 frames). Untested at 768p, on two look-alike people, and with faster attention."
         },
         "extensions": [
           {

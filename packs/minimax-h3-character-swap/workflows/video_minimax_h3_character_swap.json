@@ -100,6 +100,41 @@
       "vae_name": "{{audio_vae}}"
     }
   },
+  "h3_duration": {
+    "class_type": "PrimitiveFloat",
+    "_meta": {
+      "title": "Duration (s)"
+    },
+    "inputs": {
+      "value": "{{duration}}"
+    }
+  },
+  "h3_length": {
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "Snap to H3 frame grid"
+    },
+    "inputs": {
+      "expression": "min(362, max(124, max(5, round(a * 24)) + (17 - (max(5, round(a * 24)) - 5) % 17) % 17))",
+      "values.a": [
+        "h3_duration",
+        0
+      ]
+    }
+  },
+  "trim_seconds": {
+    "class_type": "ComfyMathExpression",
+    "_meta": {
+      "title": "Snapped length in seconds"
+    },
+    "inputs": {
+      "expression": "a / 24",
+      "values.a": [
+        "h3_length",
+        1
+      ]
+    }
+  },
   "clip_load": {
     "class_type": "LoadVideo",
     "_meta": {
@@ -112,7 +147,7 @@
   "clip_trim": {
     "class_type": "Video Slice",
     "_meta": {
-      "title": "First 5.17 s"
+      "title": "First N seconds"
     },
     "inputs": {
       "video": [
@@ -120,7 +155,10 @@
         0
       ],
       "start_time": 0,
-      "duration": 5.1667,
+      "duration": [
+        "trim_seconds",
+        0
+      ],
       "strict_duration": false
     }
   },
@@ -210,7 +248,10 @@
       ],
       "width": "{{width}}",
       "height": "{{height}}",
-      "length": 124,
+      "length": [
+        "h3_length",
+        1
+      ],
       "ref_image_size": "match",
       "ref_images.ref_image_0": [
         "char_load",
