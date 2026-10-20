@@ -660,3 +660,12 @@ https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15
 - **Qwen 2.1 Enhance to 4MP: note on textured backgrounds** (2026-09-24). In-app test on 1.65.1 (1344x768 edit output -> 2720x1536, info panel showed produced + requested sizes correctly) flattened the source's mottled paper grain to near-flat red while faces/armour improved. A one-line description warning ("smooths textured or grainy backgrounds") is a description-only 1.5.2 patch; deliberately NOT shipped unless a user reports it, to avoid an update badge for one sentence. Batch with the next Qwen 2.1 housekeeping if any.
 
 - **Kandinsky 6 Lite distill: lip-sync to an existing song** (2026-10-06). K6 has no audio-input mode; it generates picture and sound together. Its image-to-video node already holds one stream fixed with a mask (the reference frame), and the audio mask is all ones. Idea: encode a real vocal with the MMAudio VAE (the extension loads it with `need_vae_encoder=False`, so that flag has to flip), put it in the audio half of the joint latent with mask 0, and let the sampler denoise only the video. Unknown whether the distilled PiFlow sampler honours an audio mask. Baseline facts: speech is reliable, generated singing is not (last sung word wrong on 4 of 4 clips), ~3 min per 5 s 480p clip in `Projects\ComfyUI-v0.39`. Details in TOOLING-STATE clones.md, kandinsky-6.
+
+- **H3 Anti-Burn LoRA for long chains** (TESTED 2026-10-20, not shipped). Imagineer13/H3-Anti-Burn-LoRA
+  (`h3_antiburn_universal_v1`, @b98eb1d3, rank 32, 310 MB, MiniMax H3 Community License) keeps continuation clips from
+  getting crunchier; the card measures +44-61% face burn by clip 10 cut to about 0. On our 4-clip MV Chain card
+  (engine-direct, same seed, LoRA on clips 2-4 only, base -> LoRA -> turbo_next): skin texture +11% by clip 4 without
+  it, +3% at 0.5, +1% at 0.7, a little softer as strength rises, same render time. It does NOT fix our real chain
+  drift: each continuation gets brighter and less saturated (luma 92 -> 111-115) with or without it. Four clips are
+  too short for burn to matter; revisit if a chain of 6+ clips ships. Our continuations run on fl2va; the LoRA was
+  trained on ref2va. `F:\Claude-Work\h3-antiburn-20261020\VERDICT.md`.
