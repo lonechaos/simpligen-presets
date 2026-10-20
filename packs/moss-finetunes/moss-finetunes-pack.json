@@ -1,13 +1,13 @@
 {
   "id": "moss-finetunes-pack",
   "name": "Community — MOSS-Image Finetunes",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "addedAt": "2026-10-19",
-  "author": "toya_san / catlover1937 (pack: michaeldune)",
+  "author": "toya_san / catlover1937 / lodestones (pack: michaeldune)",
   "nsfw": false,
   "minAppVersion": "1.74.0",
   "minComfyuiVersion": "v0.42.0",
-  "description": "Two MOSS-Image finetunes from Civitai, picked from five in a side-by-side test against the MOSS-Image pack. Sam_MOSS Turbo: natural-looking pictures in 8 steps, about 12 seconds on a 12 GB card. Moody Moss Mix: deeper contrast and richer colour, 25 steps, about 27 seconds. Both keep MOSS-Image's lettering: put every word you want on the picture in quotes. They share the MOSS-Image text encoder and autoencoder, so each card adds only its own 5 GB checkpoint if you already have the MOSS-Image pack. Like that pack, it needs a SimpliGen engine with MOSS-Image support, which today means the beta engine (Settings > Updates > beta).",
+  "description": "Three MOSS-Image finetunes, each tested side by side against the MOSS-Image pack. Sam_MOSS Turbo (Civitai): natural-looking pictures in 8 steps, about 12 seconds on a 12 GB card. Moody Moss Mix (Civitai): deeper contrast and richer colour, 25 steps, about 27 seconds. Kromoss Turbo (lodestones, since 1.1.0): a full fine-tune of MOSS-Image Base with an 8-step LoRA, about 4 seconds, more variety and more literal layouts, but less reliable small lettering. Put every word you want on the picture in quotes. They share the MOSS-Image text encoder and autoencoder, so each card adds only its own 5-7 GB if you already have the MOSS-Image pack. Like that pack, it needs a SimpliGen engine with MOSS-Image support, which today means the beta engine (Settings > Updates > beta).",
   "tags": [
     "Image",
     "Text",
@@ -17,7 +17,9 @@
     "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors": "4cc6a1543ad2061806da46f35f90cadb4801dcba246c44782cf42ec0feb6407c",
     "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
     "https://civitai.com/api/download/models/3416093?fileId=3309079": "718ce17015d5d0fc63a7b21bc961e6af0a793cc5b657e727612c0a32137ed560",
-    "https://civitai.com/api/download/models/3414956?fileId=3307706": "68bc68c1c30ed7c222d721493629b2a42ec31893071aa395549001149b6fdfcf"
+    "https://civitai.com/api/download/models/3414956?fileId=3307706": "68bc68c1c30ed7c222d721493629b2a42ec31893071aa395549001149b6fdfcf",
+    "https://huggingface.co/lodestones/Kromoss/resolve/7f9bb7b06d7b6c27d294b0bab5a2b3056c379279/diffusion_models/kromoss_int8_convrot.safetensors": "cacff0dd25cd2cf531e1f5ddae7872c3d57a54dbf66f1a1279f2f118514e7905",
+    "https://huggingface.co/lodestones/Kromoss/resolve/7f9bb7b06d7b6c27d294b0bab5a2b3056c379279/8-steps-dmd2-lora.safetensors": "7683fe1fb51f73f5d690f24dd6b7f46f31ab9a9873729a854ac5c9a420ffe6f2"
   },
   "presets": [
     {
@@ -219,6 +221,113 @@
             "commit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
             "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
             "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "moss-ft-kromoss-turbo",
+      "name": "Kromoss Turbo",
+      "icon": "📷",
+      "enabled": true,
+      "template": "sdxl",
+      "tagline": "Photographic MOSS in 8 steps, with more variety per seed",
+      "description": "lodestones' Kromoss, a full fine-tune of MOSS-Image Base on 704,000 pictures, with its own 8-step speed LoRA: about 4 seconds a picture on a 12 GB card. It follows layout and composition directions more literally than MOSS-Image, gives much more variety between seeds, and its photos look natural rather than retouched; posters can come out looking like real printed paper. Lettering: big headlines in quotes come out right, but small signs and thin fonts can lose or garble a word, so for text that must be exact use MOSS-Image. Ask for a \"woman\" or \"man\" and give an age: with \"girl\" it draws teenagers, and people can look younger than with MOSS-Image even then.",
+      "tags": [
+        "Image",
+        "MOSS",
+        "Text",
+        "Local"
+      ],
+      "previewImage": "previews/moss_ft_kromoss_turbo.jpg",
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "baseModels": [
+          "moss-image"
+        ],
+        "minEngineVersion": "v0.41.1",
+        "provider": "comfyui",
+        "promptStyle": "natural",
+        "negativePrompt": "",
+        "displayModel": "Kromoss (int8) + 8-step DMD2 LoRA",
+        "workflow": "workflows/moss_ft_kromoss_turbo.json",
+        "unet": "kromoss_int8_convrot.safetensors",
+        "unetUrl": "https://huggingface.co/lodestones/Kromoss/resolve/7f9bb7b06d7b6c27d294b0bab5a2b3056c379279/diffusion_models/kromoss_int8_convrot.safetensors",
+        "clip": "qwen3.5_9b_w4a8_gptq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors",
+        "vae": "flux2-vae.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors",
+        "steps": 8,
+        "cfg": 1.0,
+        "values": {
+          "quality": ""
+        },
+        "controls": {
+          "steps": {
+            "min": 4,
+            "max": 12,
+            "step": 1,
+            "affectsCost": true
+          }
+        },
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "4:3": {
+            "width": 1184,
+            "height": 896
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1184
+          },
+          "21:9": {
+            "width": 1536,
+            "height": 656
+          },
+          "3:2": {
+            "width": 1248,
+            "height": 832
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1248
+          }
+        },
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 12,
+          "minRamGB": 32,
+          "sizeGB": 14.2,
+          "notes": "lodestones/Kromoss pinned to commit 7f9bb7b0 (2026-10-20, update 11000 EMA, Apache-2.0): kromoss_int8_convrot.safetensors (ConvRot W8A8 like Comfy-Org's SFT int8, 5.41 GB) and 8-steps-dmd2-lora (DMD then DMD2's GAN stage, distilled from MOSS-Image-Base, rank 128, 1.19 GB, saved as kromoss_8step_dmd2_lora.safetensors), both sha256 pinned. Author settings: 8 steps, CFG 1, euler / simple, no negative branch. TESTED 2026-10-20 engine-direct on nine prompts at seed 11 and four prompts at seeds 7, 11 and 42 against both MOSS-Image cards (F:/Claude-Work/kromoss-20261020): ~4 s per picture; composition followed the prompt 6/6 where the MOSS cards did about half; a 1970s poster's shop sign lost or garbled a word on 3 of 6 renders (MOSS cards 5/6 right); 'photo of a girl' drew teenagers, 'woman' gave adults on 2 of 3 seeds. The author's small FLUX.2 decoder was not used; the shared Flux 2 VAE works. Shares the Qwen3.5 9B w4a8 text encoder (7.3 GB) and Flux 2 autoencoder with the MOSS-Image pack, pinned to the same commits; sha256 pinned in the pack checksums. Needs native MOSS-Image support in the engine (ComfyUI PRs 17095 + 17099), the same gate as the MOSS-Image pack. Graph: core nodes only, CLIPLoader type moss_image, EmptyFlux2LatentImage, plain KSampler; NO ModelSamplingSD3. TESTED 2026-10-19 through the app on a 4070 Ti 12 GB against both MOSS-Image cards on nine prompts (six posters, three photos), seed 11."
+        },
+        "extensions": [
+          {
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "name": "rgthree-comfy",
+            "commit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ],
+        "extraModels": [
+          {
+            "dir": "loras",
+            "filename": "kromoss_8step_dmd2_lora.safetensors",
+            "url": "https://huggingface.co/lodestones/Kromoss/resolve/7f9bb7b06d7b6c27d294b0bab5a2b3056c379279/8-steps-dmd2-lora.safetensors",
+            "description": "lodestones Kromoss 8-step DMD2 LoRA (Apache-2.0), 1.19 GB"
           }
         ]
       }
