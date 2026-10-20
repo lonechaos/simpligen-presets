@@ -5,6 +5,22 @@ result when it is settled.
 
 ## Open
 
+### H3 face-only swap LoRA (2026-10-19)
+Source: AI Late to Class, https://www.youtube.com/watch?v=SzqMV4S1908 (0:30-4:15). LoRA:
+https://huggingface.co/UntMods/FaceSwap_MiniMaxH3_REF2VA (from the video description; the CRT-Nodes author, Apache-2.0,
+Ref2VA base, trigger word "Faceswap" at strength 1, pruned, 187 likes on 2026-10-19). He ran it on Ref2VA + Ref2V
+turbo LoRA, 8 steps, prompt just "face swap". Why: our Character Swap card (akatz V1.5) replaces the whole person (face,
+hair, clothes); a face-only swap would keep hair, outfit and accessories, which suits continuity across shots and
+putting a recurring character's face on stock footage. His caveat: it still swapped the hair and added earrings, so
+"face only" is the claim to test. **TESTED 2026-10-19** (`F:\Claude-Work\h3-faceonly-swap-20261019\VERDICT.md`,
+14 renders): with our four-view sheet as reference it did not swap at all (talk/sea/geisha), went for the man on the
+cafe shot and broke one seed (white patch + glasses); with a head-and-shoulders crop it swapped and picked the right
+person, but copied hair and the sweater visible in the crop, so "keeps the original hair and outfit" did not hold.
+Not worth a card now. If revisited: a tight face crop (little hair, no clothes), and the author's CRT sampler.
+Also from the video, for a Discord example with our
+existing card: edit the clip's first frame (e.g. blood on the face with Qwen Image) and use it as the Character
+picture to carry an effect through the whole clip.
+
 ### DaSiWa H3 v4 + the smaller quants (2026-10-17)
 Source: https://civitai.com/models/2877206 (Hybrid v4 3391862, Hybrid v4 Turbo 3392061, published 2026-10-09).
 v4 Turbo is a 4-step distill (our v3 pack is 8-step). Its int8 file is structurally identical to v3's (drop-in). New:
