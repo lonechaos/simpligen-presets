@@ -1,0 +1,232 @@
+{
+  "id": "moss-nsfw-finetunes-pack",
+  "name": "Community — MOSS-Image NSFW Finetunes",
+  "version": "1.0.0",
+  "addedAt": "2026-10-19",
+  "author": "iamddtla / neuroshaman (pack: michaeldune)",
+  "nsfw": true,
+  "minAppVersion": "1.74.0",
+  "minComfyuiVersion": "v0.42.0",
+  "description": "Two NSFW MOSS-Image finetunes from Civitai that avoid the anatomy errors the MOSS-Image cards make on NSFW prompts. PornMaster Moss: the base model's look and faces with the anatomy fixed, 50 steps, about 50 seconds on a 12 GB card. Artius Moss: fast, 8 steps, about 15 seconds, with a smoother, retouched look. Both keep MOSS-Image lettering when the words are in quotes. They share the MOSS-Image text encoder and autoencoder, so each card adds only its own 5-7 GB checkpoint if you already have the MOSS-Image pack. Needs a SimpliGen engine with MOSS-Image support, which today means the beta engine (Settings > Updates > beta).",
+  "tags": [
+    "Image",
+    "NSFW",
+    "Local"
+  ],
+  "checksums": {
+    "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors": "4cc6a1543ad2061806da46f35f90cadb4801dcba246c44782cf42ec0feb6407c",
+    "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
+    "https://civitai.com/api/download/models/3413227?fileId=3305738": "1fef4582c4d052baa1d63195512e0483417cd813bb3a3842773fea25c2b5f568",
+    "https://civitai.com/api/download/models/3416029?fileId=3309287": "187a5c86c6fea9497bf16d43c5d780ebd46fb52f17a4a8faa2bd553218b0344b"
+  },
+  "presets": [
+    {
+      "id": "moss-nsfw-pornmaster",
+      "name": "PornMaster Moss",
+      "icon": "🔞",
+      "enabled": true,
+      "template": "sdxl",
+      "tagline": "MOSS-Image with the anatomy fixed for NSFW",
+      "description": "iamddtla's PornMaster Moss: MOSS-Image with LoRAs merged in to fix NSFW anatomy and add poses, while keeping the base model's look and faces. In our test it avoided the anatomy errors the MOSS-Image cards made. SFW prompts come out close to MOSS-Image, lettering included (quote every word you want on the picture). 50 steps as the author runs it, about 50 seconds a picture on a 12 GB card; 25-30 steps is about twice as fast. Character LoRAs work with it (the author tested them).",
+      "tags": [
+        "Image",
+        "MOSS",
+        "NSFW",
+        "Local"
+      ],
+      "previewImage": "previews/moss_nsfw_pornmaster.jpg",
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "baseModels": [
+          "moss-image"
+        ],
+        "minEngineVersion": "v0.41.1",
+        "provider": "comfyui",
+        "promptStyle": "natural",
+        "negativePrompt": "",
+        "displayModel": "PornMaster Moss V1 (int8)",
+        "workflow": "workflows/moss_nsfw_pornmaster.json",
+        "unet": "pornmasterMoss_v1.safetensors",
+        "unetUrl": "https://civitai.com/api/download/models/3413227?fileId=3305738",
+        "clip": "qwen3.5_9b_w4a8_gptq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors",
+        "vae": "flux2-vae.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors",
+        "steps": 50,
+        "cfg": 2.5,
+        "values": {
+          "quality": ""
+        },
+        "controls": {
+          "steps": {
+            "min": 20,
+            "max": 60,
+            "step": 1,
+            "affectsCost": true
+          },
+          "cfg": {
+            "min": 1.5,
+            "max": 4,
+            "step": 0.5
+          }
+        },
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "4:3": {
+            "width": 1184,
+            "height": 896
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1184
+          },
+          "21:9": {
+            "width": 1536,
+            "height": 656
+          },
+          "3:2": {
+            "width": 1248,
+            "height": 832
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1248
+          }
+        },
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 12,
+          "minRamGB": 32,
+          "sizeGB": 12.6,
+          "notes": "Civitai model 3008033 (PornMaster Moss by iamddtla), version 3413227 'V1', file pornmasterMoss_v1.safetensors (int8, 5.04 GB, sha256 pinned). NSFW. Licence flags on Civitai: Image, RentCivit. The author's pinned comment: a merge of LoRAs from their Krea 2 training set to fix NSFW anatomy and add poses; 50 steps, example pictures at 25-30. No CFG or sampler given: CFG 2.5, er_sde / simple are the MOSS-Image defaults. Measured ~49 s per picture at 50 steps, ~28 s at 25. Shares the Qwen3.5 9B w4a8 text encoder (7.3 GB) and Flux 2 autoencoder with the MOSS-Image pack, pinned to the same commits; sha256 pinned in the pack checksums. Needs native MOSS-Image support in the engine (ComfyUI PRs 17095 + 17099), the same gate as the MOSS-Image pack. Graph: core nodes only, CLIPLoader type moss_image, EmptyFlux2LatentImage, plain KSampler; NO ModelSamplingSD3. TESTED 2026-10-19 through the app on a 4070 Ti 12 GB: SFW, against both MOSS-Image cards on nine prompts at seed 11; NSFW by Michael against the MOSS-Image cards, where both finetunes avoided the anatomy errors (body horror) the base cards made."
+        },
+        "extensions": [
+          {
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "name": "rgthree-comfy",
+            "commit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "moss-nsfw-artius",
+      "name": "Artius Moss",
+      "icon": "⚡",
+      "enabled": true,
+      "template": "sdxl",
+      "tagline": "Fast NSFW MOSS-Image in 8 steps",
+      "description": "neuroshaman's Artius Moss: a fast MOSS-Image finetune, 8 steps at CFG 1, about 15 seconds a picture on a 12 GB card. In our test it avoided the anatomy errors the MOSS-Image cards made on NSFW prompts. The look is smooth and retouched, and on SFW prompts it follows directions less closely than MOSS-Image and can add made-up small text; keep the words you want in quotes and check small print.",
+      "tags": [
+        "Image",
+        "MOSS",
+        "NSFW",
+        "Local"
+      ],
+      "previewImage": "previews/moss_nsfw_artius.jpg",
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "baseModels": [
+          "moss-image"
+        ],
+        "minEngineVersion": "v0.41.1",
+        "provider": "comfyui",
+        "promptStyle": "natural",
+        "negativePrompt": "",
+        "displayModel": "Artius Moss v1.0 (int8)",
+        "workflow": "workflows/moss_nsfw_artius.json",
+        "unet": "artiusMoss_v10.safetensors",
+        "unetUrl": "https://civitai.com/api/download/models/3416029?fileId=3309287",
+        "clip": "qwen3.5_9b_w4a8_gptq.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/MOSS-Image/resolve/3284a1dbb351e3396d70f39f2a71cbf6ed2ef1bb/text_encoders/qwen3.5_9b_w4a8_gptq.safetensors",
+        "vae": "flux2-vae.safetensors",
+        "vaeUrl": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/ed33133cd56476eac818c0943b6f9419b3e4a3a1/split_files/vae/flux2-vae.safetensors",
+        "steps": 8,
+        "cfg": 1.0,
+        "values": {
+          "quality": ""
+        },
+        "controls": {
+          "steps": {
+            "min": 6,
+            "max": 16,
+            "step": 1,
+            "affectsCost": true
+          },
+          "cfg": {
+            "min": 1,
+            "max": 2,
+            "step": 0.5
+          }
+        },
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "4:3": {
+            "width": 1184,
+            "height": 896
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1184
+          },
+          "21:9": {
+            "width": 1536,
+            "height": 656
+          },
+          "3:2": {
+            "width": 1248,
+            "height": 832
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1248
+          }
+        },
+        "requirements": {
+          "minVramGB": 12,
+          "recommendedVramGB": 12,
+          "minRamGB": 32,
+          "sizeGB": 14.6,
+          "notes": "Civitai model 3010191 (Artius Moss by neuroshaman), version 3416029 'v1.0', file artiusMoss_v10.safetensors (int8, 6.98 GB, sha256 pinned). NSFW. No commercial-use flags on Civitai (personal use). Author: 8 steps, CFG 1; no sampler given, euler / sgm_uniform as for the other 8-step MOSS models. Measured ~15 s per picture. SFW test: very close to Moss Image Turbo (same family), smooth skin, invented small text on one poster. Shares the Qwen3.5 9B w4a8 text encoder (7.3 GB) and Flux 2 autoencoder with the MOSS-Image pack, pinned to the same commits; sha256 pinned in the pack checksums. Needs native MOSS-Image support in the engine (ComfyUI PRs 17095 + 17099), the same gate as the MOSS-Image pack. Graph: core nodes only, CLIPLoader type moss_image, EmptyFlux2LatentImage, plain KSampler; NO ModelSamplingSD3. TESTED 2026-10-19 through the app on a 4070 Ti 12 GB: SFW, against both MOSS-Image cards on nine prompts at seed 11; NSFW by Michael against the MOSS-Image cards, where both finetunes avoided the anatomy errors (body horror) the base cards made."
+        },
+        "extensions": [
+          {
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "name": "rgthree-comfy",
+            "commit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4",
+            "description": "Power Lora Loader (user LoRA slot)"
+          }
+        ]
+      }
+    }
+  ]
+}
