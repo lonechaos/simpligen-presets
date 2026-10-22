@@ -5,6 +5,38 @@ result when it is settled.
 
 ## Open
 
+### Three conventions worth stealing from Pixelle-Video (2026-10-22)
+Source: https://github.com/ATH-MaaS/Pixelle-Video (Apache-2.0, Pixelle.AI / AIDC-AI, read at `848b054e`; 29.3k stars
+but dormant — last push 2026-06-14, and third-party trackers show it "updated today" only because `updated_at` moves
+on every star). A topic-to-short-video orchestrator: LLM script -> one image or clip per narration line -> TTS -> HTML
+frame templates screenshotted with Playwright -> moviepy stitch. Nothing in its output beats our H3 work and it is not
+worth installing (reviewed, not run). Three structural ideas are worth lifting:
+
+1. **Late binding by role, for Recipes.** Its pipelines never name a model, only a capability: `self.media`,
+   `self.tts`, `self.video`. `utils/workflow_util.py` is the whole mechanism — `workflows/{source}/{service}.json`,
+   where `source` is `selfhost` or `runninghub`, so switching a step from the local GPU to a cloud renderer is one
+   path segment, and config names only a default per capability (`comfyui.image.default_workflow` etc.). Try: a
+   recipe that declares roles (still / motion / voice) and resolves each to a preset id at run time, with a default
+   and a one-field override, instead of baking preset ids into the flow steps. Makes "same flow, DaSiWa instead of
+   Midnight" a launch parameter rather than an edit.
+2. **A layout declares its own required inputs.** Template filenames carry a prefix the pipeline reads before it
+   generates anything: `static_*` needs no generated media, `image_*` needs a still per line, `video_*` needs a clip
+   per line (`templates/1080x1920/`, `1080x1080/`, `1920x1080/`). Cheap contract for recipe blocks and HyperFrames
+   compositions: the layout states what it consumes, so an impossible pairing is refused up front instead of failing
+   three steps in.
+3. **Per-capability prompt prefix as a style lock.** `comfyui.image.prompt_prefix` / `video.prompt_prefix` are
+   prepended to every generated shot in a run (theirs is a matchstick-figure style string). That is exactly the
+   consistency problem a multi-step recipe has; one style string applied to every generative step in a flow.
+
+Not worth copying: their parameter contract lives *inside* the graph, as node titles like `$prompt.text`,
+`$width.value`, `$height.value` (comfykit convention, same trick Pixelle-MCP uses to expose workflows as MCP tools).
+Self-describing and import-friendly, but it can only say "string" or "int" — it cannot express sliders with mins,
+grouped reference-image rules, shot modes, engine-version gates or declared weights, which is what our manifests are
+for. Mentioned here only because it is the design you would pick if workflow import ever mattered, which SimpliGen
+deliberately does not support. Their renderer is also strictly worse than HyperFrames (screenshot per frame,
+moviepy 1.0.3, no audio-accurate timing) — it is the thirty-layout style shelf organised by aspect ratio that is
+interesting, not the renderer.
+
 ### H3 face-only swap LoRA (2026-10-19)
 Source: AI Late to Class, https://www.youtube.com/watch?v=SzqMV4S1908 (0:30-4:15). LoRA:
 https://huggingface.co/UntMods/FaceSwap_MiniMaxH3_REF2VA (from the video description; the CRT-Nodes author, Apache-2.0,
