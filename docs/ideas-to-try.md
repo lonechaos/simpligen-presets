@@ -669,3 +669,16 @@ https://github.com/black-forest-labs/flux-3-image-klein. Read only on 2026-10-15
   drift: each continuation gets brighter and less saturated (luma 92 -> 111-115) with or without it. Four clips are
   too short for burn to matter; revisit if a chain of 6+ clips ships. Our continuations run on fl2va; the LoRA was
   trained on ref2va. `F:\Claude-Work\h3-antiburn-20261020\VERDICT.md`.
+
+- **TurboDiffusion I2V (anveshane/Comfyui_turbodiffusion): TESTED 2026-10-22, DEAD END.** rCM-distilled Wan 2.2
+  I2V-A14B at 4 steps with SLA attention; node @`ccf900c7` (last commit 2026-02-10), weights 2x 14.53 GB int8 `.pth`.
+  Produced **zero frames in three attempts** on vanilla ComfyUI (torch 2.11, 4070 Ti 12 GB). (1) The compiled
+  `turbo_diffusion_ops` CUDA kernels do not exist and the repo ships no build script, so the PyTorch int8 fallback
+  runs; (2) that fallback dies at sampling step 0 with `mat1 and mat2 must have the same dtype, Float vs BFloat16`
+  in `wan2pt2.py:660` — upstream issue #53, open since 2026-10-03, unanswered; (3) the default `comfy_native` offload
+  mode segfaults the whole ComfyUI process inside `ops/core.py:501`. Separately, `layerwise_gpu` does not stream: it
+  put 13.56 GB on a 12 GB card (`-1.60GB free`) at 640x640/65 frames. Also no `requirements.txt`, no LoRA support
+  (#29), and its logger's `✓` raises `UnicodeEncodeError` through ComfyUI's cp1252 log handler and wedges the job
+  silently. Same-seed control on our shipped `wan-22-i2v-gguf-q4` card: clean 65-frame clip, **127 s**, 11.58 GB peak,
+  loaded partially (5.2 GB resident / 4.1 GB offloaded), 10 GB less download. Revisit only if #53 closes AND a build
+  path for the CUDA ops ships AND real layer streaming lands. `F:\Claude-Work\turbodiffusion-test-20261022\VERDICT.md`.
