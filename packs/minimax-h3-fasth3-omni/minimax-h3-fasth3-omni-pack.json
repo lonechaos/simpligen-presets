@@ -1,7 +1,7 @@
 {
   "id": "minimax-h3-fasth3-omni-pack",
   "name": "Community — MiniMax H3 (FastH3 Omni)",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "FastVideo + Nuva Lab",
   "nsfw": false,
   "description": "FastVideo's FastH3 Omni (released 2026-10-20, co-developed with Nuva Lab): an eight-step MiniMax H3 distill built for references, taking up to nine pictures, three clips and three audio files per shot. One card, reference to video. WHY. Measured 2026-10-21 on a 12 GB RTX 4070 Ti against the DaSiWa v4 and Midnight reference cards on the same seeds, prompts and references: every identity held, every spoken line came out word for word, and the picture was the crispest of the three with more of the background in focus. Speed sits between them (about 75 s per five-second 480p shot, against 44 s for DaSiWa v4 and 97 s for Midnight). Audio references work: a voice clip carries its voice into new words, and a song's vocal stem, with its lyrics and their times in the prompt, comes back as the soundtrack with the singer lip-synced to it. Needs the v0.42.0 engine.",
@@ -20,7 +20,7 @@
       "name": "MiniMax H3 Reference to Video (FastH3 Omni)",
       "icon": "👥",
       "previewImage": "previews/minimax-h3-fasth3-omni-r2v.jpg",
-      "description": "Reference to video on FastVideo's FastH3 Omni, an eight-step distill trained on picture, video and audio references. Checked 2026-10-21 over three seeds each: solo, two-person and walking shots held every identity with every line word for word; a voice clip as an audio reference carried its voice; a sung vocal stem as an audio reference, with its lyrics and timings written in the prompt, came back as the soundtrack with the singer in sync. On a 12 GB card keep 768p shots to about 5 s: 768p took 4 min for 5 s, 20 min for 8 s and over an hour for 12 s. Use 480p for long shots (12 s in 3.5 min).",
+      "description": "Reference to video on FastVideo's FastH3 Omni, an eight-step distill trained on picture, video and audio references. Checked 2026-10-21 over three seeds each: solo, two-person and walking shots held every identity with every line word for word; a voice clip as an audio reference carried its voice; a sung vocal stem as an audio reference, with its lyrics and timings written in the prompt, came back as the soundtrack with the singer in sync. On a 12 GB card keep 768p shots to about 5 s: 768p took 4 min for 5 s, 20 min for 8 s and over an hour for 12 s. Use 480p for long shots: 12 s in 3.5 min, the full 15 s in under 5 min.",
       "tagline": "Pictures, clips and audio as references; eight steps",
       "tags": [
         "Video",
@@ -73,7 +73,7 @@
         "duration": {
           "type": "slider",
           "min": 5,
-          "max": 12,
+          "max": 15,
           "default": 5,
           "step": 1,
           "unit": "seconds",
@@ -261,7 +261,7 @@
           "recommendedVramGB": 16,
           "minRamGB": 32,
           "sizeGB": 43,
-          "notes": "22.2 GB distilled checkpoint (FastVideo/FastH3-Omni-Comfy, pinned) plus the shared MiniMax H3 text encoder and VAEs. Eight steps, euler/simple, sigma shift 12 video / 3 audio, no CFG: FastVideo's published settings. Needs engine v0.42.0+ (native support for distills with baked-in PDD heads). MEASURED 2026-10-21 (RTX 4070 Ti 12 GB, 864x480, faster attention on): 68-83 s per five-second shot, about 3 min 15 s for an 11.5 s shot, 3 min with a reference clip. Through the app, same card: 480p 5 s 1 min 26 s, 480p 12 s 3 min 32 s, 768p 5 s 3 min 51 s, 768p 8 s 19 min 28 s; 768p 12 s fills the 12 GB card (about 500 s per step, over an hour projected, run twice and stopped both times). On 12 GB keep 768p to about 5 s and use 480p for long shots. The 544p-672p tiers were not run. Audio references: a voice clip lends its voice; a sung vocal stem with its lyrics and timings in the prompt is performed in sync."
+          "notes": "22.2 GB distilled checkpoint (FastVideo/FastH3-Omni-Comfy, pinned) plus the shared MiniMax H3 text encoder and VAEs. Eight steps, euler/simple, sigma shift 12 video / 3 audio, no CFG: FastVideo's published settings. Needs engine v0.42.0+ (native support for distills with baked-in PDD heads). MEASURED 2026-10-21 (RTX 4070 Ti 12 GB, 864x480, faster attention on): 68-83 s per five-second shot, about 3 min 15 s for an 11.5 s shot, 3 min with a reference clip. Through the app, same card: 480p 5 s 1 min 26 s, 480p 12 s 3 min 32 s, 480p 15 s (362 frames, the H3 maximum) 4 min 44 s with every beat in order and the line word for word, 768p 5 s 3 min 51 s, 768p 8 s 19 min 28 s; 768p 12 s fills the 12 GB card (about 500 s per step, over an hour projected, run twice and stopped both times). On 12 GB keep 768p to about 5 s and use 480p for long shots. The 544p-672p tiers were not run. Audio references: a voice clip lends its voice; a sung vocal stem with its lyrics and timings in the prompt is performed in sync."
         },
         "extensions": [
           {
