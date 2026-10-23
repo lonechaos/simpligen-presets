@@ -16,20 +16,54 @@ negative (he shows -4) slows it to full slow-mo on the same prompt and seed; the
 instead of holding one speed (car launching, sprint, a punch that lands harder). Plain LoRA loader, stackable, toggled
 per shot. Also claimed to clean up smearing on fast action. Not run. Why: a signed strength maps straight onto a card
 slider, we ship nothing that controls motion speed, and it would give MV Chain shots a speed ramp without an editor.
-Cost: a bake-off shaped like the orbit LoRAs - one prompt, one seed, strengths -4/-2/0/+2/+4 on Midnight and on a
-distilled model, plus a fast-action prompt (motorbike) for the artifact claim. Open questions: whether negative
-strengths survive 4-step distills, and whether either LoRA costs dialogue or lip sync. Unrelated tip from the same
-section, worth keeping: the info icon beside a LoRA in ComfyUI's loader shows the author's own example clips, so a
-strength can be picked without burning test renders.
 
-### MiniMax H3 Singularity fusion checkpoint (2026-10-22)
+Corrections after reading the Civitai metadata (2026-10-22, same day):
+- **The usable range is +/-8, not +/-4.** The v1.1 author's note says min -8, max 8, default 4, and that a strength
+  **below 4 largely keeps the no-LoRA content** - so the -4/-2/0/+2/+4 sweep this entry first proposed would have
+  measured almost nothing. Sweep 0 / +/-4 / +/-8 instead.
+- **It is two different sliders, not one.** Under the same model page, `motion_speed_slider_mmh3_v1.1` (0.18 MB) is
+  *spatial displacement* (sprinting, dashing across the scene), and a newer `action_speed_slider_mmh3_v1` (4.11 MB,
+  2026-10-16, not in the video's links) is *limb cadence* (punch flurries, sword swings, instrument playing, fast
+  chopping) and claims to hold face, clothing and background stable. The author recommends stacking both at +1.5 for
+  rapid strikes while sprinting. Two axes, so a single "motion speed" card slider may be the wrong shape.
+- **The fos slider is paywalled.** `civitai.com/models/2951265` (the one the video demos first, and the only one with
+  trigger words - `slow` / `fast`) returns `403 {"error":"Early Access"}` and needs Buzz. Not a token problem; the
+  other three download fine with `CIVITAI_TOKEN`.
+- Downloaded to `D:\SimpliGen-Models\loras\`: `motion_speed_slider_mmh3_v1.1` (8 tensors),
+  `action_speed_slider_mmh3_v1` (184), `progressive_acceleration_slider_v1.0` (416).
+
+Cost: stage 1 is 9 renders - one locomotion prompt, one seed, control + Motion Speed at +/-4 and +/-8 + Action Speed
+at +/-4 + Progressive at +4 - scored on mean optical-flow magnitude per frame (the progressive arm should show a
+rising slope, not a flat offset). Stage 2 takes whatever survives to 3 prompts x 3 seeds x {0, -8, +8} including a
+dialogue close-up. Open questions: whether negative strengths survive 4-step distills, and whether either LoRA costs
+dialogue or lip sync - that is what would block a card slider. Unrelated tip from the same section, worth keeping: the
+info icon beside a LoRA in ComfyUI's loader shows the author's own example clips, so a strength can be picked without
+burning test renders.
+
+### MiniMax H3 Singularity v2 vs the v1.3 we ship (2026-10-22)
 Source: same video (5:43-end), weights https://huggingface.co/WarmBloodAban/Minimax-h3_Singularity/tree/main.
-Described as a V2 fine-tuned "fusion" model that enhances MiniMax H3, with one set of weights covering t2v, i2v,
-ref2v and v2v in ComfyUI. The video makes no quality claim and shows no comparison, so this is an unevaluated
-checkpoint, not a result. Why: one weight set across four modes is the shape a pack wants - today each mode is its
-own card and its own download. Cost: read the repo's file layout and quant against what engine `comfy/ops.py` can
-load, then the usual bake-off against H3 Midnight (our quality reference) on identity, dialogue and reference
-handling before it is worth a card.
+**Not a new model to us.** We already ship `minimax-h3-singularity-pack` 1.1.1 (t2v/i2v/r2v) on
+`Minimax-h3_Singularity_ref2va_Pruned_v1.3_int8` (19.53 GB), and the README row already carries a three-seed verdict
+against the official checkpoint: close-up faces ~30% sharper and distant faces readable in action, but ~20 points
+darker, lower contrast and a quarter to a third less motion - "a look, not a free upgrade". The video is a tutorial
+for the pack we have; the only new thing is **v2** (repo last modified 2026-10-21).
+
+So the question is v2 vs v1.3, and it is a narrow one. V2's release notes claim expanded action coverage and "more
+varied motion sequences", stronger prompt adherence (recommends prompts under ~5,000 characters), an audio-reference
+conditioning fix, and stronger style rendering with explicit style keywords (photorealistic / East Asian realism /
+3D CG / cinematic CG). The claimed motion gain is exactly the fault we measured in v1.3. It claims **nothing** about
+the darkness or the contrast, which were the other two.
+
+Blocker on shipping it, independent of quality: **v2 is 31.67 GB unpruned int8 and there is no pruned v2.** Our pack
+ships the pruned v1.3 for exactly that reason. 31.67 GB exceeds this machine's total 31.2 GB of RAM, so it may not
+load here at all, and it would be out of reach for the 12 GB users the pack is for even if it wins. Downloaded and
+verified anyway (1,035 tensors, I8/U8/BF16/F32, header consistent with the byte count) at
+`D:\SimpliGen-Models\diffusion_models\Minimax-h3_Singularity_ref2va_v2_int8.safetensors`.
+
+Cost: first one prompt, one seed, just to see whether it loads and how long a step takes. Only if that is viable,
+3 prompts x 3 seeds x {v2, v1.3 pruned, Midnight} scored on the same axes as the original verdict - mean brightness,
+contrast, optical-flow magnitude, and face sharpness on native-pixel crops. Note the comparison confounds version
+with pruning (v2 full vs v1.3 pruned); HF has a full v1.3 int8 if that needs isolating later.
 
 ### Three conventions worth stealing from Pixelle-Video (2026-10-22)
 Source: https://github.com/ATH-MaaS/Pixelle-Video (Apache-2.0, Pixelle.AI / AIDC-AI, read at `848b054e`; 29.3k stars
