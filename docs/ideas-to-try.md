@@ -5,6 +5,32 @@ result when it is settled.
 
 ## Open
 
+### Motion speed slider LoRAs for H3 (2026-10-22)
+Source: Beyond Frame AI, https://www.youtube.com/watch?v=hHoMM2NSF1Y (0:12-1:30; transcript at
+`F:\Claude-Work\watch-hHoMM2NSF1Y-20261022\transcript-clean.txt`). Three LoRAs, all from the video description:
+https://civitai.com/models/2951265/motion-speed-slider-for-h3-minimax-by-fos,
+https://civitai.com/models/2985458/motion-speed-mmh3-slider (a second slider), and
+https://civitai.com/models/2994324/progressive-acceleration-mmh3-slider-smoothly-accelerates-the-speed-of-any-action-or-motion-over-time.
+Claim: the strength value is signed, so it reads as a direction rather than an amount - positive speeds motion up,
+negative (he shows -4) slows it to full slow-mo on the same prompt and seed; the acceleration one ramps over the clip
+instead of holding one speed (car launching, sprint, a punch that lands harder). Plain LoRA loader, stackable, toggled
+per shot. Also claimed to clean up smearing on fast action. Not run. Why: a signed strength maps straight onto a card
+slider, we ship nothing that controls motion speed, and it would give MV Chain shots a speed ramp without an editor.
+Cost: a bake-off shaped like the orbit LoRAs - one prompt, one seed, strengths -4/-2/0/+2/+4 on Midnight and on a
+distilled model, plus a fast-action prompt (motorbike) for the artifact claim. Open questions: whether negative
+strengths survive 4-step distills, and whether either LoRA costs dialogue or lip sync. Unrelated tip from the same
+section, worth keeping: the info icon beside a LoRA in ComfyUI's loader shows the author's own example clips, so a
+strength can be picked without burning test renders.
+
+### MiniMax H3 Singularity fusion checkpoint (2026-10-22)
+Source: same video (5:43-end), weights https://huggingface.co/WarmBloodAban/Minimax-h3_Singularity/tree/main.
+Described as a V2 fine-tuned "fusion" model that enhances MiniMax H3, with one set of weights covering t2v, i2v,
+ref2v and v2v in ComfyUI. The video makes no quality claim and shows no comparison, so this is an unevaluated
+checkpoint, not a result. Why: one weight set across four modes is the shape a pack wants - today each mode is its
+own card and its own download. Cost: read the repo's file layout and quant against what engine `comfy/ops.py` can
+load, then the usual bake-off against H3 Midnight (our quality reference) on identity, dialogue and reference
+handling before it is worth a card.
+
 ### Three conventions worth stealing from Pixelle-Video (2026-10-22)
 Source: https://github.com/ATH-MaaS/Pixelle-Video (Apache-2.0, Pixelle.AI / AIDC-AI, read at `848b054e`; 29.3k stars
 but dormant — last push 2026-06-14, and third-party trackers show it "updated today" only because `updated_at` moves
