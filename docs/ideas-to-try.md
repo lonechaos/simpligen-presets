@@ -32,13 +32,35 @@ Corrections after reading the Civitai metadata (2026-10-22, same day):
 - Downloaded to `D:\SimpliGen-Models\loras\`: `motion_speed_slider_mmh3_v1.1` (8 tensors),
   `action_speed_slider_mmh3_v1` (184), `progressive_acceleration_slider_v1.0` (416).
 
-Cost: stage 1 is 9 renders - one locomotion prompt, one seed, control + Motion Speed at +/-4 and +/-8 + Action Speed
-at +/-4 + Progressive at +4 - scored on mean optical-flow magnitude per frame (the progressive arm should show a
-rising slope, not a flat offset). Stage 2 takes whatever survives to 3 prompts x 3 seeds x {0, -8, +8} including a
-dialogue close-up. Open questions: whether negative strengths survive 4-step distills, and whether either LoRA costs
-dialogue or lip sync - that is what would block a card slider. Unrelated tip from the same section, worth keeping: the
-info icon beside a LoRA in ComfyUI's loader shows the author's own example clips, so a strength can be picked without
-burning test renders.
+**TESTED 2026-10-22, stage 1** (`F:\Claude-Work\h3-speed-loras-20261022\VERDICT.md`, 10 renders on vanilla 8188:
+official ref2va pruned int8, 864x480, 124 frames, 20 steps, seed 101, one locked-camera prompt of a sprinter crossing
+frame; control run twice). **The dial direction is real but these are not retiming controls - not a card slider.**
+
+- **Every arm regenerated the scene.** Mean abs difference of frame 0 against the control's frame 0, before the runner
+  enters: the second control scores 2.4 (same-seed rerun noise), every LoRA arm 11.5-35.4 - different stadium, trees,
+  floodlights and lane geometry, confirmed on the contact sheet. The v1.1 note claims it "minimized the LoRA's impact
+  on the overall framing and composition"; at the author's own recommended strengths it does not hold. A user nudging
+  this slider gets a different shot, not a faster one. That alone rules out the card.
+- **Signed direction holds, strongly.** Both controls crossed the frame in exactly 60 frames (noise floor 0), against
+  Motion Speed -4 = 87 (1.45x slower), -8 = 79, +4 = 43 (1.4x faster); Action Speed -4 = 73, +4 = 37 (1.6x faster).
+  Magnitude is NOT monotonic (-8 less slow than -4) and cannot be separated from scene geometry on one seed.
+- **Motion Speed +8 overrode an explicit camera instruction**: the prompt said the frame never moves, no pan, no
+  reframing; frames 0-40 are a locked wide and from frame 60 the camera tracks her with the background sweeping
+  (`dense_ms_p8.jpg`). Picture quality fine - a direction failure, not corruption.
+- **Progressive Acceleration did the opposite of its claim.** The plain shot already accelerates (2nd-half speed
+  2.63x the 1st, identical on both controls); with the LoRA that drops to 1.14 at +4 and 1.08 at +8, i.e. it flattened
+  the acceleration and made her slower overall. Caveat: apparent acceleration is perspective-driven and every arm has
+  different perspective, so direction-opposite-to-claim is suggestive, not proven.
+- Costs at the extremes: -8 is 19% darker with 26% less contrast; Progressive +8 picks up a green cast (green-minus-red
+  +1.3 vs the control's -11.3).
+
+Untested, so the verdict covers only the above: one prompt, one seed, 20 steps, 480p, no dialogue. Not covered -
+whether any of this survives a 4-step distill; whether they cost dialogue or lip sync (the real card blocker); Action
+Speed on a strike-in-place prompt, which is its actual use case and which a running prompt cannot separate from
+displacement; stacking Motion + Action at +1.5 each as the author suggests; and the paywalled fos slider. Worth
+keeping as a hand tool for ComfyUI iteration where re-rolling the scene is acceptable. Unrelated tip from the same
+video section, worth keeping: the info icon beside a LoRA in ComfyUI's loader shows the author's own example clips, so
+a strength can be picked without burning test renders.
 
 ### MiniMax H3 Singularity v2 vs the v1.3 we ship (2026-10-22)
 Source: same video (5:43-end), weights https://huggingface.co/WarmBloodAban/Minimax-h3_Singularity/tree/main.
