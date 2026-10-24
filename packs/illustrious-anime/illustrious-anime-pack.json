@@ -1,7 +1,7 @@
 {
   "id": "illustrious-anime-pack",
   "name": "Community — Illustrious Anime",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": "various",
   "nsfw": false,
   "description": "Illustrious-based anime and fantasy SDXL checkpoints.",
@@ -931,6 +931,210 @@
           }
         ]
       }
+    },
+    {
+      "id": "moonmix-xl-v10",
+      "name": "MoonMix XL v1.0 (soft colour)",
+      "icon": "🌙",
+      "previewImage": "previews/moonmix-xl-v10.jpg",
+      "description": "dabasir's MoonMix XL, a three-way Illustrious merge (45% Vetehine Moonlace, 30% WAI-Illustrious v17, 25% Illustrious-XL 1.0) tuned for soft, careful colouring. In our test it stayed close to WAI v17 (same compositions from the same seed) with slightly softer colour; it is here because the community asked for it. Danbooru tags work best and it is sensitive to @artist-style tags. 30 steps of Euler a at CFG 7 on the author's settings, about 8 seconds a picture on a 12 GB card.",
+      "tags": [
+        "Anime",
+        "Illustrious",
+        "SDXL",
+        "Soft",
+        "Local"
+      ],
+      "enabled": true,
+      "template": "booru",
+      "ui": {
+        "visibleFields": [
+          "content",
+          "aspectRatio",
+          "shotType",
+          "environment",
+          "lightingSource",
+          "atmosphere"
+        ]
+      },
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "provider": "comfyui",
+        "displayModel": "MoonMix XL v1.0 (soft colour)",
+        "baseModels": [
+          "illustrious",
+          "sdxl"
+        ],
+        "workflow": "workflows/moonmix-xl-v10.json",
+        "checkpoint": "moonmixXLSoftAnime_v10.safetensors",
+        "steps": 30,
+        "cfg": 7,
+        "denoise": 1,
+        "negativePrompt": "bad quality, worst quality, worst detail, sketch, censor, signature, watermark",
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1216
+          },
+          "3:2": {
+            "width": 1216,
+            "height": 832
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1152
+          },
+          "4:3": {
+            "width": 1152,
+            "height": 896
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          }
+        },
+        "controls": {
+          "steps": {
+            "min": 24,
+            "max": 34,
+            "step": 1
+          },
+          "cfg": {
+            "min": 5,
+            "max": 8,
+            "step": 0.5
+          }
+        },
+        "requirements": {
+          "minVramGB": 8,
+          "recommendedVramGB": 12,
+          "minRamGB": 16,
+          "sizeGB": 7,
+          "notes": "Illustrious SDXL checkpoint, fp16, 6.94 GB, VAE built in (Civitai model 3008081 / version 3413273 / fileId 3305820 by dabasir, sha256 3df506a66b41...). CLIP Skip 2, Euler Ancestral / normal, 30 steps at CFG 7 (author: DPM++ 2M or Euler a, 28-32 steps, CFG 7, 832x1216; they note bf16 is sharper than this fp16 file). WAI's short quality prefix and negative. Baked 2026-10-24 on a 4070 Ti 12 GB (SimpliGen engine v0.42.0, direct submission): the Anima bake's 5 prompts x 2 seeds at 832x1216 against the shipped Nova Anime XL v7.0 (run twice, pixel-identical) and WAI-Illustrious v17 cards (F:\\Claude-Work\\anima-illustrious-wishlist-20261024). Nearest card: WAI v17 (11.9 dB). Median 8.0 s per 832x1216. Verified in the app (1.77.0, engine v0.42.0) 2026-10-24 through the agent route: 3 prompts at 3:4, 16:9 (two characters; hair colours swapped between the girls, the usual SDXL attribute swap) and 1:1, all clean; 9-12 s each. LICENCE: CreativeML Open RAIL-M from the parents; Civitai flags allow selling images and merges."
+        },
+        "checkpointUrl": "https://civitai.com/api/download/models/3413273?fileId=3305820",
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          }
+        ]
+      },
+      "tagline": "Soft, pale anime colouring; close to WAI"
+    },
+    {
+      "id": "clearcolor-air-xl-v10",
+      "name": "ClearColor Air XL v1.0 (light, clean)",
+      "icon": "🫧",
+      "previewImage": "previews/clearcolor-air-xl-v10.jpg",
+      "description": "dabasir's ClearColor Air XL, 75% Nova Anime XL v19 with 25% Nova Orange XL for a little more colour depth and skin detail. In our test it stayed close to our Nova Anime XL v7.0 card, with softer, whiter light; it is here because the community asked for it. The author notes a magenta cast and that it can ignore a requested male character, so state gender and palette clearly. 24 steps of Euler a at CFG 5 on the author's settings, about 6 seconds a picture on a 12 GB card.",
+      "tags": [
+        "Anime",
+        "Illustrious",
+        "SDXL",
+        "Clean",
+        "Local"
+      ],
+      "enabled": true,
+      "template": "booru",
+      "ui": {
+        "visibleFields": [
+          "content",
+          "aspectRatio",
+          "shotType",
+          "environment",
+          "lightingSource",
+          "atmosphere"
+        ]
+      },
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "provider": "comfyui",
+        "displayModel": "ClearColor Air XL v1.0 (light, clean)",
+        "baseModels": [
+          "illustrious",
+          "sdxl"
+        ],
+        "workflow": "workflows/clearcolor-air-xl-v10.json",
+        "checkpoint": "clearcolorAirXLLightClean_v10.safetensors",
+        "steps": 24,
+        "cfg": 5,
+        "denoise": 1,
+        "negativePrompt": "modern, recent, old, oldest, text, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra fingers, extra digits, fewer digits, cropped, very displeasing, worst quality, bad quality, sketch, jpeg artifacts, signature, watermark, username, censored, bar censor, mosaic censor, simple background, conjoined, bad ai-generated",
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1024,
+            "height": 1024
+          },
+          "2:3": {
+            "width": 832,
+            "height": 1216
+          },
+          "3:2": {
+            "width": 1216,
+            "height": 832
+          },
+          "3:4": {
+            "width": 896,
+            "height": 1152
+          },
+          "4:3": {
+            "width": 1152,
+            "height": 896
+          },
+          "9:16": {
+            "width": 768,
+            "height": 1344
+          },
+          "16:9": {
+            "width": 1344,
+            "height": 768
+          }
+        },
+        "controls": {
+          "steps": {
+            "min": 18,
+            "max": 32,
+            "step": 1
+          },
+          "cfg": {
+            "min": 3.5,
+            "max": 7,
+            "step": 0.5
+          }
+        },
+        "requirements": {
+          "minVramGB": 8,
+          "recommendedVramGB": 12,
+          "minRamGB": 16,
+          "sizeGB": 7,
+          "notes": "Illustrious SDXL checkpoint, fp16, 6.94 GB, VAE built in (Civitai model 3017614 / version 3425798 / fileId 3320852 by dabasir, sha256 609b97c568b3...). CLIP Skip 2, Euler Ancestral / normal, 24 steps at CFG 5 (author's exact baseline: Euler a, 24 steps, CFG 5, 832x1216). Same quality prefix and negative as the Nova Anime card it descends from. Baked 2026-10-24 on a 4070 Ti 12 GB (SimpliGen engine v0.42.0, direct submission): the Anima bake's 5 prompts x 2 seeds at 832x1216 against the shipped Nova Anime XL v7.0 (run twice, pixel-identical) and WAI-Illustrious v17 cards (F:\\Claude-Work\\anima-illustrious-wishlist-20261024). Nearest card: Nova Anime v7.0 (12.0 dB). Median 6.4 s per 832x1216. Verified in the app (1.77.0, engine v0.42.0) 2026-10-24 through the agent route: 3 prompts at 3:4, 16:9 (two characters) and 1:1, all clean; 8-10 s each. LICENCE: Illustrious licence via the Nova parents; Civitai flags allow image use and on-site generation; selling the checkpoint or merges is not granted."
+        },
+        "checkpointUrl": "https://civitai.com/api/download/models/3425798?fileId=3320852",
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          }
+        ]
+      },
+      "tagline": "Light, clean colour; close to Nova Anime"
     }
   ]
 }
