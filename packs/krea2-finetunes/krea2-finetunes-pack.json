@@ -1,10 +1,10 @@
 {
   "id": "krea2-finetunes-pack",
   "name": "Community — Krea 2 Finetunes",
-  "version": "1.3.1",
-  "author": "Stable Yogi / Felldude / Binyuan / Adel_AI / lodestones (quant: silveroxides)",
+  "version": "1.4.0",
+  "author": "Stable Yogi / Felldude / Binyuan / Adel_AI / lodestones (quant: silveroxides) / Cyberdelia",
   "nsfw": true,
-  "description": "Five trained Krea 2 checkpoints, as opposed to the merges in the Krea 2 pack — each with a specific, tested purpose. Muse v3.5 Extended: clean SFW editorial portraits with a real 8-20 step / CFG 1-3 range (ships 12 steps / CFG 1.5). FinalCut v2: matte skin instead of Krea 2's glossy 'wet skin', native up to 2432x1920, NSFW-capable. Binyuan Portrait v3.2: East Asian portrait realism trained on ~1,000 unedited studio photos. Kreamania V8: Adel_AI's refinement of Krea 2 for volumetric light and matte skin, NSFW intact. Kroma v0.3 Turbo (since 1.3.0): lodestones' Krea 2 fine-tune on the Chroma dataset, more artistic range, uncensored, fixed at CFG 1. All five render at native ~2 MP with an Upscale slider (1.1-2x) that adds a gated 4-step detail-refine pass. They share the Qwen3VL 4B encoder and Qwen-Image VAE with the Krea 2 pack, so each preset costs only its 12.8-14.5 GB checkpoint.",
+  "description": "Six trained Krea 2 checkpoints, as opposed to the merges in the Krea 2 pack — each with a specific, tested purpose. Muse v3.5 Extended: clean SFW editorial portraits with a real 8-20 step / CFG 1-3 range (ships 12 steps / CFG 1.5). FinalCut v2: matte skin instead of Krea 2's glossy 'wet skin', native up to 2432x1920, NSFW-capable. Binyuan Portrait v3.2: East Asian portrait realism trained on ~1,000 unedited studio photos. Kreamania V8: Adel_AI's refinement of Krea 2 for volumetric light and matte skin, NSFW intact. Kroma v0.3 Turbo (since 1.3.0): lodestones' Krea 2 fine-tune on the Chroma dataset, more artistic range, uncensored, fixed at CFG 1. CyberRealistic v4.0 (since 1.4.0): Cyberdelia's full finetune that makes Krea 2 photographic by default, natural skin and believable light from plain sentences. All six render at native ~2 MP with an Upscale slider (1.1-2x) that adds a gated 4-step detail-refine pass. They share the Qwen3VL 4B encoder and Qwen-Image VAE with the Krea 2 pack, so each preset costs only its 12.8-14.5 GB checkpoint.",
   "tags": [
     "Local",
     "Krea",
@@ -616,6 +616,127 @@
             "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
           }
         ]
+      },
+      "characterRoles": [
+        "base"
+      ],
+      "characterContract": {
+        "placeholders": [
+          "description"
+        ]
+      }
+    },
+    {
+      "id": "cyberrealistic-krea2-v4-int8",
+      "name": "CyberRealistic Krea 2 v4.0 (INT8)",
+      "tagline": "Photographic by default: natural skin, available light",
+      "icon": "📷",
+      "previewImage": "previews/cyberrealistic-krea2-v4-int8.jpg",
+      "description": "Cyberdelia's CyberRealistic Krea 2, a full finetune of Krea 2 Turbo that moves its default from editorial gloss to photography. In our side-by-side test against stock Krea 2 Turbo, FinalCut and Moody it gave the most photographic pictures: natural freckled skin, crisp detail, believable light, without a stack of realism words. It still draws anime or illustration when you ask for them. Write plain sentences and say where the light comes from (the author's best tip); quality tags like 'masterpiece' do nothing. 8 steps, CFG 1, about 23 seconds a picture at 2 MP on a 12 GB card.",
+      "tags": [
+        "Krea",
+        "Realistic",
+        "Photography",
+        "Local"
+      ],
+      "enabled": true,
+      "promptStyle": "natural",
+      "template": "sdxl",
+      "ui": {
+        "visibleFields": [
+          "content",
+          "aspectRatio",
+          "shotType",
+          "environment",
+          "lightingSource",
+          "atmosphere"
+        ]
+      },
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "provider": "comfyui",
+        "displayModel": "CyberRealistic Krea 2 v4.0 (INT8 ConvRot)",
+        "baseModels": [
+          "krea2"
+        ],
+        "workflow": "workflows/cyberrealistic-krea2-v4-int8.json",
+        "unet": "krea2Cyberrealistic_v40_3245336.safetensors",
+        "unetUrl": "https://civitai.com/api/download/models/3357068?fileId=3245336",
+        "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+        "vae": "qwen_image_vae.safetensors",
+        "steps": 8,
+        "cfg": 1,
+        "denoise": 1,
+        "negativePrompt": "",
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1408,
+            "height": 1408
+          },
+          "4:3": {
+            "width": 1632,
+            "height": 1216
+          },
+          "3:4": {
+            "width": 1216,
+            "height": 1632
+          },
+          "3:2": {
+            "width": 1728,
+            "height": 1152
+          },
+          "2:3": {
+            "width": 1152,
+            "height": 1728
+          },
+          "16:9": {
+            "width": 1888,
+            "height": 1056
+          },
+          "9:16": {
+            "width": 1056,
+            "height": 1888
+          },
+          "21:9": {
+            "width": 2160,
+            "height": 928
+          }
+        },
+        "controls": {
+          "steps": {
+            "min": 6,
+            "max": 12,
+            "step": 1
+          },
+          "upscale": {
+            "min": 1,
+            "max": 2,
+            "step": 0.1
+          }
+        },
+        "requirements": {
+          "minVramGB": 10,
+          "recommendedVramGB": 12,
+          "minRamGB": 16,
+          "sizeGB": 13.5,
+          "notes": "Krea-2 DiT (diffusion_models): Civitai model 2831028 (Krea 2 CyberRealistic), version 3357068 'v4.0', file 3245336 (int8 ConvRot), 13,491,923,064 B, SHA256 7928556a37aa2bfdc3140c56eb0c3dccc9c11d64b25e002de120eb14d8fd66dd. + Qwen3VL 4B encoder + Qwen-Image VAE, shared with the other Krea 2 cards. Negative zeroed; the card blanks the app's default quality suffix (image.values.quality) so the prompt reaches the model as tested. Tested 2026-10-24 on a 4070 Ti 12 GB (SimpliGen engine, direct submission): 5 prompts (photo, anime, Japanese shrine photo, gothic portrait, sci-fi wide) x 2 seeds at 1024x1536 against stock Krea 2 Turbo (run twice, pixel-identical), FinalCut Massive Update and Moody Krea 2 Mix (F:\\Claude-Work\\krea2-wishlist-20261024). Author: euler/simple, 8 steps, CFG 1 (Krea guidance 0), 1K-2K. The page's own text-encoder file is byte-identical to Comfy-Org's qwen3vl_4b_fp8_scaled (same SHA256), so the card uses the shared one. FP8, BF16 and NVFP4 builds of the same version exist (not tested; the author calls FP8 the general pick and INT8 ConvRot the faster, closer-to-BF16 one where supported). Verified in the app (1.77.0, engine v0.42.0) 2026-10-24 through the agent route, right after an app restart: a photo sentence at 3:4 (1216x1632, 23.6 s), two people with a quoted neon sign at 16:9 (1888x1056, 22.6 s, sign letter-exact), a short tag prompt at 1:1 (1408x1408, 21.9 s) and the same at Upscale 1.5 (2112x2112, 50.9 s, refine pass clean at native pixels, no skin blotching). All four rendered cleanly. LICENCE (Civitai): commercial use of images allowed, selling and merges allowed."
+        },
+        "vaeUrl": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/1f12b17be14c89b026c51a91d67c32f84bb047bc/split_files/vae/qwen_image_vae.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/Qwen3-VL/resolve/02f0d3eefb59528799653d16735818801177ef1f/text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+        "upscale": 1,
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          }
+        ],
+        "values": {
+          "quality": ""
+        }
       },
       "characterRoles": [
         "base"

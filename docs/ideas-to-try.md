@@ -5,6 +5,17 @@ result when it is settled.
 
 ## Open
 
+### Ray Krea2 x Mid Aesthetic card, after 2026-11-03 (2026-10-24)
+Source: RHR's Nov/Dec Discord wishlist, https://civitai.com/models/3009760/ray-krea2-x-mid-aesthetic?modelVersionId=3415465.
+Ray3780's Krea 2 checkpoint rebuilt from several of OnlyLemon's LoRAs (a moody, Niji / Midjourney-style gothic look).
+Only build: version 3415465 'turbo v1 INT8ConvRot', file 3308391 `rayKrea2XMid_turboV1Int8convrot.safetensors`,
+12,821,825,036 B, SHA256 554b9d48b93c7d4db698ba7f35cee3dc79e34b521557cbfea1f03ddbe84bd999. Author settings: er_sde /
+simple, 8-12 steps (version page: 12), CFG 1. Not run: the download is Civitai Early Access (403 "Early Access",
+paid with Buzz) until **2026-11-03 10:02 UTC**; Michael has told the user. Then: add an arm to
+`F:\Claude-Work\krea2-wishlist-20261024\run.py` (same prompts, seeds and controls, so the stock-Turbo, FinalCut, Moody,
+CyberRealistic and Nippon images there are reusable), compare against Moody especially, and if it earns a card it likely
+goes in Krea 2 Art & Styles. Licence flags: Image, RentCivit, Rent.
+
 ### Motion speed slider LoRAs for H3 (2026-10-22)
 Source: Beyond Frame AI, https://www.youtube.com/watch?v=hHoMM2NSF1Y (0:12-1:30; transcript at
 `F:\Claude-Work\watch-hHoMM2NSF1Y-20261022\transcript-clean.txt`). Three LoRAs, all from the video description:
