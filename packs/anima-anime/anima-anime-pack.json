@@ -1,7 +1,7 @@
 {
   "id": "anima-anime-pack",
   "name": "Community — Anima Anime",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "author": "various",
   "nsfw": false,
   "description": "Anima (Cosmos) anime & illustration checkpoints.",
@@ -104,7 +104,7 @@
           "recommendedVramGB": 12,
           "minRamGB": 16,
           "sizeGB": 5.5,
-          "notes": "Anima UNet (diffusion_models) + Qwen 0.6B text encoder + Qwen-Image VAE. ER-SDE / simple, ModelSamplingAuraFlow shift 3. Danbooru-tag prompting."
+          "notes": "Anima UNet (diffusion_models) + Qwen 0.6B text encoder + Qwen-Image VAE. ER-SDE / simple, ModelSamplingAuraFlow shift 3. Danbooru-tag prompting. FIXED 2026-10-24 (pack 1.5.1): the workflow no longer prepends the Anima system prompt. In a two-character test with a plain black hoodie (seeds 11/22/33/44, plus 55-88 where unclear) this card lettered parts of it into the picture (a fake caption bar 'You are ass... images prstant', 'PROMPT START' on the hoodie and 'YOU ARE ASS... PROMT STARTT' across the top, 3 of 4 seeds); the same seeds without it showed none, with the same compositions (F:\\Claude-Work\\anima-sysprompt-fix-20261024)."
         },
         "extensions": [
           {
@@ -209,7 +209,7 @@
           "recommendedVramGB": 12,
           "minRamGB": 16,
           "sizeGB": 5.5,
-          "notes": "Anima UNet (diffusion_models, bf16, 4.18 GB; Civitai model 2915642 version 3298469 by VXP, sha256 8073505BC509...) + Qwen 0.6B text encoder + Qwen-Image VAE, shared with the other Anima cards. Euler / simple, ModelSamplingAuraFlow shift 3, 14 steps at CFG 3.5 (author: 12-15 steps, CFG 3-4; alternative ER SDE / beta). The author forbids re-uploading the model to PixAI; this card only links the Civitai file. Verified in the app (1.72.0) 2026-10-10: 3 prompts (tags, sentences, two characters) at 3:4, 16:9 and 1:1, all clean, 12-14 s each on a 4070 Ti 12 GB."
+          "notes": "Anima UNet (diffusion_models, bf16, 4.18 GB; Civitai model 2915642 version 3298469 by VXP, sha256 8073505BC509...) + Qwen 0.6B text encoder + Qwen-Image VAE, shared with the other Anima cards. Euler / simple, ModelSamplingAuraFlow shift 3, 14 steps at CFG 3.5 (author: 12-15 steps, CFG 3-4; alternative ER SDE / beta). The author forbids re-uploading the model to PixAI; this card only links the Civitai file. Verified in the app (1.72.0) 2026-10-10: 3 prompts (tags, sentences, two characters) at 3:4, 16:9 and 1:1, all clean, 12-14 s each on a 4070 Ti 12 GB. FIXED 2026-10-24 (pack 1.5.1): the workflow no longer prepends the Anima system prompt. In a two-character test with a plain black hoodie (seeds 11/22/33/44, plus 55-88 where unclear) this card lettered parts of it into the picture ('Prmrt Stnt' (Prompt Start) and 'STRYSNRT' under hoodie prints, 2 of 8 seeds); the same seeds without it showed none, with the same compositions (F:\\Claude-Work\\anima-sysprompt-fix-20261024)."
         },
         "extensions": [
           {
@@ -1037,7 +1037,7 @@
           "recommendedVramGB": 12,
           "minRamGB": 16,
           "sizeGB": 5.4,
-          "notes": "Anima UNet (diffusion_models, bf16, 3.90 GB, sha256 888B7544A828..., Civitai model 2723760 / version 3355104 / fileId 3242554) + Qwen 0.6B text encoder + Qwen-Image VAE, shared with the other Anima cards. ModelSamplingAuraFlow shift 3. Baked 2026-10-15 against Anima base v1.0 and RDBT b1 on 5 prompts x 2 seeds (F:\\Claude-Work\\checkpoint-wishlist-20261015). Author: Euler a, CFG 3-5, 20 steps. Median 11.3 s per 896x1152 on a 4070 Ti. Verified in the app (1.73.5, engine 0.38.0) 2026-10-15 through the agent route: 3 prompts (tags, a sentence, two characters) at 3:4, 16:9 and 1:1 (896x1152, 1344x768 and 1024x1024), all rendered cleanly."
+          "notes": "Anima UNet (diffusion_models, bf16, 3.90 GB, sha256 888B7544A828..., Civitai model 2723760 / version 3355104 / fileId 3242554) + Qwen 0.6B text encoder + Qwen-Image VAE, shared with the other Anima cards. ModelSamplingAuraFlow shift 3. Baked 2026-10-15 against Anima base v1.0 and RDBT b1 on 5 prompts x 2 seeds (F:\\Claude-Work\\checkpoint-wishlist-20261015). Author: Euler a, CFG 3-5, 20 steps. Median 11.3 s per 896x1152 on a 4070 Ti. Verified in the app (1.73.5, engine 0.38.0) 2026-10-15 through the agent route: 3 prompts (tags, a sentence, two characters) at 3:4, 16:9 and 1:1 (896x1152, 1344x768 and 1024x1024), all rendered cleanly. FIXED 2026-10-24 (pack 1.5.1): the workflow no longer prepends the Anima system prompt. In a two-character test with a plain black hoodie (seeds 11/22/33/44, plus 55-88 where unclear) this card lettered parts of it into the picture ('Prompt Start' and 'START' on the hoodie, 2 of 4 seeds); the same seeds without it showed none, with the same compositions (F:\\Claude-Work\\anima-sysprompt-fix-20261024)."
         },
         "extensions": [
           {
@@ -1247,7 +1247,7 @@
           "recommendedVramGB": 12,
           "minRamGB": 16,
           "sizeGB": 6.9,
-          "notes": "Anima-2.9B-based UNet (diffusion_models, bf16, 5.44 GB, sha256 EC95D2B0B235..., Civitai model 2606801 / version 3344481 / fileId 3231326) + Qwen 0.6B text encoder + Qwen-Image VAE, shared with the other Anima cards. ModelSamplingAuraFlow shift 3. Baked 2026-10-15 against Anima base v1.0 and RDBT b1 on 5 prompts x 2 seeds (F:\\Claude-Work\\checkpoint-wishlist-20261015). Author: Euler a, 20-30 steps, CFG 4-6, plus their quality prefix and negative (used verbatim). Median 19.8 s per 896x1152 on a 4070 Ti. Verified in the app (1.73.5, engine 0.38.0) 2026-10-15 through the agent route: 3 prompts (tags, a sentence, two characters) at 3:4, 16:9 and 1:1 (896x1152, 1344x768 and 1024x1024), all rendered cleanly."
+          "notes": "Anima-2.9B-based UNet (diffusion_models, bf16, 5.44 GB, sha256 EC95D2B0B235..., Civitai model 2606801 / version 3344481 / fileId 3231326) + Qwen 0.6B text encoder + Qwen-Image VAE, shared with the other Anima cards. ModelSamplingAuraFlow shift 3. Baked 2026-10-15 against Anima base v1.0 and RDBT b1 on 5 prompts x 2 seeds (F:\\Claude-Work\\checkpoint-wishlist-20261015). Author: Euler a, 20-30 steps, CFG 4-6, plus their quality prefix and negative (used verbatim). Median 19.8 s per 896x1152 on a 4070 Ti. Verified in the app (1.73.5, engine 0.38.0) 2026-10-15 through the agent route: 3 prompts (tags, a sentence, two characters) at 3:4, 16:9 and 1:1 (896x1152, 1344x768 and 1024x1024), all rendered cleanly. FIXED 2026-10-24 (pack 1.5.1): the workflow no longer prepends the Anima system prompt. In a two-character test with a plain black hoodie (seeds 11/22/33/44, plus 55-88 where unclear) this card lettered parts of it into the picture ('PROMT' under a hoodie logo, 1 of 8 seeds); the same seeds without it showed none, with the same compositions (F:\\Claude-Work\\anima-sysprompt-fix-20261024)."
         },
         "extensions": [
           {

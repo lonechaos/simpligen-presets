@@ -26,7 +26,7 @@
   },
   "4": {
     "inputs": {
-      "text": "You are an assistant designed to generate anime images based on textual prompts. <Prompt Start>\nmasterpiece, best quality, score_7, safe, {{prompt}}",
+      "text": "masterpiece, best quality, score_7, safe, {{prompt}}",
       "clip": ["simpligen_lora_1", 1]
     },
     "class_type": "CLIPTextEncode",
