@@ -10,7 +10,7 @@ Measured against the v1.3 pack (12 GB RTX 4070 Ti, 5 s at 480p, 20 steps, text t
 
 Good to know:
 - v1.3 stays as it is. Pick v1.3 for the calmer look, v2 when the shot has to move.
-- Image to Video and Reference to Video were checked in the app on one render each; the numbers above are from Text to Video.
+- The numbers above are from Text to Video. Image to Video and Reference to Video were checked in the app on three seeds each: every Image to Video clip started on the picture (and ended on the last-frame picture when one was given), and Reference to Video kept the face on every seed. A two-person reference shot kept both people and spoke its line word for word.
 - The author says v2 also fixes audio references and follows the style you name in the prompt better (photorealistic, cinematic CG, 3D CG). We did not measure either.
 - v2 is its own 21 GB download from Hugging Face. The model card says Apache-2.0, but it is built on MiniMax H3, so the H3 Community License applies.
 
