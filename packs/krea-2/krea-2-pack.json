@@ -1,10 +1,10 @@
 {
   "id": "krea-2-pack",
   "name": "Community — Krea 2",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "author": "Krea AI",
   "nsfw": true,
-  "description": "Six Krea 2 single-pass DiT mixes — Moody Mix, RedCraft Red Mix, Realia, Fascium, BF95 Dark Realism and Dark Beast (fp8). Uncensored/photoreal 8-10 step distilled checkpoints at CFG 1, rendering at native ~2 MP (1408x1408 and equivalents) with an Upscale slider (1.1-2x adds a 4-step detail-refine pass; 1x is a clean single pass), all sharing one Qwen3VL 4B encoder and Qwen-Image VAE, so each extra mix costs only its ~12-14 GB checkpoint. Three of the six (RedCraft, Fascium, Dark Beast) are NSFW-capable mixes. The trained finetunes (Muse, FinalCut, Binyuan) moved to the separate Krea 2 Finetunes pack in 1.6.0. Since 1.7.0: two free GGUF builds of Dark Beast (Q8 matches the FP8 original, Q4 fits 8 GB cards), because the FP8 file is now paid on Civitai. Since 1.8.0: two cards from VXP's experimental Krea 2 beta series (INT8, about 14 s a picture at 1 MP): Beta 4 for anime and illustration, Beta 3 for the same look on photographs. Both put a dark, backlit, high-contrast grade on everything, which none of the other cards here give.",
+  "description": "Six Krea 2 single-pass DiT mixes — Moody Mix, RedCraft Red Mix, Realia, Fascium, BF95 Dark Realism and Dark Beast (fp8). Uncensored/photoreal 8-10 step distilled checkpoints at CFG 1, rendering at native ~2 MP (1408x1408 and equivalents) with an Upscale slider (1.1-2x adds a 4-step detail-refine pass; 1x is a clean single pass), all sharing one Qwen3VL 4B encoder and Qwen-Image VAE, so each extra mix costs only its ~12-14 GB checkpoint. Three of the six (RedCraft, Fascium, Dark Beast) are NSFW-capable mixes. The trained finetunes (Muse, FinalCut, Binyuan) moved to the separate Krea 2 Finetunes pack in 1.6.0. Since 1.7.0: two free GGUF builds of Dark Beast (Q8 matches the FP8 original, Q4 fits 8 GB cards), because the FP8 file is now paid on Civitai. Since 1.8.0: two cards from VXP's experimental Krea 2 beta series (INT8, about 14 s a picture at 1 MP): Beta 4 for anime and illustration, Beta 3 for the same look on photographs. Both put a dark, backlit, high-contrast grade on everything, which none of the other cards here give. Since 1.9.0: DaSiWa Krea2 DarkDesire V3 (Darksidewalker, INT8), added on request; it stays close to stock Krea 2 Turbo, with richer painted skies, bolder anime lines and deeper reds.",
   "tags": [
     "Local",
     "Krea",
@@ -1194,6 +1194,121 @@
             "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
           }
         ]
+      }
+    },
+    {
+      "id": "dasiwa-krea2-darkdesire-v3-int8",
+      "name": "DaSiWa Krea2 DarkDesire V3 (INT8)",
+      "tagline": "Darksidewalker's Krea 2 mix: richer anime skies, darker accents; close to stock",
+      "icon": "🖤",
+      "previewImage": "previews/dasiwa-krea2-darkdesire-v3-int8.jpg",
+      "description": "Darksidewalker's DaSiWa Krea2 (the maker of our DaSiWa H3 packs), DarkDesire V3 Turbo UC: Krea 2 Turbo pushed toward his own darker, anime-friendly style. In our side-by-side test it stayed close to stock Krea 2 Turbo, with the same compositions from the same seed; the differences are richer, more painted skies and backgrounds, slightly bolder lines on anime prompts and deeper reds on dark scenes. It is here because the community asked for it. 8 steps, CFG 1, euler/linear_quadratic as the author recommends, about 22 seconds a picture on a 12 GB card. NSFW-capable. The author does not allow merges of it.",
+      "tags": [
+        "Krea",
+        "Turbo",
+        "NSFW",
+        "Anime",
+        "Dark",
+        "Local"
+      ],
+      "enabled": true,
+      "promptStyle": "natural",
+      "template": "sdxl",
+      "ui": {
+        "visibleFields": [
+          "content",
+          "aspectRatio",
+          "shotType",
+          "environment",
+          "lightingSource",
+          "atmosphere"
+        ]
+      },
+      "image": {
+        "supports": [
+          "local"
+        ],
+        "provider": "comfyui",
+        "displayModel": "DaSiWa Krea2 DarkDesire V3 Turbo UC (INT8)",
+        "baseModels": [
+          "krea2"
+        ],
+        "workflow": "workflows/dasiwa-krea2-darkdesire-v3-int8.json",
+        "unet": "DasiwaKrea2TurboRaw_darkdesireV3TurboUC_3251013.safetensors",
+        "unetUrl": "https://civitai.com/api/download/models/3362930?fileId=3251013",
+        "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+        "vae": "qwen_image_vae.safetensors",
+        "steps": 8,
+        "cfg": 1,
+        "denoise": 1,
+        "negativePrompt": "",
+        "resolutionOverrides": {
+          "1:1": {
+            "width": 1408,
+            "height": 1408
+          },
+          "4:3": {
+            "width": 1632,
+            "height": 1216
+          },
+          "3:4": {
+            "width": 1216,
+            "height": 1632
+          },
+          "3:2": {
+            "width": 1728,
+            "height": 1152
+          },
+          "2:3": {
+            "width": 1152,
+            "height": 1728
+          },
+          "16:9": {
+            "width": 1888,
+            "height": 1056
+          },
+          "9:16": {
+            "width": 1056,
+            "height": 1888
+          },
+          "21:9": {
+            "width": 2160,
+            "height": 928
+          }
+        },
+        "controls": {
+          "steps": {
+            "min": 6,
+            "max": 12,
+            "step": 1
+          },
+          "upscale": {
+            "min": 1,
+            "max": 2,
+            "step": 0.1
+          }
+        },
+        "requirements": {
+          "minVramGB": 10,
+          "recommendedVramGB": 12,
+          "minRamGB": 16,
+          "sizeGB": 13.8,
+          "notes": "Krea-2 DiT (diffusion_models): Civitai model 2760803 (DaSiWa Krea2 | Turbo | Raw, by Darksidewalker), version 3362930 'DarkDesire V3 Turbo UC', file 3251013 (int8), 13,792,187,464 B, SHA256 498b54055c34de7aa129373943b5ffdb853ebc4e7c276a5b36e713147331bc51. + Qwen3VL 4B encoder + Qwen-Image VAE, shared with the other Krea 2 cards. Negative zeroed; the card blanks the app's default quality suffix (image.values.quality) so the prompt reaches the model as tested. Author (Turbo): CFG 1, 8 steps, Euler/linear_quadratic or er_sde/simple, 1536x1536. Main pass euler/linear_quadratic; the optional 4-step refine keeps the pack's euler/simple. Tested 2026-10-25 on a 4070 Ti 12 GB (SimpliGen engine v0.42.0, direct submission) on the 2026-10-24 Krea bake's 5 prompts x 2 seeds at 1024x1536 against stock Krea 2 Turbo (re-rendered: pixel-identical to 10-24), FinalCut, Moody, CyberRealistic and Nippon, under both author samplers (F:\\Claude-Work\\dante-request-20261025). Nearest card: stock Turbo (17.4 dB; Nippon 16.9). Bake median 17 s per 1024x1536. The same version also comes as bf16 (25.7 GB), fp8_mixed (13.5 GB) and int4 (7.4 GB), not tested. Civitai asks for a sign-in to download (API key). Verified in the app (1.77.0, engine v0.42.0) 2026-10-25 through the agent route: an anime sentence at 3:4 (1216x1632, 22.4 s), two people with a quoted neon sign at 16:9 (1888x1056, 22.3 s, 'OPEN LATE' letter-exact), a short tag prompt at 1:1 (1408x1408, 22.8 s) and the same at Upscale 1.5 (2112x2112, 51.1 s; refine pass clean at native pixels, no skin blotching). Graph read back from /history: euler/linear_quadratic, 8 steps, CFG 1, no quality suffix. LICENCE (Civitai): image use and on-site generation allowed; no derivatives."
+        },
+        "vaeUrl": "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/1f12b17be14c89b026c51a91d67c32f84bb047bc/split_files/vae/qwen_image_vae.safetensors",
+        "clipUrl": "https://huggingface.co/Comfy-Org/Qwen3-VL/resolve/02f0d3eefb59528799653d16735818801177ef1f/text_encoders/qwen3vl_4b_fp8_scaled.safetensors",
+        "upscale": 1,
+        "extensions": [
+          {
+            "name": "rgthree-comfy",
+            "url": "https://github.com/rgthree/rgthree-comfy.git",
+            "description": "Power Lora Loader (user LoRA slot)",
+            "pinnedCommit": "d92cad68a6e92a1c5d4032d3ac53f79ea44b08e4"
+          }
+        ],
+        "values": {
+          "quality": ""
+        }
       }
     }
   ]
